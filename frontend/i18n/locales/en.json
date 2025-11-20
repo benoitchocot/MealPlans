@@ -1,0 +1,321 @@
+{
+  "common": {
+    "appName": "FoodTrack",
+    "welcome": "Welcome",
+    "user": "User",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "close": "Close",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "actions": "Actions",
+    "created": "Created",
+    "updated": "Updated",
+    "noData": "No data",
+    "goBackHome": "Back to home",
+    "offlineMode": "Offline mode - Displaying cached data",
+    "changeLanguage": "Change language"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Sign up",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account?",
+    "loginFailed": "Login failed",
+    "registrationFailed": "Registration failed",
+    "loggingIn": "Logging in...",
+    "creatingAccount": "Creating account...",
+    "loginPlaceholder": "your email",
+    "passwordPlaceholder": "••••••••",
+    "namePlaceholder": "John Doe",
+    "subtitle": "Simplified meal planning"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Plan your meals and manage your shopping lists",
+    "recipes": "Recipes",
+    "recipesDescription": "Browse and discover delicious recipes",
+    "mealPlans": "Meal Plans",
+    "mealPlansDescription": "Generate and manage your weekly meal plans",
+    "shoppingLists": "Shopping Lists",
+    "shoppingListsDescription": "View and manage your shopping lists",
+    "quickStart": "Quick Start",
+    "quickStartDescription": "Generate a meal plan for the week and prepare your shopping list!",
+    "generateMealPlan": "Generate a meal plan"
+  },
+  "recipes": {
+    "title": "Recipes",
+    "subtitle": "Discover delicious recipes for all occasions",
+    "loading": "Loading recipes...",
+    "noRecipes": "No recipes found",
+    "viewRecipe": "View recipe",
+    "prepTime": "Prep time",
+    "cookTime": "Cook time",
+    "totalTime": "Total time",
+    "servings": "Servings",
+    "difficulty": "Difficulty",
+    "ingredients": "Ingredients",
+    "instructions": "Instructions",
+    "description": "Description",
+    "tags": "Tags",
+    "min": "min",
+    "backToRecipes": "Back to recipes"
+  },
+  "mealPlans": {
+    "title": "Meal Plans",
+    "subtitle": "Manage your weekly meal plans",
+    "loading": "Loading meal plans...",
+    "loadingFailed": "Failed to load meal plans",
+    "noMealPlans": "No meal plans yet",
+    "generateFirst": "Generate your first meal plan",
+    "viewPlan": "View plan",
+    "generateShoppingList": "Generate shopping list",
+    "generating": "Generating...",
+    "recipesCount": "recipes",
+    "backToMealPlans": "Back to meal plans",
+    "generate": {
+      "title": "Generate a meal plan",
+      "startDate": "Start date",
+      "endDate": "End date",
+      "numberOfMeals": "Number of meals",
+      "numberOfMealsHint": "Between 1 and 21 meals",
+      "generating": "Generating...",
+      "generate": "Generate meal plan",
+      "regenerate": "Regenerate",
+      "newGeneration": "New plan",
+      "generated": "Meal plan generated!",
+      "recipesSelected": "recipes selected",
+      "recipesPreview": "Recipes preview",
+      "viewMealPlan": "View meal plan",
+      "failed": "Failed to generate meal plan"
+    },
+    "detail": {
+      "generateShoppingList": "Generate shopping list",
+      "recipes": "Recipes",
+      "plannedFor": "Planned for",
+      "noRecipes": "No recipes in this meal plan yet"
+    }
+  },
+  "shoppingLists": {
+    "title": "Shopping Lists",
+    "subtitle": "Manage your shopping lists",
+    "loading": "Loading shopping lists...",
+    "loadingFailed": "Failed to load shopping lists",
+    "noShoppingLists": "No shopping lists yet",
+    "generateFromMealPlan": "Generate from meal plan",
+    "generateFailed": "Failed to generate shopping list",
+    "items": "items",
+    "checked": "checked",
+    "backToShoppingLists": "Back to shopping lists",
+    "detail": {
+      "items": "Items",
+      "noItems": "No items in this shopping list yet"
+    },
+    "showFilters": "Show filters",
+    "hideFilters": "Hide filters",
+    "filterByCategory": "Filter by category",
+    "showAll": "Show all",
+    "hideAll": "Hide all",
+    "categories": {
+      "FRESH": "Fruits & Vegetables",
+      "MEAT": "Meat",
+      "FISH": "Fish",
+      "DAIRY": "Dairy",
+      "BAKERY": "Bakery",
+      "PANTRY": "Pantry",
+      "FROZEN": "Frozen",
+      "BEVERAGES": "Beverages",
+      "SPICES": "Spices",
+      "OTHER": "Other"
+    }
+  },
+  "enums": {
+    "difficulty": {
+      "EASY": "Easy",
+      "MEDIUM": "Medium",
+      "HARD": "Hard"
+    },
+    "unit": {
+      "G": "g",
+      "KG": "kg",
+      "ML": "ml",
+      "L": "l",
+      "PIECE": "piece",
+      "BUNCH": "bunch",
+      "PINCH": "pinch",
+      "TBSP": "tbsp",
+      "TSP": "tsp",
+      "CUP": "cup",
+      "CLOVE": "clove",
+      "SLICE": "slice"
+    },
+    "dietType": {
+      "VEGETARIAN": "Vegetarian",
+      "VEGAN": "Vegan",
+      "HALAL": "Halal",
+      "KOSHER": "Kosher",
+      "NO_PORK": "No pork",
+      "NO_BEEF": "No beef",
+      "PESCATARIAN": "Pescatarian",
+      "GLUTEN_FREE": "Gluten free",
+      "DAIRY_FREE": "Dairy free",
+      "NUT_FREE": "Nut free"
+    },
+    "ingredientCategory": {
+      "FRESH": "Fresh",
+      "DAIRY": "Dairy",
+      "MEAT": "Meat",
+      "FISH": "Fish",
+      "PANTRY": "Pantry",
+      "FROZEN": "Frozen",
+      "BAKERY": "Bakery",
+      "BEVERAGES": "Beverages",
+      "SPICES": "Spices",
+      "OTHER": "Other"
+    },
+    "shoppingListStatus": {
+      "DRAFT": "Draft",
+      "FINALIZED": "Finalized",
+      "COMPLETED": "Completed"
+    }
+  },
+  "tags": {
+    "quick": "Quick",
+    "batch_cooking": "Batch cooking",
+    "one_pot": "One pot",
+    "italian": "Italian",
+    "comfort_food": "Comfort food",
+    "vegetarian": "Vegetarian",
+    "healthy": "Healthy",
+    "french": "French",
+    "sunday_roast": "Sunday roast",
+    "family": "Family",
+    "soup": "Soup",
+    "spicy": "Spicy",
+    "indian": "Indian",
+    "fish": "Fish",
+    "classic": "Classic"
+  },
+  "tools": {
+    "oven": "Oven",
+    "microwave": "Microwave",
+    "blender": "Blender",
+    "casserole": "Casserole"
+  },
+  "landing": {
+    "hero": {
+      "title": "Plan your meals with ease",
+      "subtitle": "Generate personalized menus, create shopping lists automatically and order online",
+      "cta": "Get Started"
+    },
+    "features": {
+      "planning": {
+        "title": "Smart planning",
+        "description": "Generate menus tailored to your preferences"
+      },
+      "recipes": {
+        "title": "Varied recipes",
+        "description": "Discover recipes adapted to your household"
+      },
+      "shopping": {
+        "title": "Automatic list",
+        "description": "Shopping list generated automatically"
+      }
+    },
+    "benefits": {
+      "title": "Why choose FoodTrack?",
+      "time": {
+        "title": "Save time",
+        "description": "No more evening thinking: your menus are planned in advance"
+      },
+      "easy": {
+        "title": "Zero hassle",
+        "description": "Everything is automated: from recipe selection to shopping list"
+      },
+      "drive": {
+        "title": "Automatic cart",
+        "description": "Manage your shopping lists easily"
+      }
+    },
+    "cta": {
+      "title": "Ready to simplify your daily life?",
+      "subtitle": "Join thousands of users who have already adopted FoodTrack"
+    },
+    "footer": {
+      "tagline": "Meal planning, simplified"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Manage your preferences for meal plan generation",
+    "householdSize": "Household size",
+    "mealsPerWeek": "Meals per week",
+    "kitchenTools": "Kitchen equipment",
+    "dietPreferences": "Dietary restrictions",
+    "dietPreferencesHint": "Select your dietary preferences (optional)",
+    "difficultyAndTime": "Difficulty and prep time",
+    "difficulty": "Difficulty level",
+    "maxPrepTime": "Maximum prep time",
+    "saved": "Preferences saved successfully!",
+    "saveError": "Error saving preferences",
+    "loadError": "Error loading preferences"
+  },
+  "onboarding": {
+    "step": "Step",
+    "saving": "Saving...",
+    "finish": "Finish",
+    "error": "Error saving preferences",
+    "step1": {
+      "title": "How many people in your household?",
+      "description": "This will help us adjust recipe quantities",
+      "person": "person",
+      "people": "people"
+    },
+    "step2": {
+      "title": "How many meals per week?",
+      "description": "Select the number of meals you want to plan",
+      "meals": "meals"
+    },
+    "step3": {
+      "title": "What equipment do you have?",
+      "description": "Select all available equipment in your kitchen"
+    },
+    "step4": {
+      "title": "Dietary restrictions",
+      "description": "Select your dietary preferences (optional)"
+    },
+    "step5": {
+      "title": "Difficulty preferences",
+      "description": "Choose your preferred difficulty level and prep time",
+      "difficulty": "Difficulty level",
+      "maxPrepTime": "Maximum prep time"
+    }
+  },
+  "errors": {
+    "404": {
+      "title": "404",
+      "message": "Page not found",
+      "description": "The page you are looking for does not exist."
+    },
+    "generic": "An error occurred",
+    "network": "Connection error",
+    "unauthorized": "Unauthorized"
+  }
+}
+

@@ -1,0 +1,321 @@
+{
+  "common": {
+    "appName": "FoodTrack",
+    "welcome": "Bienvenue",
+    "user": "Utilisateur",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "close": "Fermer",
+    "confirm": "Confirmer",
+    "yes": "Oui",
+    "no": "Non",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "sort": "Trier",
+    "actions": "Actions",
+    "created": "Créé",
+    "updated": "Mis à jour",
+    "noData": "Aucune donnée",
+    "goBackHome": "Retour à l'accueil",
+    "offlineMode": "Mode hors ligne - Affichage des données en cache",
+    "changeLanguage": "Changer la langue"
+  },
+  "auth": {
+    "login": "Connexion",
+    "register": "S'inscrire",
+    "logout": "Déconnexion",
+    "email": "Email",
+    "password": "Mot de passe",
+    "name": "Nom",
+    "alreadyHaveAccount": "Vous avez déjà un compte ?",
+    "dontHaveAccount": "Vous n'avez pas de compte ?",
+    "loginFailed": "Échec de la connexion",
+    "registrationFailed": "Échec de l'inscription",
+    "loggingIn": "Connexion en cours...",
+    "creatingAccount": "Création du compte...",
+    "loginPlaceholder": "votre email",
+    "passwordPlaceholder": "••••••••",
+    "namePlaceholder": "Jean Dupont",
+    "subtitle": "Planification de repas simplifiée"
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "subtitle": "Planifiez vos repas et gérez vos listes de courses",
+    "recipes": "Recettes",
+    "recipesDescription": "Parcourez et découvrez de délicieuses recettes",
+    "mealPlans": "Plans de repas",
+    "mealPlansDescription": "Générez et gérez vos plans de repas hebdomadaires",
+    "shoppingLists": "Listes de courses",
+    "shoppingListsDescription": "Consultez et gérez vos listes de courses",
+    "quickStart": "Démarrage rapide",
+    "quickStartDescription": "Générez un plan de repas pour la semaine et préparez votre liste de courses !",
+    "generateMealPlan": "Générer un plan de repas"
+  },
+  "recipes": {
+    "title": "Recettes",
+    "subtitle": "Découvrez de délicieuses recettes pour toutes les occasions",
+    "loading": "Chargement des recettes...",
+    "noRecipes": "Aucune recette trouvée",
+    "viewRecipe": "Voir la recette",
+    "prepTime": "Temps de préparation",
+    "cookTime": "Temps de cuisson",
+    "totalTime": "Temps total",
+    "servings": "Portions",
+    "difficulty": "Difficulté",
+    "ingredients": "Ingrédients",
+    "instructions": "Instructions",
+    "description": "Description",
+    "tags": "Tags",
+    "min": "min",
+    "backToRecipes": "Retour aux recettes"
+  },
+  "mealPlans": {
+    "title": "Plans de repas",
+    "subtitle": "Gérez vos plans de repas hebdomadaires",
+    "loading": "Chargement des plans de repas...",
+    "loadingFailed": "Échec du chargement des plans de repas",
+    "noMealPlans": "Aucun plan de repas pour le moment",
+    "generateFirst": "Générez votre premier plan de repas",
+    "viewPlan": "Voir le plan",
+    "generateShoppingList": "Générer une liste de courses",
+    "generating": "Génération...",
+    "recipesCount": "recettes",
+    "backToMealPlans": "Retour aux plans de repas",
+    "generate": {
+      "title": "Générer un plan de repas",
+      "startDate": "Date de début",
+      "endDate": "Date de fin",
+      "numberOfMeals": "Nombre de repas",
+      "numberOfMealsHint": "Entre 1 et 21 repas",
+      "generating": "Génération en cours...",
+      "generate": "Générer un plan de repas",
+      "regenerate": "Regénérer",
+      "newGeneration": "Nouveau plan",
+      "generated": "Plan de repas généré !",
+      "recipesSelected": "recettes sélectionnées",
+      "recipesPreview": "Aperçu des recettes",
+      "viewMealPlan": "Voir le plan de repas",
+      "failed": "Échec de la génération du plan de repas"
+    },
+    "detail": {
+      "generateShoppingList": "Générer une liste de courses",
+      "recipes": "Recettes",
+      "plannedFor": "Prévu pour",
+      "noRecipes": "Aucune recette dans ce plan de repas pour le moment"
+    }
+  },
+  "shoppingLists": {
+    "title": "Listes de courses",
+    "subtitle": "Gérez vos listes de courses",
+    "loading": "Chargement des listes de courses...",
+    "loadingFailed": "Échec du chargement des listes de courses",
+    "noShoppingLists": "Aucune liste de courses pour le moment",
+    "generateFromMealPlan": "Générer à partir d'un plan de repas",
+    "generateFailed": "Échec de la génération de la liste de courses",
+    "items": "articles",
+    "checked": "cochés",
+    "backToShoppingLists": "Retour aux listes de courses",
+    "detail": {
+      "items": "Articles",
+      "noItems": "Aucun article dans cette liste de courses pour le moment"
+    },
+    "showFilters": "Afficher les filtres",
+    "hideFilters": "Masquer les filtres",
+    "filterByCategory": "Filtrer par catégorie",
+    "showAll": "Tout afficher",
+    "hideAll": "Tout masquer",
+    "categories": {
+      "FRESH": "Fruits & Légumes",
+      "MEAT": "Viande",
+      "FISH": "Poisson",
+      "DAIRY": "Produits laitiers",
+      "BAKERY": "Boulangerie",
+      "PANTRY": "Épicerie",
+      "FROZEN": "Surgelés",
+      "BEVERAGES": "Boissons",
+      "SPICES": "Épices",
+      "OTHER": "Autre"
+    }
+  },
+  "enums": {
+    "difficulty": {
+      "EASY": "Facile",
+      "MEDIUM": "Moyen",
+      "HARD": "Difficile"
+    },
+    "unit": {
+      "G": "g",
+      "KG": "kg",
+      "ML": "ml",
+      "L": "l",
+      "PIECE": "pièce",
+      "BUNCH": "botte",
+      "PINCH": "pincée",
+      "TBSP": "c. à soupe",
+      "TSP": "c. à café",
+      "CUP": "tasse",
+      "CLOVE": "gousse",
+      "SLICE": "tranche"
+    },
+    "dietType": {
+      "VEGETARIAN": "Végétarien",
+      "VEGAN": "Végan",
+      "HALAL": "Halal",
+      "KOSHER": "Cacher",
+      "NO_PORK": "Sans porc",
+      "NO_BEEF": "Sans bœuf",
+      "PESCATARIAN": "Pescétarien",
+      "GLUTEN_FREE": "Sans gluten",
+      "DAIRY_FREE": "Sans lactose",
+      "NUT_FREE": "Sans noix"
+    },
+    "ingredientCategory": {
+      "FRESH": "Frais",
+      "DAIRY": "Produits laitiers",
+      "MEAT": "Viande",
+      "FISH": "Poisson",
+      "PANTRY": "Épicerie",
+      "FROZEN": "Surgelé",
+      "BAKERY": "Boulangerie",
+      "BEVERAGES": "Boissons",
+      "SPICES": "Épices",
+      "OTHER": "Autre"
+    },
+    "shoppingListStatus": {
+      "DRAFT": "Brouillon",
+      "FINALIZED": "Finalisé",
+      "COMPLETED": "Terminé"
+    }
+  },
+  "tags": {
+    "quick": "Rapide",
+    "batch_cooking": "Batch cooking",
+    "one_pot": "Un seul plat",
+    "italian": "Italien",
+    "comfort_food": "Plat réconfortant",
+    "vegetarian": "Végétarien",
+    "healthy": "Sain",
+    "french": "Français",
+    "sunday_roast": "Rôti du dimanche",
+    "family": "Familial",
+    "soup": "Soupe",
+    "spicy": "Épicé",
+    "indian": "Indien",
+    "fish": "Poisson",
+    "classic": "Classique"
+  },
+  "tools": {
+    "oven": "Four",
+    "microwave": "Micro-ondes",
+    "blender": "Mixeur",
+    "casserole": "Casserole"
+  },
+  "landing": {
+    "hero": {
+      "title": "Planifiez vos repas en toute simplicité",
+      "subtitle": "Générez des menus personnalisés, créez vos listes de courses automatiquement et commandez en ligne",
+      "cta": "Commencer"
+    },
+    "features": {
+      "planning": {
+        "title": "Planification intelligente",
+        "description": "Générez des menus adaptés à vos préférences"
+      },
+      "recipes": {
+        "title": "Recettes variées",
+        "description": "Découvrez des recettes adaptées à votre foyer"
+      },
+      "shopping": {
+        "title": "Liste automatique",
+        "description": "Liste de courses générée automatiquement"
+      }
+    },
+    "benefits": {
+      "title": "Pourquoi choisir FoodTrack ?",
+      "time": {
+        "title": "Gagnez du temps",
+        "description": "Fini la réflexion du soir : vos menus sont planifiés à l'avance"
+      },
+      "easy": {
+        "title": "Zéro prise de tête",
+        "description": "Tout est automatisé : de la sélection des recettes à la liste de courses"
+      },
+      "drive": {
+        "title": "Panier automatique",
+        "description": "Gérez vos listes de courses facilement"
+      }
+    },
+    "cta": {
+      "title": "Prêt à simplifier votre quotidien ?",
+      "subtitle": "Rejoignez des milliers d'utilisateurs qui ont déjà adopté FoodTrack"
+    },
+    "footer": {
+      "tagline": "La planification de repas, simplifiée"
+    }
+  },
+  "settings": {
+    "title": "Paramètres",
+    "subtitle": "Gérez vos préférences pour la génération de menus",
+    "householdSize": "Nombre de personnes",
+    "mealsPerWeek": "Repas par semaine",
+    "kitchenTools": "Équipements de cuisine",
+    "dietPreferences": "Contraintes alimentaires",
+    "dietPreferencesHint": "Sélectionnez vos préférences alimentaires (optionnel)",
+    "difficultyAndTime": "Difficulté et temps de préparation",
+    "difficulty": "Niveau de difficulté",
+    "maxPrepTime": "Temps de préparation maximum",
+    "saved": "Préférences enregistrées avec succès !",
+    "saveError": "Erreur lors de l'enregistrement",
+    "loadError": "Erreur lors du chargement des préférences"
+  },
+  "onboarding": {
+    "step": "Étape",
+    "saving": "Enregistrement...",
+    "finish": "Terminer",
+    "error": "Erreur lors de l'enregistrement des préférences",
+    "step1": {
+      "title": "Combien de personnes dans votre foyer ?",
+      "description": "Cela nous aidera à adapter les quantités de recettes",
+      "person": "personne",
+      "people": "personnes"
+    },
+    "step2": {
+      "title": "Combien de repas par semaine ?",
+      "description": "Sélectionnez le nombre de repas que vous souhaitez planifier",
+      "meals": "repas"
+    },
+    "step3": {
+      "title": "Quels équipements avez-vous ?",
+      "description": "Sélectionnez tous les équipements disponibles dans votre cuisine"
+    },
+    "step4": {
+      "title": "Contraintes alimentaires",
+      "description": "Sélectionnez vos préférences alimentaires (optionnel)"
+    },
+    "step5": {
+      "title": "Préférences de difficulté",
+      "description": "Choisissez le niveau de difficulté et le temps de préparation souhaités",
+      "difficulty": "Niveau de difficulté",
+      "maxPrepTime": "Temps de préparation maximum"
+    }
+  },
+  "errors": {
+    "404": {
+      "title": "404",
+      "message": "Page non trouvée",
+      "description": "La page que vous recherchez n'existe pas."
+    },
+    "generic": "Une erreur s'est produite",
+    "network": "Erreur de connexion",
+    "unauthorized": "Non autorisé"
+  }
+}
+

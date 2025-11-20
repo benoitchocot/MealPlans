@@ -1,0 +1,250 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// ENUMS
+// ============================================
+
+enum DietType {
+  VEGETARIAN
+  VEGAN
+  HALAL
+  KOSHER
+  NO_PORK
+  NO_BEEF
+  PESCATARIAN
+  GLUTEN_FREE
+  DAIRY_FREE
+  NUT_FREE
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum IngredientCategory {
+  FRESH
+  DAIRY
+  MEAT
+  FISH
+  PANTRY
+  FROZEN
+  BAKERY
+  BEVERAGES
+  SPICES
+  OTHER
+}
+
+enum Unit {
+  G
+  KG
+  ML
+  L
+  PIECE
+  BUNCH
+  PINCH
+  TBSP
+  TSP
+  CUP
+  CLOVE
+  SLICE
+}
+
+enum ShoppingListStatus {
+  DRAFT
+  FINALIZED
+}
+
+// ============================================
+// USERS & AUTHENTICATION
+// ============================================
+
+model User {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  passwordHash String    @map("password_hash")
+  firstName    String?   @map("first_name")
+  lastName     String?   @map("last_name")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  settings      UserSettings?
+  mealPlans     MealPlan[]
+  shoppingLists ShoppingList[]
+
+  @@map("users")
+}
+
+model UserSettings {
+  id                   String     @id @default(uuid())
+  userId               String     @unique @map("user_id")
+  householdSize        Int        @default(2) @map("household_size")
+  defaultMealsPerWeek  Int        @default(5) @map("default_meals_per_week")
+  dietPreferences      DietType[] @map("diet_preferences")
+  toolsAvailable       String[]   @map("tools_available") // ["oven", "microwave", "blender"]
+  difficultyPreference Difficulty? @map("difficulty_preference")
+  maxPrepTime          Int?       @map("max_prep_time") // in minutes
+  createdAt            DateTime   @default(now()) @map("created_at")
+  updatedAt            DateTime   @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_settings")
+}
+
+// ============================================
+// RECIPES & INGREDIENTS
+// ============================================
+
+model Recipe {
+  id            String     @id @default(uuid())
+  title         String
+  slug          String     @unique
+  description   String?    @db.Text
+  imageUrl      String?    @map("image_url")
+  prepTime      Int        @map("prep_time") // minutes
+  cookTime      Int        @map("cook_time") // minutes
+  difficulty    Difficulty
+  servings      Int        @default(1) // Recipes are stored for 1 person, quantities are multiplied by householdSize
+  tags          String[]   // ["quick", "batch_cooking", "one_pot"]
+  toolsRequired String[]   @map("tools_required") // ["oven", "blender"]
+  dietTypes     DietType[] @map("diet_types")
+  createdAt     DateTime   @default(now()) @map("created_at")
+  updatedAt     DateTime   @updatedAt @map("updated_at")
+
+  steps           RecipeStep[]
+  ingredients     RecipeIngredient[]
+  mealPlanRecipes MealPlanRecipe[]
+
+  @@index([difficulty])
+  @@index([prepTime])
+  @@map("recipes")
+}
+
+model RecipeStep {
+  id          String   @id @default(uuid())
+  recipeId    String   @map("recipe_id")
+  stepNumber  Int      @map("step_number")
+  instruction String   @db.Text
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@unique([recipeId, stepNumber])
+  @@map("recipe_steps")
+}
+
+model Ingredient {
+  id          String             @id @default(uuid())
+  name        String             @unique
+  category    IngredientCategory
+  defaultUnit Unit               @map("default_unit")
+  createdAt   DateTime           @default(now()) @map("created_at")
+  updatedAt   DateTime           @updatedAt @map("updated_at")
+
+  recipeIngredients       RecipeIngredient[]
+  shoppingListItems       ShoppingListItem[]
+
+  @@index([category])
+  @@map("ingredients")
+}
+
+model RecipeIngredient {
+  id           String  @id @default(uuid())
+  recipeId     String  @map("recipe_id")
+  ingredientId String  @map("ingredient_id")
+  quantity     Decimal @db.Decimal(10, 2)
+  unit         Unit
+  optional     Boolean @default(false)
+
+  recipe     Recipe     @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  ingredient Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+
+  @@unique([recipeId, ingredientId])
+  @@map("recipe_ingredients")
+}
+
+// ============================================
+// MEAL PLANNING
+// ============================================
+
+model MealPlan {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  title     String
+  startDate DateTime @map("start_date") @db.Date
+  endDate   DateTime @map("end_date") @db.Date
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipes         MealPlanRecipe[]
+  shoppingLists   ShoppingList[]
+
+  @@index([userId])
+  @@map("meal_plans")
+}
+
+model MealPlanRecipe {
+  id         String    @id @default(uuid())
+  mealPlanId String    @map("meal_plan_id")
+  recipeId   String    @map("recipe_id")
+  plannedFor DateTime? @map("planned_for") @db.Date
+  servings   Int
+  createdAt  DateTime  @default(now()) @map("created_at")
+
+  mealPlan MealPlan @relation(fields: [mealPlanId], references: [id], onDelete: Cascade)
+  recipe   Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@unique([mealPlanId, recipeId])
+  @@map("meal_plan_recipes")
+}
+
+// ============================================
+// SHOPPING LISTS
+// ============================================
+
+model ShoppingList {
+  id         String              @id @default(uuid())
+  userId     String              @map("user_id")
+  mealPlanId String?             @map("meal_plan_id")
+  title      String
+  status     ShoppingListStatus  @default(DRAFT)
+  createdAt  DateTime            @default(now()) @map("created_at")
+  updatedAt  DateTime            @updatedAt @map("updated_at")
+
+  user     User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  mealPlan MealPlan?          @relation(fields: [mealPlanId], references: [id], onDelete: SetNull)
+  items    ShoppingListItem[]
+
+  @@index([userId])
+  @@map("shopping_lists")
+}
+
+model ShoppingListItem {
+  id              String   @id @default(uuid())
+  shoppingListId  String   @map("shopping_list_id")
+  ingredientId    String   @map("ingredient_id")
+  quantity        Decimal  @db.Decimal(10, 2)
+  unit            Unit
+  checked         Boolean  @default(false)
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  shoppingList   ShoppingList   @relation(fields: [shoppingListId], references: [id], onDelete: Cascade)
+  ingredient     Ingredient     @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+
+  @@unique([shoppingListId, ingredientId])
+  @@map("shopping_list_items")
+}

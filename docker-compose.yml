@@ -1,0 +1,52 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: jow-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: jow_user
+      POSTGRES_PASSWORD: jow_password
+      POSTGRES_DB: jow_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - jow-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U jow_user -d jow_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: jow-backend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      DATABASE_URL: postgresql://jow_user:jow_password@postgres:5432/jow_db?schema=public
+      JWT_SECRET: your-super-secret-jwt-key-change-this-in-production
+      JWT_EXPIRES_IN: 7d
+      CORS_ORIGIN: http://localhost:3001
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - jow-network
+    command: npm run start:dev
+
+volumes:
+  postgres_data:
+
+networks:
+  jow-network:
+    driver: bridge
