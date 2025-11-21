@@ -2,9 +2,11 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule);
+    const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
     // Enable validation globally
     app.useGlobalPipes(
@@ -19,6 +21,11 @@ async function bootstrap() {
     app.enableCors({
         origin: process.env.CORS_ORIGIN || 'http://localhost:3001',
         credentials: true,
+    });
+
+    // Serve static files (uploaded images)
+    app.useStaticAssets(join(__dirname, '..', 'uploads'), {
+        prefix: '/uploads',
     });
 
     // Swagger/OpenAPI Configuration
@@ -43,6 +50,7 @@ async function bootstrap() {
         .addTag('ingredients', 'Ingredient management endpoints')
         .addTag('meal-plans', 'Meal plan management endpoints')
         .addTag('shopping-lists', 'Shopping list management endpoints')
+        .addTag('history', 'History and tracking endpoints')
         .build();
 
     const document = SwaggerModule.createDocument(app, config);

@@ -45,33 +45,20 @@
           <h2 class="text-2xl font-bold text-gray-900 mb-4">{{ $t('mealPlans.detail.recipes') }} ({{ mealPlan.recipes?.length || 0 }})</h2>
           
           <div v-if="mealPlan.recipes && mealPlan.recipes.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <NuxtLink
+            <div
               v-for="mealPlanRecipe in mealPlan.recipes"
               :key="mealPlanRecipe.id"
-              :to="`/recipes/${mealPlanRecipe.recipe.id}`"
-              class="card hover:shadow-lg transition-shadow cursor-pointer"
+              class="relative"
             >
-              <div class="aspect-video bg-gradient-to-br from-primary-100 to-primary-200 rounded-lg mb-4 flex items-center justify-center">
-                <Icon name="mdi:silverware-fork-knife" class="text-6xl text-primary-600" />
-              </div>
-              <h3 class="text-xl font-semibold mb-2">{{ mealPlanRecipe.recipe.title }}</h3>
-              <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ mealPlanRecipe.recipe.description }}</p>
-              <div class="flex items-center justify-between text-sm text-gray-500">
-                <span class="flex items-center">
-                  <Icon name="mdi:clock-outline" class="mr-1" />
-                  {{ mealPlanRecipe.recipe.prepTime + mealPlanRecipe.recipe.cookTime }} {{ $t('recipes.min') }}
-                </span>
-                <span class="px-2 py-1 bg-primary-100 text-primary-700 rounded-full text-xs font-medium">
-                  {{ translateDifficulty(mealPlanRecipe.recipe.difficulty) }}
-                </span>
-              </div>
-              <div v-if="mealPlanRecipe.plannedFor" class="mt-2 text-xs text-gray-500">
-                {{ $t('mealPlans.detail.plannedFor') }}: {{ formatDate(mealPlanRecipe.plannedFor) }}
-              </div>
-              <div class="mt-2 text-xs text-gray-500">
-                {{ $t('recipes.servings') }}: {{ mealPlanRecipe.servings }}
-              </div>
-            </NuxtLink>
+              <RecipeCard :recipe="mealPlanRecipe.recipe">
+                <div v-if="mealPlanRecipe.plannedFor" class="mt-2 text-xs text-gray-500">
+                  {{ $t('mealPlans.detail.plannedFor') }}: {{ formatDate(mealPlanRecipe.plannedFor) }}
+                </div>
+                <div class="mt-2 text-xs text-gray-500">
+                  {{ $t('recipes.servings') }}: {{ mealPlanRecipe.servings }}
+                </div>
+              </RecipeCard>
+            </div>
           </div>
 
           <div v-else class="text-center py-8">
@@ -93,6 +80,7 @@ const api = useApi()
 const router = useRouter()
 const { t } = useI18n()
 const { translateDifficulty } = useTranslations()
+const { loadFavorites } = useFavorites()
 
 const mealPlan = ref<any>(null)
 const loading = ref(true)
@@ -111,6 +99,11 @@ const generateShoppingList = async () => {
   generatingList.value = true
   try {
     const list = await api.post('/shopping-lists/from-meal-plan', { mealPlanId: mealPlan.value.id })
+    
+    // Mark shopping list creation step as completed
+    const { completeStep } = useUserJourney()
+    completeStep('create-shopping-list')
+    
     router.push(`/shopping-lists/${list.id}`)
   } catch (e: any) {
     alert(t('shoppingLists.generateFailed') + ': ' + e.message)
@@ -120,6 +113,8 @@ const generateShoppingList = async () => {
 }
 
 onMounted(async () => {
+  await loadFavorites()
+  
   try {
     mealPlan.value = await api.get(`/meal-plans/${route.params.id}`)
   } catch (e: any) {

@@ -21,6 +21,10 @@
     "filter": "Filtrer",
     "sort": "Trier",
     "actions": "Actions",
+    "quantity": "Quantité",
+    "unit": "Unité",
+    "optional": "Optionnel",
+    "remove": "Retirer",
     "created": "Créé",
     "updated": "Mis à jour",
     "noData": "Aucune donnée",
@@ -74,8 +78,59 @@
     "instructions": "Instructions",
     "description": "Description",
     "tags": "Tags",
+    "imageUrl": "URL de l'image",
     "min": "min",
-    "backToRecipes": "Retour aux recettes"
+    "backToRecipes": "Retour aux recettes",
+    "addFavorite": "Ajouter aux favoris",
+    "removeFavorite": "Retirer des favoris",
+    "submitRecipe": "Partager sa recette",
+    "submit": {
+      "title": "Partager votre recette",
+      "subtitle": "Remplissez le formulaire ci-dessous pour soumettre votre recette. Elle sera examinée avant d'être publiée.",
+      "basicInfo": "Informations de base",
+      "ingredients": "Ingrédients",
+      "steps": "Étapes de préparation",
+      "optional": "Optionnel",
+      "addIngredient": "Ajouter un ingrédient",
+      "addStep": "Ajouter une étape",
+      "remove": "Retirer",
+      "submitting": "Envoi en cours...",
+      "submit": "Soumettre la recette",
+      "success": "Votre recette a été soumise avec succès ! Elle sera examinée sous peu.",
+      "error": "Erreur lors de la soumission de la recette",
+      "image": "Image de la recette",
+      "uploadImage": "Télécharger une image",
+      "imageUrl": "Lien URL",
+      "imageHint": "Formats acceptés : JPEG, PNG, GIF, WebP (max 5MB)",
+      "invalidImageType": "Type de fichier invalide. Seuls JPEG, PNG, GIF et WebP sont acceptés.",
+      "imageTooLarge": "L'image est trop grande. Taille maximum : 5MB.",
+      "uploadError": "Erreur lors du téléchargement de l'image"
+    }
+  },
+  "approval": {
+    "loading": "Chargement de la recette...",
+    "error": "Erreur",
+    "loadError": "Erreur lors du chargement de la recette",
+    "submittedBy": "Soumis par",
+    "submittedAt": "Soumis le",
+    "recipeDetails": "Détails de la recette",
+    "status": {
+      "PENDING": "En attente",
+      "APPROVED": "Approuvée",
+      "REJECTED": "Rejetée"
+    },
+    "actions": "Actions",
+    "approve": "Approuver",
+    "reject": "Rejeter",
+    "rejectionReason": "Raison du rejet",
+    "rejectionReasonPlaceholder": "Expliquez pourquoi cette recette est rejetée (optionnel)",
+    "rejectConfirm": "Êtes-vous sûr de vouloir rejeter cette recette ?",
+    "approveSuccess": "Recette approuvée avec succès !",
+    "approveError": "Erreur lors de l'approbation",
+    "rejectSuccess": "Recette rejetée",
+    "rejectError": "Erreur lors du rejet",
+    "approved": "Recette approuvée",
+    "approvedMessage": "Cette recette a été approuvée et est maintenant disponible dans le catalogue."
   },
   "mealPlans": {
     "title": "Plans de repas",
@@ -307,6 +362,38 @@
       "maxPrepTime": "Temps de préparation maximum"
     }
   },
+  "history": {
+    "title": "Historique",
+    "subtitle": "Vos menus et recettes récents",
+    "mealPlans": {
+      "title": "Menus récents",
+      "noMealPlans": "Aucun menu récent",
+      "viewPlan": "Voir le menu",
+      "recipesCount": "recettes"
+    },
+    "recentViews": {
+      "title": "Recettes récemment consultées",
+      "noViews": "Aucune recette consultée récemment",
+      "viewedAt": "Consultée le",
+      "viewRecipe": "Voir la recette"
+    },
+    "stats": {
+      "title": "Statistiques",
+      "totalMealPlans": "Total de menus",
+      "totalRecipeViews": "Total de consultations",
+      "uniqueRecipes": "Recettes uniques consultées"
+    },
+    "loading": "Chargement de l'historique...",
+    "error": "Erreur lors du chargement de l'historique"
+  },
+  "favorites": {
+    "title": "Mes favoris",
+    "subtitle": "Vos recettes favorites",
+    "loading": "Chargement de vos favoris...",
+    "error": "Erreur lors du chargement des favoris",
+    "noFavorites": "Vous n'avez pas encore de recettes favorites",
+    "browseRecipes": "Parcourir les recettes"
+  },
   "errors": {
     "404": {
       "title": "404",
@@ -316,6 +403,40 @@
     "generic": "Une erreur s'est produite",
     "network": "Erreur de connexion",
     "unauthorized": "Non autorisé"
+  },
+  "guide": {
+    "title": "Guide de démarrage",
+    "step": "Étape",
+    "continue": "Continuer",
+    "skip": "Passer",
+    "dismiss": "Fermer",
+    "onboarding": {
+      "title": "Bienvenue dans FoodTrack ! 🎉",
+      "description": "Commençons par configurer vos préférences pour personnaliser votre expérience."
+    },
+    "generateMealPlan": {
+      "title": "Générez votre premier plan de repas",
+      "description": "Créez un plan de repas personnalisé basé sur vos préférences. Nous vous guiderons à travers le processus."
+    },
+    "createShoppingList": {
+      "title": "Créez votre liste de courses",
+      "description": "Générez automatiquement une liste de courses à partir de votre plan de repas pour faciliter vos achats."
+    },
+    "complete": {
+      "title": "Félicitations ! 🎊",
+      "description": "Vous avez terminé le guide de démarrage. Explorez maintenant toutes les fonctionnalités de FoodTrack !"
+    }
+  },
+  "journey": {
+    "title": "Votre parcours",
+    "subtitle": "Suivez votre progression",
+    "steps": {
+      "onboarding": "Préférences configurées",
+      "generateMealPlan": "Plan de repas généré",
+      "createShoppingList": "Liste de courses créée"
+    },
+    "nextStep": "Prochaine étape",
+    "allComplete": "Tout est configuré !"
   }
 }
 

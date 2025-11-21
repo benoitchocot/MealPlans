@@ -44,6 +44,26 @@ services:
       - jow-network
     command: npm run start:dev
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: jow-frontend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      NUXT_PUBLIC_API_BASE: http://localhost:3000
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - jow-network
+    command: npx nuxt dev --host 0.0.0.0 --port 3001
+
 volumes:
   postgres_data:
 

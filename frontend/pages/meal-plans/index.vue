@@ -82,6 +82,11 @@ const formatDate = (dateString: string) => {
 const generateShoppingList = async (mealPlanId: string) => {
   try {
     const list = await api.post('/shopping-lists/from-meal-plan', { mealPlanId })
+    
+    // Mark shopping list creation step as completed
+    const { completeStep } = useUserJourney()
+    completeStep('create-shopping-list')
+    
     router.push(`/shopping-lists/${list.id}`)
   } catch (e: any) {
     alert(t('shoppingLists.generateFailed') + ': ' + e.message)

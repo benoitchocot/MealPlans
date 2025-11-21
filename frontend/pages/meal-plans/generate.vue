@@ -13,34 +13,6 @@
         <h2 class="text-3xl font-bold text-gray-900 mb-6">{{ $t('mealPlans.generate.title') }}</h2>
 
         <form v-if="!generatedPlan" @submit.prevent="handleGenerate" class="space-y-6">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label for="startDate" class="block text-sm font-medium text-gray-700 mb-1">
-                {{ $t('mealPlans.generate.startDate') }}
-              </label>
-              <input
-                id="startDate"
-                v-model="startDate"
-                type="date"
-                required
-                class="input"
-              />
-            </div>
-
-            <div>
-              <label for="endDate" class="block text-sm font-medium text-gray-700 mb-1">
-                {{ $t('mealPlans.generate.endDate') }}
-              </label>
-              <input
-                id="endDate"
-                v-model="endDate"
-                type="date"
-                required
-                class="input"
-              />
-            </div>
-          </div>
-
           <div>
             <label for="numberOfMeals" class="block text-sm font-medium text-gray-700 mb-1">
               {{ $t('mealPlans.generate.numberOfMeals') }}
@@ -105,26 +77,12 @@
           <div v-if="generatedPlan.recipes && generatedPlan.recipes.length > 0">
             <h4 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('mealPlans.generate.recipesPreview') }}</h4>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              <NuxtLink
+              <RecipeCard
                 v-for="mealPlanRecipe in generatedPlan.recipes"
                 :key="mealPlanRecipe.id"
-                :to="`/recipes/${mealPlanRecipe.recipe.id}`"
-                class="card hover:shadow-lg transition-shadow cursor-pointer"
-              >
-                <div class="aspect-video bg-gradient-to-br from-primary-100 to-primary-200 rounded-lg mb-3 flex items-center justify-center">
-                  <Icon name="mdi:silverware-fork-knife" class="text-4xl text-primary-600" />
-                </div>
-                <h5 class="font-semibold text-sm mb-1 line-clamp-2">{{ mealPlanRecipe.recipe.title }}</h5>
-                <div class="flex items-center justify-between text-xs text-gray-500 mt-2">
-                  <span class="flex items-center">
-                    <Icon name="mdi:clock-outline" class="mr-1" />
-                    {{ mealPlanRecipe.recipe.prepTime + mealPlanRecipe.recipe.cookTime }} {{ $t('recipes.min') }}
-                  </span>
-                  <span class="px-2 py-0.5 bg-primary-100 text-primary-700 rounded-full text-xs">
-                    {{ translateDifficulty(mealPlanRecipe.recipe.difficulty) }}
-                  </span>
-                </div>
-              </NuxtLink>
+                :recipe="mealPlanRecipe.recipe"
+                size="small"
+              />
             </div>
           </div>
         </div>
@@ -140,30 +98,18 @@ const api = useApi()
 const router = useRouter()
 const { t } = useI18n()
 const { translateDifficulty } = useTranslations()
+const { loadFavorites } = useFavorites()
 
-const startDate = ref('')
-const endDate = ref('')
 const numberOfMeals = ref(5)
 const loading = ref(false)
 const error = ref('')
 const generatedPlan = ref<any>(null)
 const lastGenerationParams = ref<{
-  startDate: string
-  endDate: string
   numberOfMeals: number
 } | null>(null)
 
-// Set default dates (today + 7 days)
-onMounted(() => {
-  const today = new Date()
-  const nextWeek = new Date(today)
-  nextWeek.setDate(today.getDate() + 7)
-  
-  const todayStr = today.toISOString().split('T')[0]
-  const nextWeekStr = nextWeek.toISOString().split('T')[0]
-  
-  if (todayStr) startDate.value = todayStr
-  if (nextWeekStr) endDate.value = nextWeekStr
+onMounted(async () => {
+  await loadFavorites()
 })
 
 const handleGenerate = async () => {
@@ -172,8 +118,6 @@ const handleGenerate = async () => {
   generatedPlan.value = null
   
   const params = {
-    startDate: startDate.value,
-    endDate: endDate.value,
     numberOfMeals: numberOfMeals.value,
   }
   
@@ -183,6 +127,10 @@ const handleGenerate = async () => {
   try {
     const plan = await api.post('/meal-plans/generate', params)
     generatedPlan.value = plan
+    
+    // Mark meal plan generation step as completed
+    const { completeStep } = useUserJourney()
+    completeStep('generate-meal-plan')
   } catch (e: any) {
     error.value = e.message || t('mealPlans.generate.failed')
   } finally {
@@ -218,6 +166,10 @@ const handleRegenerate = async () => {
     // Generate new plan
     const plan = await api.post('/meal-plans/generate', lastGenerationParams.value)
     generatedPlan.value = plan
+    
+    // Mark meal plan generation step as completed
+    const { completeStep } = useUserJourney()
+    completeStep('generate-meal-plan')
   } catch (e: any) {
     error.value = e.message || t('mealPlans.generate.failed')
   } finally {

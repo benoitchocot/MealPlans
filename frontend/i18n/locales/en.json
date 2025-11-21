@@ -21,6 +21,10 @@
     "filter": "Filter",
     "sort": "Sort",
     "actions": "Actions",
+    "quantity": "Quantity",
+    "unit": "Unit",
+    "optional": "Optional",
+    "remove": "Remove",
     "created": "Created",
     "updated": "Updated",
     "noData": "No data",
@@ -74,8 +78,59 @@
     "instructions": "Instructions",
     "description": "Description",
     "tags": "Tags",
+    "imageUrl": "Image URL",
     "min": "min",
-    "backToRecipes": "Back to recipes"
+    "backToRecipes": "Back to recipes",
+    "addFavorite": "Add to favorites",
+    "removeFavorite": "Remove from favorites",
+    "submitRecipe": "Share your recipe",
+    "submit": {
+      "title": "Share your recipe",
+      "subtitle": "Fill out the form below to submit your recipe. It will be reviewed before being published.",
+      "basicInfo": "Basic information",
+      "ingredients": "Ingredients",
+      "steps": "Preparation steps",
+      "optional": "Optional",
+      "addIngredient": "Add ingredient",
+      "addStep": "Add step",
+      "remove": "Remove",
+      "submitting": "Submitting...",
+      "submit": "Submit recipe",
+      "success": "Your recipe has been submitted successfully! It will be reviewed shortly.",
+      "error": "Error submitting recipe",
+      "image": "Recipe image",
+      "uploadImage": "Upload image",
+      "imageUrl": "URL link",
+      "imageHint": "Accepted formats: JPEG, PNG, GIF, WebP (max 5MB)",
+      "invalidImageType": "Invalid file type. Only JPEG, PNG, GIF, and WebP are allowed.",
+      "imageTooLarge": "Image is too large. Maximum size: 5MB.",
+      "uploadError": "Error uploading image"
+    }
+  },
+  "approval": {
+    "loading": "Loading recipe...",
+    "error": "Error",
+    "loadError": "Error loading recipe",
+    "submittedBy": "Submitted by",
+    "submittedAt": "Submitted on",
+    "recipeDetails": "Recipe details",
+    "status": {
+      "PENDING": "Pending",
+      "APPROVED": "Approved",
+      "REJECTED": "Rejected"
+    },
+    "actions": "Actions",
+    "approve": "Approve",
+    "reject": "Reject",
+    "rejectionReason": "Rejection reason",
+    "rejectionReasonPlaceholder": "Explain why this recipe is rejected (optional)",
+    "rejectConfirm": "Are you sure you want to reject this recipe?",
+    "approveSuccess": "Recipe approved successfully!",
+    "approveError": "Error approving recipe",
+    "rejectSuccess": "Recipe rejected",
+    "rejectError": "Error rejecting recipe",
+    "approved": "Recipe approved",
+    "approvedMessage": "This recipe has been approved and is now available in the catalog."
   },
   "mealPlans": {
     "title": "Meal Plans",
@@ -166,6 +221,7 @@
       "SLICE": "slice"
     },
     "dietType": {
+      "title": "Dietary restrictions",
       "VEGETARIAN": "Vegetarian",
       "VEGAN": "Vegan",
       "HALAL": "Halal",
@@ -213,6 +269,7 @@
     "classic": "Classic"
   },
   "tools": {
+    "title": "Required tools",
     "oven": "Oven",
     "microwave": "Microwave",
     "blender": "Blender",
@@ -307,6 +364,46 @@
       "maxPrepTime": "Maximum prep time"
     }
   },
+  "history": {
+    "title": "History",
+    "subtitle": "Your recent meal plans and recipes",
+    "mealPlans": {
+      "title": "Recent meal plans",
+      "noMealPlans": "No recent meal plans",
+      "viewPlan": "View plan",
+      "recipesCount": "recipes"
+    },
+    "recentViews": {
+      "title": "Recently viewed recipes",
+      "noViews": "No recently viewed recipes",
+      "viewedAt": "Viewed on",
+      "viewRecipe": "View recipe"
+    },
+    "favorites": {
+      "title": "My Favorites",
+      "subtitle": "Your favorite recipes",
+      "loading": "Loading your favorites...",
+      "error": "Error loading favorites",
+      "noFavorites": "You don't have any favorite recipes yet",
+      "browseRecipes": "Browse recipes"
+    },
+    "stats": {
+      "title": "Statistics",
+      "totalMealPlans": "Total meal plans",
+      "totalRecipeViews": "Total views",
+      "uniqueRecipes": "Unique recipes viewed"
+    },
+    "loading": "Loading history...",
+    "error": "Error loading history"
+  },
+  "favorites": {
+    "title": "My Favorites",
+    "subtitle": "Your favorite recipes",
+    "loading": "Loading your favorites...",
+    "error": "Error loading favorites",
+    "noFavorites": "You don't have any favorite recipes yet",
+    "browseRecipes": "Browse recipes"
+  },
   "errors": {
     "404": {
       "title": "404",
@@ -316,6 +413,40 @@
     "generic": "An error occurred",
     "network": "Connection error",
     "unauthorized": "Unauthorized"
+  },
+  "guide": {
+    "title": "Getting Started Guide",
+    "step": "Step",
+    "continue": "Continue",
+    "skip": "Skip",
+    "dismiss": "Close",
+    "onboarding": {
+      "title": "Welcome to FoodTrack! 🎉",
+      "description": "Let's start by configuring your preferences to personalize your experience."
+    },
+    "generateMealPlan": {
+      "title": "Generate your first meal plan",
+      "description": "Create a personalized meal plan based on your preferences. We'll guide you through the process."
+    },
+    "createShoppingList": {
+      "title": "Create your shopping list",
+      "description": "Automatically generate a shopping list from your meal plan to make shopping easier."
+    },
+    "complete": {
+      "title": "Congratulations! 🎊",
+      "description": "You've completed the getting started guide. Now explore all of FoodTrack's features!"
+    }
+  },
+  "journey": {
+    "title": "Your Journey",
+    "subtitle": "Track your progress",
+    "steps": {
+      "onboarding": "Preferences configured",
+      "generateMealPlan": "Meal plan generated",
+      "createShoppingList": "Shopping list created"
+    },
+    "nextStep": "Next step",
+    "allComplete": "Everything is set up!"
   }
 }
 

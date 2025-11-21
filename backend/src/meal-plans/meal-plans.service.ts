@@ -61,9 +61,21 @@ export class MealPlansService {
         const maxPrepTime = generateDto.maxPrepTime || settings?.maxPrepTime || 120;
         const toolsAvailable = generateDto.toolsAvailable || settings?.toolsAvailable || [];
 
-        // Generate title
-        const startDate = new Date(generateDto.startDate);
-        const endDate = new Date(generateDto.endDate);
+        // Generate dates automatically if not provided
+        // Default: start today, end based on numberOfMeals (assuming ~2 meals per day)
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        const startDate = generateDto.startDate 
+            ? new Date(generateDto.startDate)
+            : today;
+        
+        // Calculate end date based on numberOfMeals (assuming ~2 meals per day)
+        const estimatedDays = Math.ceil(generateDto.numberOfMeals / 2);
+        const endDate = generateDto.endDate
+            ? new Date(generateDto.endDate)
+            : new Date(today.getTime() + estimatedDays * 24 * 60 * 60 * 1000);
+        
         const title = `Menu du ${startDate.toLocaleDateString('fr-FR')} au ${endDate.toLocaleDateString('fr-FR')}`;
 
         // Create meal plan
@@ -203,11 +215,6 @@ export class MealPlansService {
             in: allowedDifficulties,
         };
 
-        // Prep time
-        where.prepTime = {
-            lte: maxPrepTime,
-        };
-
         // Tools (only if checkTools is true and tools are specified)
         if (checkTools && toolsAvailable && toolsAvailable.length > 0) {
             where.OR = [
@@ -219,11 +226,16 @@ export class MealPlansService {
         // Fetch matching recipes
         const matchingRecipes = await this.prisma.recipe.findMany({
             where,
-            take: numberOfMeals * 3, // Get more than needed for variety
+            take: numberOfMeals * 5, // Get more than needed for variety and time filtering
         });
 
+        // Filter by total time (prepTime + cookTime) since frontend displays total time
+        const timeFilteredRecipes = matchingRecipes.filter(
+            (recipe) => recipe.prepTime + recipe.cookTime <= maxPrepTime
+        );
+
         // Shuffle and ensure diversity
-        const shuffled = this.shuffleArray(matchingRecipes);
+        const shuffled = this.shuffleArray(timeFilteredRecipes);
         const selected = [];
         const usedTags = new Set<string>();
         const usedDifficulties = new Set<string>();

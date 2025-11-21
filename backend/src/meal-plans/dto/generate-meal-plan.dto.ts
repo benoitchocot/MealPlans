@@ -3,10 +3,12 @@ import { DietType, Difficulty } from '@prisma/client';
 
 export class GenerateMealPlanDto {
     @IsDateString()
-    startDate: string;
+    @IsOptional()
+    startDate?: string;
 
     @IsDateString()
-    endDate: string;
+    @IsOptional()
+    endDate?: string;
 
     @IsInt()
     @Min(1)

@@ -66,6 +66,12 @@ enum ShoppingListStatus {
   FINALIZED
 }
 
+enum RecipeSubmissionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 // ============================================
 // USERS & AUTHENTICATION
 // ============================================
@@ -79,9 +85,12 @@ model User {
   createdAt    DateTime  @default(now()) @map("created_at")
   updatedAt    DateTime  @updatedAt @map("updated_at")
 
-  settings      UserSettings?
-  mealPlans     MealPlan[]
-  shoppingLists ShoppingList[]
+  settings           UserSettings?
+  mealPlans          MealPlan[]
+  shoppingLists      ShoppingList[]
+  recipeViews        RecipeView[]
+  favorites          Favorite[]
+  recipeSubmissions  RecipeSubmission[]
 
   @@map("users")
 }
@@ -126,10 +135,74 @@ model Recipe {
   steps           RecipeStep[]
   ingredients     RecipeIngredient[]
   mealPlanRecipes MealPlanRecipe[]
+  views           RecipeView[]
+  favorites       Favorite[]
 
   @@index([difficulty])
   @@index([prepTime])
   @@map("recipes")
+}
+
+model RecipeSubmission {
+  id            String                  @id @default(uuid())
+  userId        String                  @map("user_id")
+  status        RecipeSubmissionStatus  @default(PENDING)
+  approvalToken String                  @unique @map("approval_token")
+  
+  // Recipe data (same structure as Recipe)
+  title         String
+  description   String?                 @db.Text
+  imageUrl      String?                 @map("image_url")
+  prepTime      Int                     @map("prep_time")
+  cookTime      Int                     @map("cook_time")
+  difficulty    Difficulty
+  servings      Int                     @default(1)
+  tags          String[]
+  toolsRequired String[]                @map("tools_required")
+  dietTypes     DietType[]              @map("diet_types")
+  
+  // Submission metadata
+  submittedAt   DateTime                @default(now()) @map("submitted_at")
+  reviewedAt    DateTime?               @map("reviewed_at")
+  rejectionReason String?               @db.Text @map("rejection_reason")
+  
+  // Relations
+  user          User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ingredients   RecipeSubmissionIngredient[]
+  steps         RecipeSubmissionStep[]
+  
+  @@index([userId])
+  @@index([status])
+  @@index([approvalToken])
+  @@map("recipe_submissions")
+}
+
+model RecipeSubmissionIngredient {
+  id                String            @id @default(uuid())
+  submissionId      String            @map("submission_id")
+  ingredientId      String?           @map("ingredient_id") // Can be null if ingredient doesn't exist yet
+  ingredientName    String            @map("ingredient_name") // Fallback if ingredient doesn't exist
+  quantity          Decimal           @db.Decimal(10, 2)
+  unit              Unit
+  optional          Boolean           @default(false)
+  
+  submission        RecipeSubmission  @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  ingredient        Ingredient?       @relation(fields: [ingredientId], references: [id], onDelete: SetNull)
+  
+  @@map("recipe_submission_ingredients")
+}
+
+model RecipeSubmissionStep {
+  id          String            @id @default(uuid())
+  submissionId String           @map("submission_id")
+  stepNumber  Int               @map("step_number")
+  instruction String            @db.Text
+  createdAt   DateTime          @default(now()) @map("created_at")
+  
+  submission  RecipeSubmission  @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  
+  @@unique([submissionId, stepNumber])
+  @@map("recipe_submission_steps")
 }
 
 model RecipeStep {
@@ -153,8 +226,9 @@ model Ingredient {
   createdAt   DateTime           @default(now()) @map("created_at")
   updatedAt   DateTime           @updatedAt @map("updated_at")
 
-  recipeIngredients       RecipeIngredient[]
-  shoppingListItems       ShoppingListItem[]
+  recipeIngredients            RecipeIngredient[]
+  shoppingListItems            ShoppingListItem[]
+  recipeSubmissionIngredients  RecipeSubmissionIngredient[]
 
   @@index([category])
   @@map("ingredients")
@@ -247,4 +321,38 @@ model ShoppingListItem {
 
   @@unique([shoppingListId, ingredientId])
   @@map("shopping_list_items")
+}
+
+// ============================================
+// HISTORY & TRACKING
+// ============================================
+
+model RecipeView {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  recipeId  String   @map("recipe_id")
+  viewedAt  DateTime @default(now()) @map("viewed_at")
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([recipeId])
+  @@index([viewedAt])
+  @@map("recipe_views")
+}
+
+model Favorite {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  recipeId  String   @map("recipe_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, recipeId])
+  @@index([userId])
+  @@index([recipeId])
+  @@map("favorites")
 }

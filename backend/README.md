@@ -1,4 +1,4 @@
-# Jow Backend
+# Foodtrack Backend
 
 Backend API for Jow clone - A meal planning and grocery management application.
 

@@ -305,7 +305,13 @@ const handleSubmit = async () => {
   try {
     await api.patch('/users/me/settings', formData.value)
     await fetchProfile()
-    router.push('/dashboard')
+    
+    // Mark onboarding as completed
+    const { completeStep } = useUserJourney()
+    completeStep('onboarding')
+    
+    // Redirect to meal plan generation to guide user through next step
+    router.push('/meal-plans/generate')
   } catch (e: any) {
     error.value = e.message || t('onboarding.error')
   } finally {

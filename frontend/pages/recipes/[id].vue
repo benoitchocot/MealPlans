@@ -155,6 +155,11 @@ onMounted(async () => {
     
     recipe.value = recipeData
     userSettings.value = settings
+
+    // Record recipe view in history (fire and forget, don't wait for response)
+    api.post(`/history/recipes/${route.params.id}/view`).catch(() => {
+      // Silently fail if history recording fails
+    })
   } catch (e: any) {
     error.value = e.message || $t('common.error')
   } finally {
