@@ -1,4 +1,4 @@
-# Multi-stage build for production optimization
+# Backend Production Dockerfile
 FROM node:20-alpine AS builder
 
 WORKDIR /app
@@ -8,35 +8,41 @@ COPY package*.json ./
 COPY prisma ./prisma/
 
 # Install dependencies
-RUN npm ci
+RUN npm ci --only=production && \
+    npm cache clean --force
 
 # Copy source code
 COPY . .
 
 # Generate Prisma Client
-RUN npm run prisma:generate
+RUN npx prisma generate
 
-# Build application
+# Build the application
 RUN npm run build
 
 # Production stage
-FROM node:20-alpine AS production
+FROM node:20-alpine
 
 WORKDIR /app
 
-# Copy package files
+# Copy package files and install production dependencies
 COPY package*.json ./
-COPY prisma ./prisma/
+RUN npm ci --only=production && \
+    npm cache clean --force
 
-# Install production dependencies only
-RUN npm ci --only=production
+# Copy Prisma schema and generate client
+COPY prisma ./prisma/
+RUN npx prisma generate
 
 # Copy built application from builder
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /app/node_modules ./node_modules
+
+# Create uploads directory
+RUN mkdir -p /app/uploads/images
 
 # Expose port
 EXPOSE 3000
 
-# Start application
+# Start the application
 CMD ["npm", "run", "start:prod"]

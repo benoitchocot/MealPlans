@@ -1,8 +1,15 @@
 <template>
   <div class="relative card hover:shadow-lg transition-shadow" :class="cardClass">
     <NuxtLink :to="`/recipes/${recipe.id}`" class="block">
-      <div class="aspect-video bg-gradient-to-br from-primary-100 to-primary-200 rounded-lg mb-4 flex items-center justify-center relative">
-        <Icon name="mdi:silverware-fork-knife" :class="iconClass" />
+      <div class="aspect-video bg-gradient-to-br from-primary-100 to-primary-200 rounded-lg mb-4 flex items-center justify-center relative overflow-hidden">
+        <img 
+          v-if="recipe.imageUrl" 
+          :src="recipe.imageUrl" 
+          :alt="recipe.title"
+          class="w-full h-full object-cover absolute inset-0"
+          @error="onImageError"
+        />
+        <Icon v-else name="mdi:silverware-fork-knife" :class="iconClass" />
       </div>
       <h3 :class="titleClass">{{ recipe.title }}</h3>
       <p v-if="recipe.description" :class="descriptionClass">{{ recipe.description }}</p>
@@ -51,6 +58,11 @@ const { translateDifficulty } = useTranslations()
 const { isFavorite, toggleFavorite } = useFavorites()
 
 const isFav = computed(() => isFavorite(props.recipe.id))
+const imageError = ref(false)
+
+const onImageError = () => {
+  imageError.value = true
+}
 
 const cardClass = computed(() => {
   return props.size === 'small' ? '' : ''

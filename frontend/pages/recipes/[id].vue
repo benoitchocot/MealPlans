@@ -25,8 +25,14 @@
 
       <div v-else-if="adjustedRecipe" class="space-y-6">
         <div class="card">
-          <div class="aspect-video bg-gradient-to-br from-primary-100 to-primary-200 rounded-lg mb-6 flex items-center justify-center">
-            <Icon name="mdi:silverware-fork-knife" class="text-8xl text-primary-600" />
+          <div class="aspect-video bg-gradient-to-br from-primary-100 to-primary-200 rounded-lg mb-6 flex items-center justify-center relative overflow-hidden">
+            <img 
+              v-if="adjustedRecipe.imageUrl" 
+              :src="adjustedRecipe.imageUrl" 
+              :alt="adjustedRecipe.title"
+              class="w-full h-full object-cover absolute inset-0"
+            />
+            <Icon v-else name="mdi:silverware-fork-knife" class="text-8xl text-primary-600" />
           </div>
           
           <h1 class="text-4xl font-bold text-gray-900 mb-4">{{ adjustedRecipe.title }}</h1>

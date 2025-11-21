@@ -1,0 +1,319 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table users {
+  id String [pk]
+  email String [unique, not null]
+  passwordHash String [not null]
+  firstName String
+  lastName String
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  settings user_settings
+  mealPlans meal_plans [not null]
+  shoppingLists shopping_lists [not null]
+  recipeViews recipe_views [not null]
+  favorites favorites [not null]
+  recipeSubmissions recipe_submissions [not null]
+}
+
+Table user_settings {
+  id String [pk]
+  userId String [unique, not null]
+  householdSize Int [not null, default: 2]
+  defaultMealsPerWeek Int [not null, default: 5]
+  dietPreferences DietType[] [not null]
+  toolsAvailable String[] [not null]
+  difficultyPreference Difficulty
+  maxPrepTime Int
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  user users [not null]
+}
+
+Table recipes {
+  id String [pk]
+  title String [not null]
+  slug String [unique, not null]
+  description String
+  imageUrl String
+  prepTime Int [not null]
+  cookTime Int [not null]
+  difficulty Difficulty [not null]
+  servings Int [not null, default: 1]
+  tags String[] [not null]
+  toolsRequired String[] [not null]
+  dietTypes DietType[] [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  steps recipe_steps [not null]
+  ingredients recipe_ingredients [not null]
+  mealPlanRecipes meal_plan_recipes [not null]
+  views recipe_views [not null]
+  favorites favorites [not null]
+}
+
+Table recipe_submissions {
+  id String [pk]
+  userId String [not null]
+  status RecipeSubmissionStatus [not null, default: 'PENDING']
+  approvalToken String [unique, not null]
+  title String [not null]
+  description String
+  imageUrl String
+  prepTime Int [not null]
+  cookTime Int [not null]
+  difficulty Difficulty [not null]
+  servings Int [not null, default: 1]
+  tags String[] [not null]
+  toolsRequired String[] [not null]
+  dietTypes DietType[] [not null]
+  submittedAt DateTime [default: `now()`, not null]
+  reviewedAt DateTime
+  rejectionReason String
+  user users [not null]
+  ingredients recipe_submission_ingredients [not null]
+  steps recipe_submission_steps [not null]
+}
+
+Table recipe_submission_ingredients {
+  id String [pk]
+  submissionId String [not null]
+  ingredientId String
+  ingredientName String [not null]
+  quantity Decimal [not null]
+  unit Unit [not null]
+  optional Boolean [not null, default: false]
+  submission recipe_submissions [not null]
+  ingredient ingredients
+}
+
+Table recipe_submission_steps {
+  id String [pk]
+  submissionId String [not null]
+  stepNumber Int [not null]
+  instruction String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  submission recipe_submissions [not null]
+
+  indexes {
+    (submissionId, stepNumber) [unique]
+  }
+}
+
+Table recipe_steps {
+  id String [pk]
+  recipeId String [not null]
+  stepNumber Int [not null]
+  instruction String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  recipe recipes [not null]
+
+  indexes {
+    (recipeId, stepNumber) [unique]
+  }
+}
+
+Table ingredients {
+  id String [pk]
+  name String [unique, not null]
+  category IngredientCategory [not null]
+  defaultUnit Unit [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  recipeIngredients recipe_ingredients [not null]
+  shoppingListItems shopping_list_items [not null]
+  recipeSubmissionIngredients recipe_submission_ingredients [not null]
+}
+
+Table recipe_ingredients {
+  id String [pk]
+  recipeId String [not null]
+  ingredientId String [not null]
+  quantity Decimal [not null]
+  unit Unit [not null]
+  optional Boolean [not null, default: false]
+  recipe recipes [not null]
+  ingredient ingredients [not null]
+
+  indexes {
+    (recipeId, ingredientId) [unique]
+  }
+}
+
+Table meal_plans {
+  id String [pk]
+  userId String [not null]
+  title String [not null]
+  startDate DateTime [not null]
+  endDate DateTime [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  user users [not null]
+  recipes meal_plan_recipes [not null]
+  shoppingLists shopping_lists [not null]
+}
+
+Table meal_plan_recipes {
+  id String [pk]
+  mealPlanId String [not null]
+  recipeId String [not null]
+  plannedFor DateTime
+  servings Int [not null]
+  createdAt DateTime [default: `now()`, not null]
+  mealPlan meal_plans [not null]
+  recipe recipes [not null]
+
+  indexes {
+    (mealPlanId, recipeId) [unique]
+  }
+}
+
+Table shopping_lists {
+  id String [pk]
+  userId String [not null]
+  mealPlanId String
+  title String [not null]
+  status ShoppingListStatus [not null, default: 'DRAFT']
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  user users [not null]
+  mealPlan meal_plans
+  items shopping_list_items [not null]
+}
+
+Table shopping_list_items {
+  id String [pk]
+  shoppingListId String [not null]
+  ingredientId String [not null]
+  quantity Decimal [not null]
+  unit Unit [not null]
+  checked Boolean [not null, default: false]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  shoppingList shopping_lists [not null]
+  ingredient ingredients [not null]
+
+  indexes {
+    (shoppingListId, ingredientId) [unique]
+  }
+}
+
+Table recipe_views {
+  id String [pk]
+  userId String [not null]
+  recipeId String [not null]
+  viewedAt DateTime [default: `now()`, not null]
+  user users [not null]
+  recipe recipes [not null]
+}
+
+Table favorites {
+  id String [pk]
+  userId String [not null]
+  recipeId String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  user users [not null]
+  recipe recipes [not null]
+
+  indexes {
+    (userId, recipeId) [unique]
+  }
+}
+
+Enum DietType {
+  VEGETARIAN
+  VEGAN
+  HALAL
+  KOSHER
+  NO_PORK
+  NO_BEEF
+  PESCATARIAN
+  GLUTEN_FREE
+  DAIRY_FREE
+  NUT_FREE
+}
+
+Enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+Enum IngredientCategory {
+  FRESH
+  DAIRY
+  MEAT
+  FISH
+  PANTRY
+  FROZEN
+  BAKERY
+  BEVERAGES
+  SPICES
+  OTHER
+}
+
+Enum Unit {
+  G
+  KG
+  ML
+  L
+  PIECE
+  BUNCH
+  PINCH
+  TBSP
+  TSP
+  CUP
+  CLOVE
+  SLICE
+}
+
+Enum ShoppingListStatus {
+  DRAFT
+  FINALIZED
+}
+
+Enum RecipeSubmissionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+Ref: user_settings.userId - users.id [delete: Cascade]
+
+Ref: recipe_submissions.userId > users.id [delete: Cascade]
+
+Ref: recipe_submission_ingredients.submissionId > recipe_submissions.id [delete: Cascade]
+
+Ref: recipe_submission_ingredients.ingredientId > ingredients.id [delete: Set Null]
+
+Ref: recipe_submission_steps.submissionId > recipe_submissions.id [delete: Cascade]
+
+Ref: recipe_steps.recipeId > recipes.id [delete: Cascade]
+
+Ref: recipe_ingredients.recipeId > recipes.id [delete: Cascade]
+
+Ref: recipe_ingredients.ingredientId > ingredients.id [delete: Cascade]
+
+Ref: meal_plans.userId > users.id [delete: Cascade]
+
+Ref: meal_plan_recipes.mealPlanId > meal_plans.id [delete: Cascade]
+
+Ref: meal_plan_recipes.recipeId > recipes.id [delete: Cascade]
+
+Ref: shopping_lists.userId > users.id [delete: Cascade]
+
+Ref: shopping_lists.mealPlanId > meal_plans.id [delete: Set Null]
+
+Ref: shopping_list_items.shoppingListId > shopping_lists.id [delete: Cascade]
+
+Ref: shopping_list_items.ingredientId > ingredients.id [delete: Cascade]
+
+Ref: recipe_views.userId > users.id [delete: Cascade]
+
+Ref: recipe_views.recipeId > recipes.id [delete: Cascade]
+
+Ref: favorites.userId > users.id [delete: Cascade]
+
+Ref: favorites.recipeId > recipes.id [delete: Cascade]
