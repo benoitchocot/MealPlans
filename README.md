@@ -483,6 +483,40 @@ Une fois le backend démarré, la documentation Swagger est disponible à :
 - `GET /history/recipes/:id/favorite` - Vérifier si favori (protégé)
 - `GET /history/favorites` - Liste des IDs de favoris (protégé)
 
+## 🗄️ Schéma de base de données
+
+Le schéma complet de la base de données est documenté dans [`DATABASE_SCHEMA.md`](./DATABASE_SCHEMA.md).
+
+### Modèles principaux
+
+- **User** : Utilisateurs de l'application
+- **UserSettings** : Préférences utilisateur (taille du foyer, régimes, outils, etc.)
+- **Recipe** : Recettes avec ingrédients et étapes
+- **RecipeSubmission** : Soumissions de recettes en attente d'approbation
+- **Ingredient** : Ingrédients avec catégories
+- **MealPlan** : Plans de repas générés
+- **ShoppingList** : Listes de courses avec items groupés par catégories
+- **Favorite** : Recettes favorites des utilisateurs
+- **RecipeView** : Historique de consultation des recettes
+
+### Visualiser le diagramme ERD
+
+1. Ouvrez [dbdiagram.io](https://dbdiagram.io/)
+2. Cliquez sur "Import" → "From DBML"
+3. Collez le contenu de [`database/schema.dbml`](./database/schema.dbml)
+4. Le diagramme sera généré automatiquement avec toutes les relations
+
+### Régénérer le schéma DBML
+
+Pour mettre à jour le fichier DBML après modification du schéma Prisma :
+
+```bash
+cd backend
+npx prisma generate
+```
+
+Le fichier `database/schema.dbml` sera automatiquement mis à jour.
+
 ## 📁 Structure du projet
 
 ```
@@ -635,108 +669,82 @@ Stratégie : NetworkFirst avec fallback sur le cache en cas d'offline.
 
 ## 🚢 Déploiement
 
-### Prérequis production
+### Guide complet
 
-- Serveur avec Docker
-- Nom de domaine
-- Certificat SSL (Let's Encrypt recommandé)
-- Base de données PostgreSQL (ou utilisez le conteneur Docker)
+Consultez le guide de déploiement détaillé : [`DEPLOYMENT.md`](./DEPLOYMENT.md)
+
+### Déploiement rapide avec Traefik
+
+Le projet est configuré pour fonctionner avec Traefik comme reverse proxy. Les services ont été ajoutés au fichier `swag.yml` :
+
+- **Frontend** : `jow.chocot.be` → Port 3000
+- **Backend API** : `apijow.chocot.be` → Port 3000
+- **Base de données** : PostgreSQL interne
+
+### Étapes rapides
+
+1. **Cloner sur le serveur**
+   ```bash
+   cd ~
+   git clone <votre-repo> Jow
+   ```
+
+2. **Configurer les variables**
+   ```bash
+   cp .env.production.example .env.production
+   nano .env.production
+   # Remplir JOW_DB_PASSWORD, JOW_JWT_SECRET, SMTP_*, etc.
+   ```
+
+3. **Charger les variables**
+   ```bash
+   export $(cat .env.production | xargs)
+   ```
+
+4. **Démarrer avec docker-compose**
+   ```bash
+   docker-compose -f swag.yml up -d jow-postgres jow-backend jow-frontend
+   ```
+
+5. **Initialiser la base**
+   ```bash
+   docker exec jow-backend npx prisma migrate deploy
+   docker exec jow-backend npm run prisma:seed
+   ```
+
+6. **Accéder à l'application**
+   - Frontend : https://jow.chocot.be
+   - API : https://apijow.chocot.be
+   - Swagger : https://apijow.chocot.be/api
 
 ### Variables d'environnement production
 
-**Backend** :
-```env
-DATABASE_URL="postgresql://user:password@db-host:5432/jow_db"
-JWT_SECRET="un-secret-tres-long-et-securise-genere-aleatoirement"
-JWT_EXPIRES_IN="7d"
-CORS_ORIGIN="https://votre-domaine.com"
-PORT=3000
+Voir `.env.production.example` pour la liste complète des variables requises.
 
-# Email (obligatoire en production pour les notifications)
-SMTP_HOST="smtp.sendgrid.net"
-SMTP_PORT=587
-SMTP_USER="apikey"
-SMTP_PASS="votre-api-key-sendgrid"
-SMTP_FROM="noreply@votre-domaine.com"
-ADMIN_EMAIL="admin@votre-domaine.com"
-FRONTEND_URL="https://votre-domaine.com"
-```
+**Variables critiques** :
+- `JOW_DB_PASSWORD` : Mot de passe PostgreSQL (32+ caractères recommandés)
+- `JOW_JWT_SECRET` : Secret JWT (générer avec `openssl rand -base64 64`)
+- `JOW_SMTP_*` : Credentials pour l'envoi d'emails
+- `JOW_ADMIN_EMAIL` : Email pour recevoir les notifications de soumission
 
-**Frontend** :
-```env
-NUXT_PUBLIC_API_BASE="https://api.votre-domaine.com"
-```
+### Sauvegardes
 
-### Déploiement avec Docker
-
-1. **Configurer les variables d'environnement**
-   ```bash
-   cp backend/.env.example backend/.env
-   # Éditez avec les valeurs de production
-   ```
-
-2. **Build et démarrage**
-   ```bash
-   docker compose -f docker-compose.prod.yml up -d --build
-   ```
-
-3. **Migrations**
-   ```bash
-   docker compose exec backend npx prisma migrate deploy
-   docker compose exec backend npx prisma db seed
-   ```
-
-### Déploiement manuel
-
-#### Backend
 ```bash
-cd backend
-npm install
-npm run build
-npm run start:prod
+# Sauvegarde manuelle
+docker exec jow-postgres pg_dump -U jow_user jow_db > backup.sql
+
+# Sauvegarde automatique (cron quotidien)
+0 3 * * * docker exec jow-postgres pg_dump -U jow_user jow_db > ~/backups/jow_$(date +\%Y\%m\%d).sql
 ```
 
-#### Frontend
+### Mise à jour
+
 ```bash
-cd frontend
-npm install
-npm run build
-npm run preview
-# Ou servir le dossier .output avec Nginx
-```
-
-### Nginx (exemple de configuration)
-
-```nginx
-# Frontend
-server {
-    listen 80;
-    server_name votre-domaine.com;
-    
-    location / {
-        proxy_pass http://localhost:3001;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-    }
-}
-
-# Backend API
-server {
-    listen 80;
-    server_name api.votre-domaine.com;
-    
-    location / {
-        proxy_pass http://localhost:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-    }
-}
+cd ~/Jow
+git pull
+docker-compose -f ~/swag.yml build jow-backend jow-frontend
+docker-compose -f ~/swag.yml up -d jow-backend jow-frontend
+docker exec jow-backend npx prisma migrate deploy
 ```
 
 ## 📝 Scripts disponibles
