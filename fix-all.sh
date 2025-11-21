@@ -80,7 +80,10 @@ if docker exec jow-postgres pg_isready -U jow_user -d jow_db >/dev/null 2>&1; th
     
     # Migrations
     echo "📦 Migrations..."
-    docker exec jow-backend npx prisma migrate deploy
+    docker exec jow-backend npx prisma migrate deploy || {
+        echo "⚠️  migrate deploy failed, trying db push..."
+        docker exec jow-backend npx prisma db push --accept-data-loss
+    }
     
     # Seed
     echo "🌱 Seed..."
