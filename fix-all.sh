@@ -3,6 +3,8 @@
 
 set -e
 
+cd ~/foodtrack
+git pull --rebase || true
 cd ~/pi
 
 echo "📝 Chargement des variables depuis ~/foodtrack/.env.production..."
