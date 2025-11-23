@@ -126,7 +126,8 @@ model Recipe {
   prepTime      Int        @map("prep_time") // minutes
   cookTime      Int        @map("cook_time") // minutes
   difficulty    Difficulty
-  servings      Int        @default(1) // Recipes are stored for 1 person, quantities are multiplied by householdSize
+  servings      Int        @default(1) // Number of servings the recipe is designed for
+  isAdaptable   Boolean    @default(true) @map("is_adaptable") // If false, quantities are fixed (e.g., tarts, cakes)
   tags          String[]   // ["quick", "batch_cooking", "one_pot"]
   toolsRequired String[]   @map("tools_required") // ["oven", "blender"]
   dietTypes     DietType[] @map("diet_types")

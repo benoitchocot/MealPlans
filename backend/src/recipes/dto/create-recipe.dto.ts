@@ -8,6 +8,7 @@ import {
     ValidateNested,
     IsOptional,
     IsUrl,
+    IsBoolean,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { DietType, Difficulty, Unit } from '@prisma/client';
@@ -65,6 +66,10 @@ export class CreateRecipeDto {
     @IsInt()
     @Min(1)
     servings: number;
+
+    @IsBoolean()
+    @IsOptional()
+    isAdaptable?: boolean;
 
     @IsArray()
     @IsOptional()

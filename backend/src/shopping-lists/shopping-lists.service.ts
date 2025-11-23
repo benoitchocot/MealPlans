@@ -86,8 +86,11 @@ export class ShoppingListsService {
             const recipeServings = recipe.servings;
             const mealPlanServings = mealPlanRecipe.servings;
 
-            // Calculate serving ratio
-            const ratio = mealPlanServings / recipeServings;
+            // Calculate serving ratio only if recipe is adaptable
+            // For non-adaptable recipes (tarts, cakes), use original quantities
+            const ratio = recipe.isAdaptable !== false 
+                ? mealPlanServings / recipeServings 
+                : 1;
 
             // Process each ingredient in the recipe
             for (const recipeIngredient of recipe.ingredients) {

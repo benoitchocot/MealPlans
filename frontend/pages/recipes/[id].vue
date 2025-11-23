@@ -53,7 +53,12 @@
             <div class="text-center p-4 bg-gray-50 rounded-lg">
               <Icon name="mdi:account-group" class="text-2xl text-primary-600 mb-2 mx-auto" />
               <p class="text-sm text-gray-600">{{ $t('recipes.servings') }}</p>
-              <p class="text-lg font-semibold">{{ adjustedRecipe.servings }}</p>
+              <p class="text-lg font-semibold">
+                {{ adjustedRecipe.servings }}
+                <span v-if="recipe.isAdaptable === false" class="text-xs text-gray-500 ml-1">
+                  ({{ $t('recipes.fixedServings') }})
+                </span>
+              </p>
             </div>
             <div class="text-center p-4 bg-gray-50 rounded-lg">
               <Icon name="mdi:gauge" class="text-2xl text-primary-600 mb-2 mx-auto" />
@@ -124,16 +129,24 @@ const error = ref('')
 
 const householdSize = computed(() => userSettings.value?.householdSize || 1)
 
-// Adjust quantities based on household size (recipes are for 1 person)
+// Adjust quantities based on household size (only if recipe is adaptable)
 const adjustedRecipe = computed(() => {
   if (!recipe.value) return null
+  
+  // If recipe is not adaptable (e.g., tarts, cakes), use original quantities
+  if (recipe.value.isAdaptable === false) {
+    return recipe.value
+  }
+  
+  // Calculate ratio: household size / recipe servings
+  const ratio = householdSize.value / (recipe.value.servings || 1)
   
   return {
     ...recipe.value,
     servings: householdSize.value,
     ingredients: recipe.value.ingredients.map((ing: any) => ({
       ...ing,
-      quantity: Number(ing.quantity) * householdSize.value,
+      quantity: Number(ing.quantity) * ratio,
     })),
   }
 })

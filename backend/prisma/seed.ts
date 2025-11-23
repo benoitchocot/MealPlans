@@ -314,18 +314,19 @@ async function main() {
             prepTime: 15,
             cookTime: 40,
             difficulty: Difficulty.EASY,
-            servings: 1, // Recipe for 1 person, quantities will be multiplied by householdSize
+            servings: 5, // Fixed servings for tart (due to pan size)
+            isAdaptable: false, // Cannot be adapted - fixed pan size
             tags: ['french', 'classic'],
             toolsRequired: ['oven'],
             dietTypes: [],
             ingredients: {
                 create: [
-                    { ingredientId: getIngredient('pâte feuilletée').id, quantity: 0.17, unit: Unit.PIECE },
-                    { ingredientId: getIngredient('lardons').id, quantity: 33, unit: Unit.G },
-                    { ingredientId: getIngredient('oeuf').id, quantity: 0.5, unit: Unit.PIECE },
-                    { ingredientId: getIngredient('crème fraîche').id, quantity: 33, unit: Unit.ML },
-                    { ingredientId: getIngredient('lait').id, quantity: 17, unit: Unit.ML },
-                    { ingredientId: getIngredient('fromage râpé').id, quantity: 17, unit: Unit.G },
+                    { ingredientId: getIngredient('pâte feuilletée').id, quantity: 1, unit: Unit.PIECE },
+                    { ingredientId: getIngredient('lardons').id, quantity: 200, unit: Unit.G },
+                    { ingredientId: getIngredient('oeuf').id, quantity: 3, unit: Unit.PIECE },
+                    { ingredientId: getIngredient('crème fraîche').id, quantity: 200, unit: Unit.ML },
+                    { ingredientId: getIngredient('lait').id, quantity: 100, unit: Unit.ML },
+                    { ingredientId: getIngredient('fromage râpé').id, quantity: 100, unit: Unit.G },
                     { ingredientId: getIngredient('sel').id, quantity: 1, unit: Unit.PINCH },
                     { ingredientId: getIngredient('poivre').id, quantity: 1, unit: Unit.PINCH },
                 ],
