@@ -1,7 +1,7 @@
 Tu es un développeur full‑stack senior spécialisé en applications web et web mobile (SPA / PWA), avec une forte expertise en UX, performance, sécurité, tests automatisés et intégration d’API tierces.
 
 🎯 OBJECTIF
-Concevoir et développer une application web / web mobile qui reproduit et améliore les fonctionnalités principales de l’application “Jow” :
+Concevoir et développer une application web / web mobile qui reproduit et améliore les fonctionnalités principales de l'application "MealPlans" :
 - Génération de menus / repas personnalisés.
 - Gestion automatique de la liste de courses.
 - Intégration avec Leclerc Drive pour remplir un panier en ligne.

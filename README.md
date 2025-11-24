@@ -74,7 +74,6 @@ FoodTrack est une application web moderne et progressive (PWA) permettant de :
 - ✅ Animations et transitions fluides
 - ✅ Notifications en bandeau (non intrusives)
 - ✅ Guide utilisateur pour les nouveaux
-- ✅ Indicateurs de progression
 
 ### 🌍 Internationalisation
 - ✅ Support Français et Anglais
@@ -141,7 +140,7 @@ FoodTrack est une application web moderne et progressive (PWA) permettant de :
 1. **Cloner le repository**
    ```bash
    git clone <repository-url>
-   cd Jow
+   cd MealPlans
    ```
 
 2. **Configurer les variables d'environnement**
@@ -218,7 +217,7 @@ Créez un fichier `backend/.env` avec les variables suivantes :
 
 ```env
 # Base de données
-DATABASE_URL="postgresql://jow_user:jow_password@localhost:5432/jow_db?schema=public"
+DATABASE_URL="postgresql://mealplans_user:mealplans_password@localhost:5432/mealplans_db?schema=public"
 
 # JWT
 JWT_SECRET="your-super-secret-jwt-key-change-this-in-production"
@@ -667,158 +666,6 @@ Le Service Worker met en cache :
 
 Stratégie : NetworkFirst avec fallback sur le cache en cas d'offline.
 
-## 🚢 Déploiement
-
-### Guide complet
-
-Consultez le guide de déploiement détaillé : [`DEPLOYMENT.md`](./DEPLOYMENT.md)
-
-### Déploiement rapide avec Traefik
-
-Le projet est configuré pour fonctionner avec Traefik comme reverse proxy. Les services ont été ajoutés au fichier `swag.yml` :
-
-- **Frontend** : `food.chocot.be` → Port 3000
-- **Backend API** : `apifood.chocot.be` → Port 3000
-- **Base de données** : PostgreSQL interne
-
-### Étapes rapides
-
-1. **Cloner sur le serveur**
-   ```bash
-   cd ~
-   git clone <votre-repo> Jow
-   ```
-
-2. **Configurer les variables**
-   ```bash
-   cp .env.production.example .env.production
-   nano .env.production
-   # Remplir JOW_DB_PASSWORD, JOW_JWT_SECRET, SMTP_*, etc.
-   ```
-
-3. **Charger les variables**
-   ```bash
-   export $(cat .env.production | xargs)
-   ```
-
-4. **Démarrer avec docker-compose**
-   ```bash
-   docker-compose -f swag.yml up -d jow-postgres jow-backend jow-frontend
-   ```
-
-5. **Initialiser la base**
-   ```bash
-   docker exec jow-backend npx prisma migrate deploy
-   docker exec jow-backend npm run prisma:seed
-   ```
-
-6. **Accéder à l'application**
-   - Frontend : https://food.chocot.be
-   - API : https://apifood.chocot.be
-   - Swagger : https://apifood.chocot.be/api
-
-### Variables d'environnement production
-
-Voir `.env.production.example` pour la liste complète des variables requises.
-
-**Variables critiques** :
-- `JOW_DB_PASSWORD` : Mot de passe PostgreSQL (32+ caractères recommandés)
-- `JOW_JWT_SECRET` : Secret JWT (générer avec `openssl rand -base64 64`)
-- `JOW_SMTP_*` : Credentials pour l'envoi d'emails
-- `JOW_ADMIN_EMAIL` : Email pour recevoir les notifications de soumission
-
-### Sauvegardes
-
-```bash
-# Sauvegarde manuelle
-docker exec jow-postgres pg_dump -U jow_user jow_db > backup.sql
-
-# Sauvegarde automatique (cron quotidien)
-0 3 * * * docker exec jow-postgres pg_dump -U jow_user jow_db > ~/backups/jow_$(date +\%Y\%m\%d).sql
-```
-
-### Mise à jour
-
-```bash
-cd ~/Foodtrack
-git pull
-docker-compose -f ~/swag.yml build jow-backend jow-frontend
-docker-compose -f ~/swag.yml up -d jow-backend jow-frontend
-docker exec jow-backend npx prisma migrate deploy
-```
-
-## 📝 Scripts disponibles
-
-### Backend
-
-| Commande | Description |
-|----------|-------------|
-| `npm run start` | Démarrer (production) |
-| `npm run start:dev` | Développement avec hot-reload |
-| `npm run start:debug` | Mode debug |
-| `npm run build` | Build production |
-| `npm test` | Tests unitaires |
-| `npm run test:watch` | Tests en mode watch |
-| `npm run test:cov` | Tests avec couverture |
-| `npm run test:e2e` | Tests e2e |
-| `npm run lint` | Linter le code |
-| `npm run format` | Formater avec Prettier |
-| `npx prisma studio` | Interface graphique DB |
-| `npx prisma migrate dev` | Créer une migration |
-| `npx prisma migrate deploy` | Appliquer les migrations |
-| `npx prisma generate` | Générer le client Prisma |
-| `npm run prisma:seed` | Peupler la base |
-
-### Frontend
-
-| Commande | Description |
-|----------|-------------|
-| `npm run dev` | Développement |
-| `npm run build` | Build production |
-| `npm run preview` | Preview production |
-| `npm run generate` | Génération statique |
-| `npm test` | Tests unitaires (Vitest) |
-| `npm run test:watch` | Tests en mode watch |
-| `npm run test:e2e` | Tests e2e (Playwright) |
-| `npm run test:e2e:ui` | Tests e2e avec UI |
-| `npm run lint` | Linter le code |
-| `npm run format` | Formater avec Prettier |
-
-## 🐛 Dépannage
-
-### Le backend ne démarre pas
-
-1. Vérifiez que PostgreSQL est démarré : `docker compose ps`
-2. Vérifiez les logs : `docker compose logs backend`
-3. Vérifiez les variables d'environnement dans `backend/.env`
-4. Vérifiez la connexion DB : `docker compose exec backend npx prisma studio`
-
-### Le frontend ne se connecte pas au backend
-
-1. Vérifiez que le backend est démarré et accessible sur http://localhost:3000
-2. Vérifiez `NUXT_PUBLIC_API_BASE` dans `docker-compose.yml` ou `.env`
-3. Vérifiez les CORS dans `backend/.env` : `CORS_ORIGIN=http://localhost:3001`
-4. Ouvrez la console du navigateur (F12) pour voir les erreurs
-
-### Les emails ne partent pas
-
-1. Vérifiez la configuration SMTP dans `backend/.env`
-2. Pour Gmail, activez la validation 2 étapes et générez un mot de passe d'application
-3. Si SMTP n'est pas configuré, les URLs d'approbation s'affichent dans les logs backend
-4. Vérifiez les logs : `docker compose logs backend | grep -i "email\|smtp"`
-
-### Erreurs de migration Prisma
-
-```bash
-# Réinitialiser complètement la base
-docker compose exec backend npx prisma migrate reset
-
-# Régénérer le client Prisma
-docker compose exec backend npx prisma generate
-
-# Appliquer les migrations
-docker compose exec backend npx prisma migrate deploy
-```
 
 ### Le lien d'approbation ne fonctionne pas depuis Gmail
 

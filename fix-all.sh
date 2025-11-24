@@ -15,63 +15,63 @@ fi
 
 export $(cat ~/foodtrack/.env.production | grep -v '^#' | grep -v '^$' | xargs)
 
-if [ -z "$JOW_DB_PASSWORD" ]; then
-    echo "❌ ERREUR: JOW_DB_PASSWORD n'est pas défini"
+if [ -z "$MEALPLANS_DB_PASSWORD" ]; then
+    echo "❌ ERREUR: MEALPLANS_DB_PASSWORD n'est pas défini"
     exit 1
 fi
 
 echo "✅ Variables chargées"
 
-# Vérifier que docker-compose.yml utilise ${JOW_DB_PASSWORD}
-if ! grep -q "POSTGRES_PASSWORD: \${JOW_DB_PASSWORD}" docker-compose.yml; then
-    echo "⚠️  ATTENTION: docker-compose.yml n'utilise pas \${JOW_DB_PASSWORD}"
-    echo "   Modifiez POSTGRES_PASSWORD: Benoit45+ en POSTGRES_PASSWORD: \${JOW_DB_PASSWORD}"
+# Vérifier que docker-compose.yml utilise ${MEALPLANS_DB_PASSWORD}
+if ! grep -q "POSTGRES_PASSWORD: \${MEALPLANS_DB_PASSWORD}" docker-compose.yml; then
+    echo "⚠️  ATTENTION: docker-compose.yml n'utilise pas \${MEALPLANS_DB_PASSWORD}"
+    echo "   Modifiez POSTGRES_PASSWORD: Benoit45+ en POSTGRES_PASSWORD: \${MEALPLANS_DB_PASSWORD}"
     exit 1
 fi
 
-echo "✅ docker-compose.yml utilise bien \${JOW_DB_PASSWORD}"
+echo "✅ docker-compose.yml utilise bien \${MEALPLANS_DB_PASSWORD}"
 
 # Arrêter
 echo "⏹️  Arrêt des services..."
-docker compose stop jow-postgres jow-backend jow-frontend 2>/dev/null || true
+docker compose stop mealplans-postgres mealplans-backend mealplans-frontend 2>/dev/null || true
 
 # Supprimer les conteneurs
 echo "🗑️  Suppression des conteneurs..."
-docker compose rm -f jow-postgres jow-backend jow-frontend 2>/dev/null || true
+docker compose rm -f mealplans-postgres mealplans-backend mealplans-frontend 2>/dev/null || true
 
 # Attendre un peu
 sleep 2
 
 # Supprimer le volume
-if docker volume ls | grep -q jow-postgres-data; then
+if docker volume ls | grep -q mealplans-postgres-data; then
     echo "🗑️  Suppression du volume PostgreSQL..."
-    docker volume rm jow-postgres-data 2>/dev/null || {
+    docker volume rm mealplans-postgres-data 2>/dev/null || {
         echo "⚠️  Le volume est encore utilisé, forçons la suppression..."
-        docker volume rm jow-postgres-data --force 2>/dev/null || true
+        docker volume rm mealplans-postgres-data --force 2>/dev/null || true
     }
 fi
 
 # Rebuild backend et frontend (pour ts-node et nouvelles modifications)
 echo "🔨 Rebuild du backend..."
-docker compose build --no-cache jow-backend
+docker compose build --no-cache mealplans-backend
 
 echo "🔨 Rebuild du frontend..."
-docker compose build --no-cache jow-frontend
+docker compose build --no-cache mealplans-frontend
 
 # Démarrer PostgreSQL
 echo "🔄 Démarrage de PostgreSQL..."
-docker compose up -d jow-postgres
+docker compose up -d mealplans-postgres
 
 # Attendre
 echo "⏳ Attente (30 secondes)..."
 sleep 30
 
 # Vérifier
-if docker exec jow-postgres pg_isready -U jow_user -d jow_db >/dev/null 2>&1; then
+if docker exec mealplans-postgres pg_isready -U mealplans_user -d mealplans_db >/dev/null 2>&1; then
     echo "✅ PostgreSQL est prêt"
     
     # Tester la connexion
-    if docker exec -e PGPASSWORD="$JOW_DB_PASSWORD" jow-postgres psql -U jow_user -d jow_db -c "SELECT 1;" >/dev/null 2>&1; then
+    if docker exec -e PGPASSWORD="$MEALPLANS_DB_PASSWORD" mealplans-postgres psql -U mealplans_user -d mealplans_db -c "SELECT 1;" >/dev/null 2>&1; then
         echo "✅ Connexion réussie"
     else
         echo "❌ Connexion échouée - vérifiez le mot de passe"
@@ -80,17 +80,17 @@ if docker exec jow-postgres pg_isready -U jow_user -d jow_db >/dev/null 2>&1; th
     
     # Backend
     echo "🚀 Démarrage du backend..."
-    docker compose up -d jow-backend
+    docker compose up -d mealplans-backend
     sleep 15
     
     # Migrations
     echo "📦 Vérification des migrations..."
-    docker exec jow-backend ls -la /app/prisma/migrations/ || echo "⚠️  Migrations directory not found"
+    docker exec mealplans-backend ls -la /app/prisma/migrations/ || echo "⚠️  Migrations directory not found"
     
     echo "📦 Application des migrations..."
-    docker exec jow-backend npx prisma migrate deploy || {
+    docker exec mealplans-backend npx prisma migrate deploy || {
         echo "⚠️  migrate deploy failed, trying db push..."
-        docker exec jow-backend npx prisma db push --accept-data-loss
+        docker exec mealplans-backend npx prisma db push --accept-data-loss
     }
     
     # Attendre un peu pour que les migrations soient bien appliquées
@@ -98,20 +98,20 @@ if docker exec jow-postgres pg_isready -U jow_user -d jow_db >/dev/null 2>&1; th
     
     # Seed (seulement si les tables existent)
     echo "🌱 Seed..."
-    docker exec jow-backend npm run prisma:seed || {
+    docker exec mealplans-backend npm run prisma:seed || {
         echo "⚠️  Seed failed, but continuing..."
     }
     
     # Frontend
     echo "🎨 Frontend..."
-    docker compose up -d jow-frontend
+    docker compose up -d mealplans-frontend
     
     echo ""
     echo "✅ Terminé !"
-    docker logs jow-backend --tail 10
+    docker logs mealplans-backend --tail 10
 else
     echo "❌ PostgreSQL n'est pas prêt"
-    docker logs jow-postgres --tail 20
+    docker logs mealplans-postgres --tail 20
     exit 1
 fi
 

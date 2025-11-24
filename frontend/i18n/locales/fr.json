@@ -183,6 +183,7 @@
     "approvedMessage": "Cette recette a été approuvée et est maintenant disponible dans le catalogue."
   },
   "mealPlans": {
+    "created": "Créé le",
     "title": "Plans de repas",
     "subtitle": "Gérez vos plans de repas hebdomadaires",
     "loading": "Chargement des plans de repas...",

@@ -1,20 +1,20 @@
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: jow-postgres
+    container_name: mealplans-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: jow_user
-      POSTGRES_PASSWORD: jow_password
-      POSTGRES_DB: jow_db
+      POSTGRES_USER: mealplans_user
+      POSTGRES_PASSWORD: mealplans_password
+      POSTGRES_DB: mealplans_db
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - jow-network
+      - mealplans-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U jow_user -d jow_db"]
+      test: ["CMD-SHELL", "pg_isready -U mealplans_user -d mealplans_db"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -23,12 +23,12 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile.dev
-    container_name: jow-backend
+    container_name: mealplans-backend
     restart: unless-stopped
     environment:
       NODE_ENV: development
       PORT: 3000
-      DATABASE_URL: postgresql://jow_user:jow_password@postgres:5432/jow_db?schema=public
+      DATABASE_URL: postgresql://mealplans_user:mealplans_password@postgres:5432/mealplans_db?schema=public
       JWT_SECRET: your-super-secret-jwt-key-change-this-in-production
       JWT_EXPIRES_IN: 7d
       CORS_ORIGIN: http://localhost:3001
@@ -41,14 +41,14 @@ services:
       postgres:
         condition: service_healthy
     networks:
-      - jow-network
+      - mealplans-network
     command: /app/start-dev.sh
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev
-    container_name: jow-frontend
+    container_name: mealplans-frontend
     restart: unless-stopped
     environment:
       NODE_ENV: development
@@ -61,12 +61,12 @@ services:
     depends_on:
       - backend
     networks:
-      - jow-network
+      - mealplans-network
     command: npx nuxt dev --host 0.0.0.0 --port 3001
 
 volumes:
   postgres_data:
 
 networks:
-  jow-network:
+  mealplans-network:
     driver: bridge
