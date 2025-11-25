@@ -1,4 +1,4 @@
-# FoodTrack - Application de Planification de Repas
+# MealPlans - Application de Planification de Repas
 
 Application complète de planification de repas avec génération automatique de menus, listes de courses et gestion des recettes.
 
@@ -17,7 +17,7 @@ Application complète de planification de repas avec génération automatique de
 
 ## 🎯 Vue d'ensemble
 
-FoodTrack est une application web moderne et progressive (PWA) permettant de :
+MealPlans est une application web moderne et progressive (PWA) permettant de :
 - Parcourir et découvrir des recettes
 - Personnaliser ses préférences alimentaires
 - Générer automatiquement des plans de repas personnalisés
@@ -235,7 +235,7 @@ SMTP_PORT=587
 SMTP_SECURE=false
 SMTP_USER="your-email@gmail.com"
 SMTP_PASS="your-app-password"
-SMTP_FROM="noreply@foodtrack.com"
+SMTP_FROM="noreply@mealplans.com"
 
 # Admin
 ADMIN_EMAIL="admin@yourcompany.com"
@@ -519,7 +519,7 @@ Le fichier `database/schema.dbml` sera automatiquement mis à jour.
 ## 📁 Structure du projet
 
 ```
-Foodtrack/
+MealPlans/
 ├── backend/                    # API NestJS
 │   ├── src/
 │   │   ├── auth/              # Authentification (JWT)
