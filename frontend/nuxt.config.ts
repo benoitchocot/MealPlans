@@ -38,7 +38,7 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: 'FoodTrack - Meal Planning Made Easy',
+      title: 'MealPlans - Meal Planning Made Easy',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -53,8 +53,8 @@ export default defineNuxtConfig({
   pwa: {
     registerType: 'autoUpdate',
     manifest: {
-      name: 'FoodTrack',
-      short_name: 'FoodTrack',
+      name: 'MealPlans',
+      short_name: 'MealPlans',
       description: 'Meal planning and shopping list app',
       theme_color: '#10b981',
       background_color: '#ffffff',

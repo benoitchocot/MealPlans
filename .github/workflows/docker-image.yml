@@ -1,4 +1,4 @@
-name: Deploy Foodtrack (LAN)
+name: Deploy MealPlans (LAN)
 
 on:
   push:

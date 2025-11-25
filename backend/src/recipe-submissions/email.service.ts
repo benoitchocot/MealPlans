@@ -40,7 +40,7 @@ export class EmailService {
         const mailOptions = {
             from: this.configService.get('SMTP_FROM') || this.configService.get('SMTP_USER'),
             to,
-            subject: `[FoodTrack] Nouvelle recette à approuver: ${recipeTitle}`,
+            subject: `[MealPlans] Nouvelle recette à approuver: ${recipeTitle}`,
             html: `
                 <!DOCTYPE html>
                 <html>
@@ -62,7 +62,7 @@ export class EmailService {
                         </div>
                         <div class="content">
                             <p>Bonjour,</p>
-                            <p>Une nouvelle recette a été soumise sur FoodTrack et nécessite votre approbation.</p>
+                            <p>Une nouvelle recette a été soumise sur MealPlans et nécessite votre approbation.</p>
                             
                             <h2>Détails de la recette</h2>
                             <ul>
@@ -79,7 +79,7 @@ export class EmailService {
                             <p style="word-break: break-all; color: #6b7280;">${approvalUrl}</p>
                         </div>
                         <div class="footer">
-                            <p>Cet email a été envoyé automatiquement par FoodTrack.</p>
+                            <p>Cet email a été envoyé automatiquement par MealPlans.</p>
                         </div>
                     </div>
                 </body>
@@ -117,7 +117,7 @@ export class EmailService {
         const mailOptions = {
             from: this.configService.get('SMTP_FROM') || this.configService.get('SMTP_USER'),
             to,
-            subject: `[FoodTrack] Nouvel avis sur la recette: ${recipeTitle}`,
+            subject: `[MealPlans] Nouvel avis sur la recette: ${recipeTitle}`,
             html: `
                 <!DOCTYPE html>
                 <html>
@@ -141,7 +141,7 @@ export class EmailService {
                         </div>
                         <div class="content">
                             <p>Bonjour,</p>
-                            <p>Un nouvel avis a été laissé sur une recette de FoodTrack.</p>
+                            <p>Un nouvel avis a été laissé sur une recette de MealPlans.</p>
                             
                             <h2>Détails de l'avis</h2>
                             <ul>
@@ -165,7 +165,7 @@ export class EmailService {
                             <p style="word-break: break-all; color: #6b7280;">${recipeUrl}</p>
                         </div>
                         <div class="footer">
-                            <p>Cet email a été envoyé automatiquement par FoodTrack.</p>
+                            <p>Cet email a été envoyé automatiquement par MealPlans.</p>
                         </div>
                     </div>
                 </body>
@@ -206,7 +206,7 @@ export class EmailService {
         const mailOptions = {
             from: this.configService.get('SMTP_FROM') || this.configService.get('SMTP_USER'),
             to,
-            subject: `[FoodTrack] Signalement d'un avis sur: ${recipeTitle}`,
+            subject: `[MealPlans] Signalement d'un avis sur: ${recipeTitle}`,
             html: `
                 <!DOCTYPE html>
                 <html>
@@ -231,7 +231,7 @@ export class EmailService {
                         </div>
                         <div class="content">
                             <p>Bonjour,</p>
-                            <p>Un avis a été signalé sur FoodTrack.</p>
+                            <p>Un avis a été signalé sur MealPlans.</p>
                             
                             <div class="warning">
                                 <strong>⚠️ Signalé par:</strong> ${reporterEmail}
@@ -263,7 +263,7 @@ export class EmailService {
                             </p>
                         </div>
                         <div class="footer">
-                            <p>Cet email a été envoyé automatiquement par FoodTrack.</p>
+                            <p>Cet email a été envoyé automatiquement par MealPlans.</p>
                         </div>
                     </div>
                 </body>

@@ -1,6 +1,6 @@
 {
   "common": {
-    "appName": "FoodTrack",
+    "appName": "MealPlans",
     "welcome": "Welcome",
     "user": "User",
     "loading": "Loading...",
@@ -345,7 +345,7 @@
       }
     },
     "benefits": {
-      "title": "Why choose FoodTrack?",
+      "title": "Why choose MealPlans?",
       "time": {
         "title": "Save time",
         "description": "No more evening thinking: your menus are planned in advance"
@@ -361,7 +361,7 @@
     },
     "cta": {
       "title": "Ready to simplify your daily life?",
-      "subtitle": "Join thousands of users who have already adopted FoodTrack"
+      "subtitle": "Join thousands of users who have already adopted MealPlans"
     },
     "footer": {
       "tagline": "Meal planning, simplified"
@@ -470,7 +470,7 @@
     "skip": "Skip",
     "dismiss": "Close",
     "onboarding": {
-      "title": "Welcome to FoodTrack! 🎉",
+      "title": "Welcome to MealPlans! 🎉",
       "description": "Let's start by configuring your preferences to personalize your experience."
     },
     "generateMealPlan": {
@@ -483,7 +483,7 @@
     },
     "complete": {
       "title": "Congratulations! 🎊",
-      "description": "You've completed the getting started guide. Now explore all of FoodTrack's features!"
+      "description": "You've completed the getting started guide. Now explore all of MealPlans features!"
     }
   },
   "journey": {

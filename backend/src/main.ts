@@ -30,8 +30,8 @@ async function bootstrap() {
 
     // Swagger/OpenAPI Configuration
     const config = new DocumentBuilder()
-        .setTitle('FoodTrack API')
-        .setDescription('API documentation for FoodTrack - Meal planning application')
+        .setTitle('MealPlans API')
+        .setDescription('API documentation for MealPlans - Meal planning application')
         .setVersion('1.0')
         .addBearerAuth(
             {
