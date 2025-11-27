@@ -499,6 +499,97 @@
     },
     "nextStep": "Prochaine étape",
     "allComplete": "Tout est configuré !"
+  },
+  "legal": {
+    "menuTitle": "Mentions légales",
+    "terms": {
+      "title": "Conditions Générales d'Utilisation",
+      "lastUpdated": "Dernière mise à jour",
+      "backToHome": "Retour à l'accueil",
+      "section1": {
+        "title": "1. Acceptation des conditions",
+        "content": "En accédant et en utilisant MealPlans, vous acceptez d'être lié par ces Conditions Générales d'Utilisation. Si vous n'acceptez pas ces conditions, veuillez ne pas utiliser notre service."
+      },
+      "section2": {
+        "title": "2. Utilisation du service",
+        "content": "MealPlans est un service de planification de repas qui vous permet de créer des plans de repas personnalisés et des listes de courses. Vous vous engagez à utiliser le service de manière légale et conforme. Vous devez :",
+        "requirement1": "Fournir des informations exactes et complètes lors de votre inscription",
+        "requirement2": "Maintenir la confidentialité de votre compte et de votre mot de passe",
+        "requirement3": "Utiliser le service uniquement à des fins personnelles et non commerciales",
+        "requirement4": "Respecter tous les droits de propriété intellectuelle"
+      },
+      "section3": {
+        "title": "3. Restrictions d'utilisation",
+        "content": "Vous vous engagez à ne pas :",
+        "prohibition1": "Utiliser le service à des fins illégales ou non autorisées",
+        "prohibition2": "Tenter d'accéder de manière non autorisée à d'autres comptes ou systèmes",
+        "prohibition3": "Publier, télécharger ou transmettre tout contenu offensant, diffamatoire ou illégal",
+        "prohibition4": "Reproduire, copier, vendre ou exploiter commercialement tout élément du service sans autorisation",
+        "prohibition5": "Utiliser des robots, scrapers ou autres moyens automatisés pour accéder au service"
+      },
+      "section4": {
+        "title": "4. Contenu utilisateur",
+        "content": "Vous conservez tous les droits sur le contenu que vous créez et soumettez via MealPlans (recettes, commentaires, etc.). En soumettant du contenu, vous nous accordez une licence non exclusive pour utiliser, afficher et distribuer ce contenu dans le cadre du service."
+      },
+      "section5": {
+        "title": "5. Propriété intellectuelle",
+        "content": "Tous les droits de propriété intellectuelle relatifs à MealPlans, y compris mais sans s'y limiter, les textes, graphiques, logos, icônes, images et logiciels, sont la propriété de MealPlans ou de ses concédants de licence et sont protégés par les lois applicables."
+      },
+      "section6": {
+        "title": "6. Limitation de responsabilité",
+        "content": "MealPlans est fourni \"tel quel\" sans garantie d'aucune sorte. Nous ne garantissons pas que le service sera ininterrompu, sécurisé ou exempt d'erreurs. Nous ne serons pas responsables des dommages directs, indirects, accessoires ou consécutifs résultant de l'utilisation ou de l'impossibilité d'utiliser le service."
+      },
+      "section7": {
+        "title": "7. Modification des conditions",
+        "content": "Nous nous réservons le droit de modifier ces Conditions Générales d'Utilisation à tout moment. Les modifications prendront effet dès leur publication sur cette page. Il est de votre responsabilité de consulter régulièrement cette page pour prendre connaissance des éventuelles modifications."
+      },
+      "section8": {
+        "title": "8. Résiliation",
+        "content": "Nous nous réservons le droit de suspendre ou de résilier votre compte et votre accès au service à tout moment, sans préavis, pour toute raison, notamment en cas de violation de ces Conditions Générales d'Utilisation."
+      }
+    },
+    "privacy": {
+      "title": "Politique de Confidentialité",
+      "lastUpdated": "Dernière mise à jour",
+      "backToHome": "Retour à l'accueil",
+      "section1": {
+        "title": "1. Introduction",
+        "content": "La présente Politique de Confidentialité décrit comment MealPlans collecte, utilise et protège vos informations personnelles lorsque vous utilisez notre service. Nous nous engageons à respecter votre vie privée et à protéger vos données personnelles."
+      },
+      "section2": {
+        "title": "2. Informations collectées",
+        "content": "Nous collectons les types d'informations suivants :",
+        "data1": "Informations d'identification : nom, adresse e-mail, mot de passe (haché)",
+        "data2": "Informations de préférences : taille du ménage, préférences alimentaires, équipements disponibles",
+        "data3": "Données d'utilisation : plans de repas créés, recettes consultées, listes de courses générées",
+        "data4": "Données techniques : adresse IP, type de navigateur, système d'exploitation",
+        "data5": "Contenu utilisateur : recettes soumises, commentaires, avis"
+      },
+      "section3": {
+        "title": "3. Utilisation des informations",
+        "content": "Nous utilisons vos informations pour :",
+        "use1": "Fournir, maintenir et améliorer notre service",
+        "use2": "Personnaliser votre expérience et générer des recommandations",
+        "use3": "Communiquer avec vous concernant le service et les mises à jour",
+        "use4": "Détecter et prévenir la fraude et les abus"
+      },
+      "section4": {
+        "title": "4. Partage des informations",
+        "content": "Nous ne vendons, n'échangeons ni ne louons vos informations personnelles à des tiers. Nous pouvons partager des informations agrégées et anonymisées qui ne permettent pas d'identifier un utilisateur individuel."
+      },
+      "section5": {
+        "title": "5. Sécurité des données",
+        "content": "Nous mettons en œuvre des mesures de sécurité techniques et organisationnelles appropriées pour protéger vos informations personnelles contre l'accès non autorisé, la perte, la destruction ou la modification. Cependant, aucune méthode de transmission sur Internet n'est totalement sécurisée."
+      },
+      "section6": {
+        "title": "6. Vos droits",
+        "content": "Vous avez le droit d'accéder, de modifier, de supprimer ou de porter vos données personnelles. Vous pouvez également vous opposer au traitement de vos données ou demander la limitation du traitement. Pour exercer ces droits, contactez-nous via les coordonnées fournies dans le service."
+      },
+      "section7": {
+        "title": "7. Cookies et technologies similaires",
+        "content": "Nous utilisons des cookies et des technologies similaires pour améliorer votre expérience, analyser l'utilisation du service et personnaliser le contenu. Vous pouvez gérer vos préférences de cookies via les paramètres de votre navigateur."
+      }
+    }
   }
 }
 

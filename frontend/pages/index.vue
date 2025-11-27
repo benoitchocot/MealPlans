@@ -123,28 +123,45 @@
             <h3 class="text-2xl font-bold text-primary-400">{{ $t('common.appName') }}</h3>
             <p class="text-gray-400 text-sm mt-1">{{ $t('landing.footer.tagline') }}</p>
           </div>
-          <div class="flex gap-6">
-            <NuxtLink
-              v-if="!isAuthenticated"
-              to="/login"
-              class="text-gray-300 hover:text-white transition-colors"
-            >
-              {{ $t('auth.login') }}
-            </NuxtLink>
-            <NuxtLink
-              v-if="!isAuthenticated"
-              to="/register"
-              class="text-gray-300 hover:text-white transition-colors"
-            >
-              {{ $t('auth.register') }}
-            </NuxtLink>
-            <NuxtLink
-              v-if="isAuthenticated"
-              to="/dashboard"
-              class="text-gray-300 hover:text-white transition-colors"
-            >
-              {{ $t('dashboard.title') }}
-            </NuxtLink>
+          <div class="flex flex-col md:flex-row gap-4 md:gap-6 items-center">
+            <div class="flex gap-6">
+              <NuxtLink
+                v-if="!isAuthenticated"
+                to="/login"
+                class="text-gray-300 hover:text-white transition-colors"
+              >
+                {{ $t('auth.login') }}
+              </NuxtLink>
+              <NuxtLink
+                v-if="!isAuthenticated"
+                to="/register"
+                class="text-gray-300 hover:text-white transition-colors"
+              >
+                {{ $t('auth.register') }}
+              </NuxtLink>
+              <NuxtLink
+                v-if="isAuthenticated"
+                to="/dashboard"
+                class="text-gray-300 hover:text-white transition-colors"
+              >
+                {{ $t('dashboard.title') }}
+              </NuxtLink>
+            </div>
+            <div class="flex gap-4 text-sm">
+              <NuxtLink
+                to="/legal/terms"
+                class="text-gray-400 hover:text-white transition-colors"
+              >
+                {{ $t('legal.terms.title') }}
+              </NuxtLink>
+              <span class="text-gray-500">•</span>
+              <NuxtLink
+                to="/legal/privacy"
+                class="text-gray-400 hover:text-white transition-colors"
+              >
+                {{ $t('legal.privacy.title') }}
+              </NuxtLink>
+            </div>
           </div>
         </div>
       </div>
