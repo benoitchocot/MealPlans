@@ -8,7 +8,7 @@ export const nutritionalData: Record<string, {
     fats: number; // g per 100g (or per unit)
     proteins: number; // g per 100g (or per unit)
     fibers: number; // g per 100g (or per unit)
-    unit: '100g' | 'piece' | 'tbsp' | 'tsp' | 'ml' | 'clove' | 'bunch' | 'slice' | 'pinch';
+    unit: '100g' | 'piece' | 'tbsp' | 'tsp' | 'ml' | 'clove' | 'bunch' | 'slice' | 'pinch' | '100ml';
 }> = {
     // === VIANDES ===
     'boeuf haché': { calories: 240, carbohydrates: 0, fats: 15, proteins: 26, fibers: 0, unit: '100g' },
@@ -176,7 +176,7 @@ export const nutritionalData: Record<string, {
 };
 
 // Conversions pour les unités
-const unitConversions: Record<string, { to100g: number } | { toUnit: number }> = {
+export const unitConversions: Record<string, { to100g: number } | { toUnit: number }> = {
     'piece': {
         // Approximations pour les pièces
         'tomate': { to100g: 150 }, // 1 tomate ≈ 150g

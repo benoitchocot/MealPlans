@@ -352,16 +352,9 @@ const adjustedRecipe = computed(() => {
   // Calculate ratio: household size / recipe servings
   const ratio = householdSize.value / (recipe.value.servings || 1)
   
-  // Nutritional values should always be displayed per serving
-  // We need to get the per-serving value from what's stored
-  // The schema says values are "per serving", but some recipes might have totals stored
-  // To be safe, we'll always calculate per serving: divide by original servings
-  const originalServings = recipe.value.servings || 1
-  const caloriesPerServing = recipe.value.calories ? recipe.value.calories / originalServings : null
-  const carbohydratesPerServing = recipe.value.carbohydrates ? Number(recipe.value.carbohydrates) / originalServings : null
-  const fatsPerServing = recipe.value.fats ? Number(recipe.value.fats) / originalServings : null
-  const proteinsPerServing = recipe.value.proteins ? Number(recipe.value.proteins) / originalServings : null
-  const fibersPerServing = recipe.value.fibers ? Number(recipe.value.fibers) / originalServings : null
+  // Nutritional values are stored "per serving" according to the schema
+  // They should always be displayed per serving, regardless of household size adjustment
+  // (ingredients scale, but nutritional values remain per serving)
   
   return {
     ...recipe.value,
@@ -370,12 +363,12 @@ const adjustedRecipe = computed(() => {
       ...ing,
       quantity: Number(ing.quantity) * ratio,
     })),
-    // Always display nutritional values per serving
-    calories: caloriesPerServing ? Math.round(caloriesPerServing) : null,
-    carbohydrates: carbohydratesPerServing || null,
-    fats: fatsPerServing || null,
-    proteins: proteinsPerServing || null,
-    fibers: fibersPerServing || null,
+    // Nutritional values are already per serving - display as-is
+    calories: recipe.value.calories || null,
+    carbohydrates: recipe.value.carbohydrates ? Number(recipe.value.carbohydrates) : null,
+    fats: recipe.value.fats ? Number(recipe.value.fats) : null,
+    proteins: recipe.value.proteins ? Number(recipe.value.proteins) : null,
+    fibers: recipe.value.fibers ? Number(recipe.value.fibers) : null,
   }
 })
 
