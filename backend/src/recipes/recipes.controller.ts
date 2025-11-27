@@ -43,14 +43,22 @@ export class RecipesController {
         return this.recipesService.findBySlug(slug);
     }
 
-    @Get(':id')
-    findOne(@Param('id') id: string) {
-        return this.recipesService.findOne(id);
+    // IMPORTANT: Routes spécifiques AVANT les routes génériques avec :id
+    @Get(':id/nutrition')
+    @ApiOperation({ summary: 'Calculate nutritional values for a recipe' })
+    @ApiResponse({ status: 200, description: 'Nutritional values calculated successfully' })
+    getNutritionalValues(@Param('id') id: string) {
+        return this.recipesService.calculateNutritionalValues(id);
     }
 
     @Get(':id/servings/:servings')
     getWithAdjustedServings(@Param('id') id: string, @Param('servings') servings: string) {
         return this.recipesService.getRecipeWithAdjustedServings(id, parseInt(servings, 10));
+    }
+
+    @Get(':id')
+    findOne(@Param('id') id: string) {
+        return this.recipesService.findOne(id);
     }
 
     @UseGuards(JwtAuthGuard)

@@ -27,6 +27,13 @@ export class RecipeSubmissionsController {
         return this.submissionsService.findByToken(token);
     }
 
+    @Get('approve/:token/nutrition')
+    @ApiOperation({ summary: 'Calculate nutritional values for a recipe submission' })
+    @ApiResponse({ status: 200, description: 'Nutritional values calculated successfully' })
+    async getNutritionalValues(@Param('token') token: string) {
+        return this.submissionsService.calculateNutritionalValues(token);
+    }
+
     @Patch('approve/:token/approve')
     @ApiOperation({ summary: 'Approve a recipe submission' })
     @ApiResponse({ status: 200, description: 'Recipe approved and created' })

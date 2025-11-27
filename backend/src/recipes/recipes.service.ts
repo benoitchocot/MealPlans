@@ -3,6 +3,8 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe.dto';
 import { RecipeQueryDto } from './dto/recipe-query.dto';
+import { calculateNutritionalValues } from '../utils/nutrition-calculator';
+import { Unit } from '@prisma/client';
 
 @Injectable()
 export class RecipesService {
@@ -429,5 +431,32 @@ export class RecipesService {
         quantity: Number(ri.quantity) * ratio,
       })),
     };
+  }
+
+  /**
+   * Calculate nutritional values for a recipe based on its ingredients
+   */
+  async calculateNutritionalValues(recipeId: string) {
+    const recipe = await this.findOne(recipeId);
+    
+    const ingredients = recipe.ingredients.map((ri) => ({
+      name: ri.ingredient.name,
+      quantity: Number(ri.quantity),
+      unit: ri.unit as Unit,
+    }));
+
+    // IMPORTANT: Les quantités d'ingrédients sont stockées pour recipe.servings portions
+    // On divise donc par recipe.servings pour obtenir les valeurs par portion
+    // Les valeurs nutritionnelles sont TOUJOURS "par portion" de la recette originale,
+    // peu importe les ajustements d'affichage dans l'UI
+    
+    if (!recipe.servings || recipe.servings <= 0 || isNaN(Number(recipe.servings))) {
+      throw new Error(`Invalid servings count: ${recipe.servings}`);
+    }
+
+    const servings = Number(recipe.servings);
+    console.log(`[recipes.service] Calcul nutritionnel pour recette ${recipeId}: ${ingredients.length} ingrédients, ${servings} portions`);
+    
+    return calculateNutritionalValues(ingredients, servings);
   }
 }

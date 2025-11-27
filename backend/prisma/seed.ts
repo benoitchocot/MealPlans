@@ -499,11 +499,6 @@ async function main() {
                 tags: data.tags,
                 toolsRequired: data.toolsRequired,
                 dietTypes: data.dietTypes,
-                calories: data.calories ?? null,
-                carbohydrates: data.carbohydrates ?? null,
-                fats: data.fats ?? null,
-                proteins: data.proteins ?? null,
-                fibers: data.fibers ?? null,
                 ingredients: {
                     create: data.ingredients.map(ing => ({
                         ingredientId: getIngredient(ing.name).id,
@@ -1399,11 +1394,6 @@ async function main() {
                     tags: recipeData.tags,
                     toolsRequired: recipeData.toolsRequired,
                     dietTypes: recipeData.dietTypes,
-                    calories: recipeData.calories ?? null,
-                    carbohydrates: recipeData.carbohydrates ?? null,
-                    fats: recipeData.fats ?? null,
-                    proteins: recipeData.proteins ?? null,
-                    fibers: recipeData.fibers ?? null,
                     ingredients: {
                         create: ingredients.map(ing => ({
                             ingredientId: ing.ingredientId,
@@ -1466,11 +1456,6 @@ async function main() {
                     tags: recipeData.tags,
                     toolsRequired: recipeData.toolsRequired,
                     dietTypes: recipeData.dietTypes,
-                    calories: recipeData.calories ?? null,
-                    carbohydrates: recipeData.carbohydrates ?? null,
-                    fats: recipeData.fats ?? null,
-                    proteins: recipeData.proteins ?? null,
-                    fibers: recipeData.fibers ?? null,
                     ingredients: {
                         create: ingredients.map(ing => ({
                             ingredientId: ing.ingredientId,

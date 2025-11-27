@@ -114,32 +114,32 @@
 
           <!-- Nutritional Values -->
           <div v-if="hasNutritionalValues" class="mb-4 pt-4 border-t border-gray-200">
-            <h3 class="text-sm font-medium text-gray-700 mb-3">{{ $t('recipes.submit.nutritionalValuesDescription') }}</h3>
+            <h3 class="text-sm font-medium text-gray-700 mb-3">{{ $t('recipes.submit.nutritionalValuesPerServing') }}</h3>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-              <div v-if="submission.calories" class="text-center p-3 bg-green-50 rounded-lg">
+              <div v-if="nutritionalValues?.calories" class="text-center p-3 bg-green-50 rounded-lg">
                 <Icon name="mdi:fire" class="text-2xl text-green-600 mb-1 mx-auto" />
                 <p class="text-xs text-gray-600 mb-1">{{ $t('recipes.submit.calories') }}</p>
-                <p class="text-lg font-semibold text-green-700">{{ submission.calories }} <span class="text-xs">kcal</span></p>
+                <p class="text-lg font-semibold text-green-700">{{ nutritionalValues.calories }} <span class="text-xs">kcal</span></p>
               </div>
-              <div v-if="submission.carbohydrates" class="text-center p-3 bg-blue-50 rounded-lg">
+              <div v-if="nutritionalValues?.carbohydrates" class="text-center p-3 bg-blue-50 rounded-lg">
                 <Icon name="mdi:grain" class="text-2xl text-blue-600 mb-1 mx-auto" />
                 <p class="text-xs text-gray-600 mb-1">{{ $t('recipes.submit.carbohydrates') }}</p>
-                <p class="text-lg font-semibold text-blue-700">{{ formatDecimal(submission.carbohydrates) }} <span class="text-xs">g</span></p>
+                <p class="text-lg font-semibold text-blue-700">{{ formatDecimal(nutritionalValues.carbohydrates) }} <span class="text-xs">g</span></p>
               </div>
-              <div v-if="submission.fats" class="text-center p-3 bg-yellow-50 rounded-lg">
+              <div v-if="nutritionalValues?.fats" class="text-center p-3 bg-yellow-50 rounded-lg">
                 <Icon name="mdi:oil" class="text-2xl text-yellow-600 mb-1 mx-auto" />
                 <p class="text-xs text-gray-600 mb-1">{{ $t('recipes.submit.fats') }}</p>
-                <p class="text-lg font-semibold text-yellow-700">{{ formatDecimal(submission.fats) }} <span class="text-xs">g</span></p>
+                <p class="text-lg font-semibold text-yellow-700">{{ formatDecimal(nutritionalValues.fats) }} <span class="text-xs">g</span></p>
               </div>
-              <div v-if="submission.proteins" class="text-center p-3 bg-red-50 rounded-lg">
+              <div v-if="nutritionalValues?.proteins" class="text-center p-3 bg-red-50 rounded-lg">
                 <Icon name="mdi:food-drumstick" class="text-2xl text-red-600 mb-1 mx-auto" />
                 <p class="text-xs text-gray-600 mb-1">{{ $t('recipes.submit.proteins') }}</p>
-                <p class="text-lg font-semibold text-red-700">{{ formatDecimal(submission.proteins) }} <span class="text-xs">g</span></p>
+                <p class="text-lg font-semibold text-red-700">{{ formatDecimal(nutritionalValues.proteins) }} <span class="text-xs">g</span></p>
               </div>
-              <div v-if="submission.fibers" class="text-center p-3 bg-purple-50 rounded-lg">
+              <div v-if="nutritionalValues?.fibers" class="text-center p-3 bg-purple-50 rounded-lg">
                 <Icon name="mdi:leaf" class="text-2xl text-purple-600 mb-1 mx-auto" />
                 <p class="text-xs text-gray-600 mb-1">{{ $t('recipes.submit.fibers') }}</p>
-                <p class="text-lg font-semibold text-purple-700">{{ formatDecimal(submission.fibers) }} <span class="text-xs">g</span></p>
+                <p class="text-lg font-semibold text-purple-700">{{ formatDecimal(nutritionalValues.fibers) }} <span class="text-xs">g</span></p>
               </div>
             </div>
           </div>
@@ -253,6 +253,7 @@ const loading = ref(true)
 const error = ref('')
 const actionLoading = ref(false)
 const rejectionReason = ref('')
+const nutritionalValues = ref<any>(null)
 
 const formatDate = (dateString: string | null | undefined) => {
   if (!dateString) return ''
@@ -280,14 +281,7 @@ const formatDecimal = (value: number | string | null | undefined) => {
 }
 
 const hasNutritionalValues = computed(() => {
-  if (!submission.value) return false
-  return !!(
-    submission.value.calories ||
-    submission.value.carbohydrates ||
-    submission.value.fats ||
-    submission.value.proteins ||
-    submission.value.fibers
-  )
+  return !!(nutritionalValues.value && nutritionalValues.value.calories > 0)
 })
 
 const loadSubmission = async () => {
@@ -306,12 +300,19 @@ const loadSubmission = async () => {
     }
     
     const data = await response.json()
-    // Convert Decimal values to numbers for nutritional values
-    if (data.carbohydrates) data.carbohydrates = Number(data.carbohydrates)
-    if (data.fats) data.fats = Number(data.fats)
-    if (data.proteins) data.proteins = Number(data.proteins)
-    if (data.fibers) data.fibers = Number(data.fibers)
     submission.value = data
+    
+    // Load nutritional values (calculated on-the-fly)
+    try {
+      const nutritionResponse = await fetch(`${apiBase}/recipe-submissions/approve/${token.value}/nutrition`)
+      if (nutritionResponse.ok) {
+        nutritionalValues.value = await nutritionResponse.json()
+      }
+    } catch (e: any) {
+      // Silently fail if calculation fails
+      console.warn('Failed to calculate nutritional values:', e)
+      nutritionalValues.value = null
+    }
   } catch (e: any) {
     error.value = e.message || t('approval.loadError')
   } finally {

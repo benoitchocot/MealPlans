@@ -78,36 +78,42 @@
           </div>
 
           <!-- Nutritional Values -->
-          <div v-if="hasNutritionalValues" class="mb-6 pt-6 border-t border-gray-200">
+          <div class="mb-6 pt-6 border-t border-gray-200">
             <h3 class="text-lg font-semibold text-gray-900 mb-4">
               {{ $t('recipes.submit.nutritionalValuesPerServing') }}
             </h3>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-              <div v-if="adjustedRecipe.calories" class="text-center p-4 bg-green-50 rounded-lg">
+            <div v-if="loadingNutrition" class="text-center py-4">
+              <p class="text-gray-500">Chargement des valeurs nutritionnelles...</p>
+            </div>
+            <div v-else-if="nutritionalValues" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <div v-if="nutritionalValues.calories !== undefined && nutritionalValues.calories !== null" class="text-center p-4 bg-green-50 rounded-lg">
                 <Icon name="mdi:fire" class="text-2xl text-green-600 mb-2 mx-auto" />
                 <p class="text-xs text-gray-600 mb-1">{{ $t('recipes.submit.calories') }}</p>
-                <p class="text-xl font-semibold text-green-700">{{ adjustedRecipe.calories }} <span class="text-sm">kcal</span></p>
+                <p class="text-xl font-semibold text-green-700">{{ nutritionalValues.calories }} <span class="text-sm">kcal</span></p>
               </div>
-              <div v-if="adjustedRecipe.carbohydrates" class="text-center p-4 bg-blue-50 rounded-lg">
+              <div v-if="nutritionalValues.carbohydrates !== undefined && nutritionalValues.carbohydrates !== null" class="text-center p-4 bg-blue-50 rounded-lg">
                 <Icon name="mdi:grain" class="text-2xl text-blue-600 mb-2 mx-auto" />
                 <p class="text-xs text-gray-600 mb-1">{{ $t('recipes.submit.carbohydrates') }}</p>
-                <p class="text-xl font-semibold text-blue-700">{{ formatDecimal(adjustedRecipe.carbohydrates) }} <span class="text-sm">g</span></p>
+                <p class="text-xl font-semibold text-blue-700">{{ formatDecimal(nutritionalValues.carbohydrates) }} <span class="text-sm">g</span></p>
               </div>
-              <div v-if="adjustedRecipe.fats" class="text-center p-4 bg-yellow-50 rounded-lg">
+              <div v-if="nutritionalValues.fats !== undefined && nutritionalValues.fats !== null" class="text-center p-4 bg-yellow-50 rounded-lg">
                 <Icon name="mdi:oil" class="text-2xl text-yellow-600 mb-2 mx-auto" />
                 <p class="text-xs text-gray-600 mb-1">{{ $t('recipes.submit.fats') }}</p>
-                <p class="text-xl font-semibold text-yellow-700">{{ formatDecimal(adjustedRecipe.fats) }} <span class="text-sm">g</span></p>
+                <p class="text-xl font-semibold text-yellow-700">{{ formatDecimal(nutritionalValues.fats) }} <span class="text-sm">g</span></p>
               </div>
-              <div v-if="adjustedRecipe.proteins" class="text-center p-4 bg-red-50 rounded-lg">
+              <div v-if="nutritionalValues.proteins !== undefined && nutritionalValues.proteins !== null" class="text-center p-4 bg-red-50 rounded-lg">
                 <Icon name="mdi:food-drumstick" class="text-2xl text-red-600 mb-2 mx-auto" />
                 <p class="text-xs text-gray-600 mb-1">{{ $t('recipes.submit.proteins') }}</p>
-                <p class="text-xl font-semibold text-red-700">{{ formatDecimal(adjustedRecipe.proteins) }} <span class="text-sm">g</span></p>
+                <p class="text-xl font-semibold text-red-700">{{ formatDecimal(nutritionalValues.proteins) }} <span class="text-sm">g</span></p>
               </div>
-              <div v-if="adjustedRecipe.fibers" class="text-center p-4 bg-purple-50 rounded-lg">
+              <div v-if="nutritionalValues.fibers !== undefined && nutritionalValues.fibers !== null" class="text-center p-4 bg-purple-50 rounded-lg">
                 <Icon name="mdi:leaf" class="text-2xl text-purple-600 mb-2 mx-auto" />
                 <p class="text-xs text-gray-600 mb-1">{{ $t('recipes.submit.fibers') }}</p>
-                <p class="text-xl font-semibold text-purple-700">{{ formatDecimal(adjustedRecipe.fibers) }} <span class="text-sm">g</span></p>
+                <p class="text-xl font-semibold text-purple-700">{{ formatDecimal(nutritionalValues.fibers) }} <span class="text-sm">g</span></p>
               </div>
+            </div>
+            <div v-else class="text-center py-4">
+              <p class="text-gray-500 text-sm">Impossible de calculer les valeurs nutritionnelles</p>
             </div>
           </div>
 
@@ -331,6 +337,8 @@ const error = ref('')
 const submittingReview = ref(false)
 const deletingReview = ref(false)
 const reportingReview = ref<string | null>(null)
+const nutritionalValues = ref<any>(null)
+const loadingNutrition = ref(false)
 
 const newReview = ref({
   rating: 0,
@@ -363,12 +371,12 @@ const adjustedRecipe = computed(() => {
       ...ing,
       quantity: Number(ing.quantity) * ratio,
     })),
-    // Nutritional values are already per serving - display as-is
-    calories: recipe.value.calories || null,
-    carbohydrates: recipe.value.carbohydrates ? Number(recipe.value.carbohydrates) : null,
-    fats: recipe.value.fats ? Number(recipe.value.fats) : null,
-    proteins: recipe.value.proteins ? Number(recipe.value.proteins) : null,
-    fibers: recipe.value.fibers ? Number(recipe.value.fibers) : null,
+    // Nutritional values are calculated on-the-fly
+    calories: nutritionalValues.value?.calories || null,
+    carbohydrates: nutritionalValues.value?.carbohydrates || null,
+    fats: nutritionalValues.value?.fats || null,
+    proteins: nutritionalValues.value?.proteins || null,
+    fibers: nutritionalValues.value?.fibers || null,
   }
 })
 
@@ -400,16 +408,18 @@ const formatDecimal = (value: number | string | null | undefined) => {
   return num.toFixed(2).replace(/\.?0+$/, '')
 }
 
-// Check if recipe has nutritional values
+// Check if recipe has nutritional values (or is loading)
 const hasNutritionalValues = computed(() => {
-  if (!adjustedRecipe.value) return false
-  return !!(
-    adjustedRecipe.value.calories ||
-    adjustedRecipe.value.carbohydrates ||
-    adjustedRecipe.value.fats ||
-    adjustedRecipe.value.proteins ||
-    adjustedRecipe.value.fibers
-  )
+  // Always show section if loading
+  if (loadingNutrition.value) return true
+  // Show if we have nutritional values
+  if (!nutritionalValues.value) return false
+  // Display if we have at least one value (even if 0)
+  return !!(nutritionalValues.value.calories !== undefined ||
+    nutritionalValues.value.carbohydrates !== undefined ||
+    nutritionalValues.value.fats !== undefined ||
+    nutritionalValues.value.proteins !== undefined ||
+    nutritionalValues.value.fibers !== undefined)
 })
 
 // Format date
@@ -551,6 +561,19 @@ onMounted(async () => {
     
     // Load reviews
     await loadReviews()
+    
+    // Load nutritional values (calculated on-the-fly)
+    try {
+      loadingNutrition.value = true
+      const nutritionData = await api.get(`/recipes/${route.params.id}/nutrition`)
+      nutritionalValues.value = nutritionData
+    } catch (e: any) {
+      // Log error for debugging but don't break the page
+      console.error('Failed to calculate nutritional values:', e)
+      nutritionalValues.value = null
+    } finally {
+      loadingNutrition.value = false
+    }
   } catch (e: any) {
     error.value = e.message || $t('common.error')
   } finally {

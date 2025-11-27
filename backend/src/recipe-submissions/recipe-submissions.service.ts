@@ -2,10 +2,11 @@ import { Injectable, NotFoundException, BadRequestException } from '@nestjs/comm
 import { PrismaService } from '../prisma/prisma.service';
 import { RecipesService } from '../recipes/recipes.service';
 import { SubmitRecipeDto } from './dto/submit-recipe.dto';
-import { RecipeSubmissionStatus } from '@prisma/client';
+import { RecipeSubmissionStatus, Unit } from '@prisma/client';
 import { randomBytes } from 'crypto';
 import { EmailService } from './email.service';
 import { ConfigService } from '@nestjs/config';
+import { calculateNutritionalValues } from '../utils/nutrition-calculator';
 
 @Injectable()
 export class RecipeSubmissionsService {
@@ -282,6 +283,21 @@ export class RecipeSubmissionsService {
         });
 
         return { message: 'Recipe submission rejected' };
+    }
+
+    /**
+     * Calculate nutritional values for a recipe submission based on its ingredients
+     */
+    async calculateNutritionalValues(token: string) {
+        const submission = await this.findByToken(token);
+        
+        const ingredients = submission.ingredients.map((subIng) => ({
+            name: subIng.ingredientName || (subIng.ingredient ? subIng.ingredient.name : ''),
+            quantity: Number(subIng.quantity),
+            unit: subIng.unit as Unit,
+        }));
+
+        return calculateNutritionalValues(ingredients, submission.servings);
     }
 }
 

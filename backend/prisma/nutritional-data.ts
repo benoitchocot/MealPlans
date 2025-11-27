@@ -90,10 +90,9 @@ export const nutritionalData: Record<string, {
     'oeuf': { calories: 155, carbohydrates: 1.1, fats: 11, proteins: 13, fibers: 0, unit: 'piece' },
     
     // === HUILES & MATIÈRES GRASSES ===
-    'huile d\'olive': { calories: 884, carbohydrates: 0, fats: 100, proteins: 0, fibers: 0, unit: 'tbsp' }, // ~15ml = 133 kcal
+    'huile d\'olive': { calories: 884, carbohydrates: 0, fats: 100, proteins: 0, fibers: 0, unit: '100g' }, // 884 kcal pour 100g, 1 TBSP = 15g = 133 kcal
     'huile végétale': { calories: 884, carbohydrates: 0, fats: 100, proteins: 0, fibers: 0, unit: 'tbsp' },
     'huile de coco': { calories: 862, carbohydrates: 0, fats: 100, proteins: 0, fibers: 0, unit: '100ml' },
-    'lardons': { calories: 345, carbohydrates: 0, fats: 30, proteins: 17, fibers: 0, unit: '100g' },
     
     // === ÉPICES & AROMATES ===
     'cumin': { calories: 375, carbohydrates: 44, fats: 22, proteins: 18, fibers: 10, unit: 'tsp' }, // ~2g = 7.5 kcal
@@ -103,7 +102,6 @@ export const nutritionalData: Record<string, {
     'persil': { calories: 36, carbohydrates: 6, fats: 0.8, proteins: 3, fibers: 3.3, unit: 'bunch' },
     'basilic': { calories: 22, carbohydrates: 2.6, fats: 0.6, proteins: 3.2, fibers: 1.6, unit: 'bunch' },
     'coriandre': { calories: 23, carbohydrates: 3.7, fats: 0.5, proteins: 2.1, fibers: 2.8, unit: 'bunch' },
-    'ail': { calories: 149, carbohydrates: 33, fats: 0.5, proteins: 6.4, fibers: 2.1, unit: 'clove' },
     'gingembre': { calories: 80, carbohydrates: 18, fats: 0.8, proteins: 1.8, fibers: 2, unit: '100g' },
     'piment': { calories: 40, carbohydrates: 9, fats: 0.4, proteins: 1.9, fibers: 1.5, unit: 'piece' },
     'cannelle': { calories: 247, carbohydrates: 81, fats: 1.2, proteins: 4, fibers: 54, unit: 'tsp' },
@@ -172,11 +170,10 @@ export const nutritionalData: Record<string, {
     'amandes': { calories: 579, carbohydrates: 22, fats: 50, proteins: 21, fibers: 12, unit: '100g' },
     'jaune d\'oeuf': { calories: 322, carbohydrates: 3.6, fats: 27, proteins: 16, fibers: 0, unit: 'piece' },
     'sucre pour caraméliser': { calories: 387, carbohydrates: 100, fats: 0, proteins: 0, fibers: 0, unit: '100g' },
-    'pomme': { calories: 52, carbohydrates: 14, fats: 0.2, proteins: 0.3, fibers: 2.4, unit: 'piece' },
 };
 
 // Conversions pour les unités
-export const unitConversions: Record<string, { to100g: number } | { toUnit: number }> = {
+export const unitConversions: Record<string, Record<string, { to100g: number }>> = {
     'piece': {
         // Approximations pour les pièces
         'tomate': { to100g: 150 }, // 1 tomate ≈ 150g
@@ -265,120 +262,5 @@ export const unitConversions: Record<string, { to100g: number } | { toUnit: numb
         'pain': { to100g: 30 }, // 1 tranche ≈ 30g
     },
 };
-
-// Fonction pour convertir une quantité en grammes
-function convertToGrams(ingredientName: string, quantity: number, unit: string): number {
-    const normalizedName = ingredientName.toLowerCase().trim();
-    
-    // Si c'est déjà en grammes ou en ml (équivalent pour les liquides)
-    if (unit === 'G' || unit === 'KG' || unit === 'ML' || unit === 'L') {
-        if (unit === 'KG') return quantity * 1000;
-        if (unit === 'L') return quantity * 1000;
-        return quantity;
-    }
-    
-    // Conversions pour les unités spéciales
-    if (unit === 'PIECE' && unitConversions.piece[normalizedName]) {
-        const conversion = unitConversions.piece[normalizedName] as { to100g: number };
-        return (quantity * conversion.to100g);
-    }
-    
-    if (unit === 'TBSP' && unitConversions.tbsp[normalizedName]) {
-        const conversion = unitConversions.tbsp[normalizedName] as { to100g: number };
-        return (quantity * conversion.to100g);
-    }
-    
-    if (unit === 'TSP' && unitConversions.tsp[normalizedName]) {
-        const conversion = unitConversions.tsp[normalizedName] as { to100g: number };
-        return (quantity * conversion.to100g);
-    }
-    
-    if (unit === 'CLOVE' && unitConversions.clove[normalizedName]) {
-        const conversion = unitConversions.clove[normalizedName] as { to100g: number };
-        return (quantity * conversion.to100g);
-    }
-    
-    if (unit === 'PINCH' && unitConversions.pinch[normalizedName]) {
-        const conversion = unitConversions.pinch[normalizedName] as { to100g: number };
-        return (quantity * conversion.to100g);
-    }
-    
-    if (unit === 'BUNCH' && unitConversions.bunch[normalizedName]) {
-        const conversion = unitConversions.bunch[normalizedName] as { to100g: number };
-        return (quantity * conversion.to100g);
-    }
-    
-    if (unit === 'SLICE' && unitConversions.slice[normalizedName]) {
-        const conversion = unitConversions.slice[normalizedName] as { to100g: number };
-        return (quantity * conversion.to100g);
-    }
-    
-    // Valeurs par défaut si pas de conversion trouvée
-    console.warn(`No conversion found for ${ingredientName} in unit ${unit}, using default`);
-    return 0; // On ignore les ingrédients sans conversion
-}
-
-// Fonction pour calculer les valeurs nutritionnelles d'une recette
-export function calculateNutritionalValues(
-    ingredients: Array<{ name: string; quantity: number; unit: string }>,
-    servings: number
-): {
-    calories: number;
-    carbohydrates: number;
-    fats: number;
-    proteins: number;
-    fibers: number;
-} {
-    let totalCalories = 0;
-    let totalCarbohydrates = 0;
-    let totalFats = 0;
-    let totalProteins = 0;
-    let totalFibers = 0;
-    
-    for (const ing of ingredients) {
-        const normalizedName = ing.name.toLowerCase().trim();
-        const data = nutritionalData[normalizedName];
-        
-        if (!data) {
-            console.warn(`No nutritional data for ingredient: ${ing.name}`);
-            continue;
-        }
-        
-        // Convertir la quantité en grammes
-        let quantityInGrams = convertToGrams(ing.name, ing.quantity, ing.unit);
-        
-        // Calculer les valeurs nutritionnelles
-        if (data.unit === '100g') {
-            // Valeurs déjà par 100g
-            totalCalories += (data.calories * quantityInGrams) / 100;
-            totalCarbohydrates += (data.carbohydrates * quantityInGrams) / 100;
-            totalFats += (data.fats * quantityInGrams) / 100;
-            totalProteins += (data.proteins * quantityInGrams) / 100;
-            totalFibers += (data.fibers * quantityInGrams) / 100;
-        } else if (data.unit === 'piece' || data.unit === 'tbsp' || data.unit === 'tsp' || 
-                   data.unit === 'clove' || data.unit === 'slice' || data.unit === 'ml' ||
-                   data.unit === 'bunch' || data.unit === 'pinch') {
-            // Valeurs par unité
-            // On a déjà converti en grammes, donc on doit utiliser les valeurs par 100g
-            // Mais certaines données sont déjà par unité dans notre base
-            // Pour simplifier, on va utiliser un facteur de conversion
-            const factor = quantityInGrams / 100;
-            totalCalories += data.calories * factor;
-            totalCarbohydrates += data.carbohydrates * factor;
-            totalFats += data.fats * factor;
-            totalProteins += data.proteins * factor;
-            totalFibers += data.fibers * factor;
-        }
-    }
-    
-    // Diviser par le nombre de portions pour obtenir les valeurs par portion
-    return {
-        calories: Math.round(totalCalories / servings),
-        carbohydrates: Math.round(totalCarbohydrates / servings * 10) / 10,
-        fats: Math.round(totalFats / servings * 10) / 10,
-        proteins: Math.round(totalProteins / servings * 10) / 10,
-        fibers: Math.round(totalFibers / servings * 10) / 10,
-    };
-}
 
                                                                                                                                                                                                                                                                                                                                             
