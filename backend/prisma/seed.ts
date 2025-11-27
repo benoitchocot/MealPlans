@@ -174,13 +174,7 @@ async function main() {
             servings: 1, // Recipe for 1 person, quantities will be multiplied by householdSize
             tags: ['quick', 'italian', 'comfort_food'],
             toolsRequired: ['casserole'],
-            dietTypes: [],
-            calories: 729,
-            carbohydrates: 77,
-            fats: 29,
-            proteins: 38,
-            fibers: 3,
-            ingredients: {
+            dietTypes: [],            ingredients: {
                 create: [
                     { ingredientId: getIngredient('pâtes').id, quantity: 100, unit: Unit.G },
                     { ingredientId: getIngredient('lardons').id, quantity: 50, unit: Unit.G },
@@ -215,13 +209,7 @@ async function main() {
             servings: 1, // Recipe for 1 person, quantities will be multiplied by householdSize
             tags: ['vegetarian', 'healthy', 'french'],
             toolsRequired: ['casserole'],
-            dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],
-            calories: 145,
-            carbohydrates: 14,
-            fats: 9,
-            proteins: 3,
-            fibers: 4,
-            ingredients: {
+            dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],            ingredients: {
                 create: [
                     { ingredientId: getIngredient('aubergine').id, quantity: 0.33, unit: Unit.PIECE },
                     { ingredientId: getIngredient('courgette').id, quantity: 0.33, unit: Unit.PIECE },
@@ -260,13 +248,7 @@ async function main() {
             servings: 1, // Recipe for 1 person, quantities will be multiplied by householdSize
             tags: ['sunday_roast', 'family'],
             toolsRequired: ['oven'],
-            dietTypes: [],
-            calories: 643,
-            carbohydrates: 2,
-            fats: 31,
-            proteins: 76,
-            fibers: 0,
-            ingredients: {
+            dietTypes: [],            ingredients: {
                 create: [
                     { ingredientId: getIngredient('poulet').id, quantity: 375, unit: Unit.G },
                     { ingredientId: getIngredient('beurre').id, quantity: 12.5, unit: Unit.G },
@@ -303,13 +285,7 @@ async function main() {
             servings: 1, // Recipe for 1 person, quantities will be multiplied by householdSize
             tags: ['soup', 'healthy', 'batch_cooking'],
             toolsRequired: ['casserole'],
-            dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],
-            calories: 276,
-            carbohydrates: 47,
-            fats: 5,
-            proteins: 16,
-            fibers: 11,
-            ingredients: {
+            dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],            ingredients: {
                 create: [
                     { ingredientId: getIngredient('lentilles').id, quantity: 50, unit: Unit.G },
                     { ingredientId: getIngredient('carotte').id, quantity: 0.5, unit: Unit.PIECE },
@@ -349,13 +325,7 @@ async function main() {
             isAdaptable: false, // Cannot be adapted - fixed pan size
             tags: ['french', 'classic'],
             toolsRequired: ['oven'],
-            dietTypes: [],
-            calories: 432,
-            carbohydrates: 12,
-            fats: 29,
-            proteins: 17,
-            fibers: 0.5,
-            ingredients: {
+            dietTypes: [],            ingredients: {
                 create: [
                     { ingredientId: getIngredient('pâte feuilletée').id, quantity: 1, unit: Unit.PIECE },
                     { ingredientId: getIngredient('lardons').id, quantity: 200, unit: Unit.G },
@@ -393,13 +363,7 @@ async function main() {
             servings: 1, // Recipe for 1 person, quantities will be multiplied by householdSize
             tags: ['vegetarian', 'spicy', 'indian'],
             toolsRequired: ['casserole'],
-            dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],
-            calories: 288,
-            carbohydrates: 46,
-            fats: 9,
-            proteins: 10,
-            fibers: 11,
-            ingredients: {
+            dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],            ingredients: {
                 create: [
                     { ingredientId: getIngredient('pomme de terre').id, quantity: 75, unit: Unit.G },
                     { ingredientId: getIngredient('carotte').id, quantity: 0.5, unit: Unit.PIECE },
@@ -438,13 +402,7 @@ async function main() {
             servings: 1, // Recipe for 1 person, quantities will be multiplied by householdSize
             tags: ['quick', 'healthy', 'fish'],
             toolsRequired: ['oven'],
-            dietTypes: [DietType.PESCATARIAN],
-            calories: 336,
-            carbohydrates: 3,
-            fats: 19,
-            proteins: 33,
-            fibers: 0.5,
-            ingredients: {
+            dietTypes: [DietType.PESCATARIAN],            ingredients: {
                 create: [
                     { ingredientId: getIngredient('saumon').id, quantity: 150, unit: Unit.G },
                     { ingredientId: getIngredient('citron').id, quantity: 0.5, unit: Unit.PIECE },
@@ -479,13 +437,7 @@ async function main() {
             servings: 1, // Recipe for 1 person, quantities will be multiplied by householdSize
             tags: ['italian', 'comfort_food'],
             toolsRequired: ['casserole'],
-            dietTypes: [DietType.VEGETARIAN],
-            calories: 396,
-            carbohydrates: 56,
-            fats: 13,
-            proteins: 12,
-            fibers: 1.5,
-            ingredients: {
+            dietTypes: [DietType.VEGETARIAN],            ingredients: {
                 create: [
                     { ingredientId: getIngredient('riz').id, quantity: 75, unit: Unit.G },
                     { ingredientId: getIngredient('champignon').id, quantity: 100, unit: Unit.G },
@@ -580,13 +532,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['quick'],
         toolsRequired: ['casserole'],
-        dietTypes: [],
-        calories: 272,
-        carbohydrates: 1,
-        fats: 23,
-        proteins: 13,
-        fibers: 0,
-        ingredients: [
+        dietTypes: [],        ingredients: [
             { name: 'oeuf', quantity: 2, unit: Unit.PIECE },
             { name: 'beurre', quantity: 10, unit: Unit.G },
             { name: 'sel', quantity: 1, unit: Unit.PINCH },
@@ -610,13 +556,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['quick', 'healthy'],
         toolsRequired: [],
-        dietTypes: [],
-        calories: 392,
-        carbohydrates: 17,
-        fats: 21,
-        proteins: 31,
-        fibers: 2,
-        ingredients: [
+        dietTypes: [],        ingredients: [
             { name: 'salade', quantity: 0.5, unit: Unit.BUNCH },
             { name: 'poulet', quantity: 100, unit: Unit.G },
             { name: 'parmesan', quantity: 20, unit: Unit.G },
@@ -642,13 +582,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['quick', 'italian'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.VEGETARIAN],
-        calories: 416,
-        carbohydrates: 61,
-        fats: 11,
-        proteins: 12,
-        fibers: 4,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN],        ingredients: [
             { name: 'pâtes', quantity: 100, unit: Unit.G },
             { name: 'tomate', quantity: 2, unit: Unit.PIECE },
             { name: 'ail', quantity: 1, unit: Unit.CLOVE },
@@ -675,13 +609,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['quick', 'comfort_food'],
         toolsRequired: ['casserole'],
-        dietTypes: [],
-        calories: 471,
-        carbohydrates: 59,
-        fats: 11,
-        proteins: 33,
-        fibers: 1.5,
-        ingredients: [
+        dietTypes: [],        ingredients: [
             { name: 'riz', quantity: 80, unit: Unit.G },
             { name: 'poulet', quantity: 120, unit: Unit.G },
             { name: 'oignon', quantity: 0.5, unit: Unit.PIECE },
@@ -707,13 +635,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['vegetarian', 'french'],
         toolsRequired: ['oven'],
-        dietTypes: [DietType.VEGETARIAN],
-        calories: 241,
-        carbohydrates: 11,
-        fats: 17,
-        proteins: 10,
-        fibers: 2.5,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN],        ingredients: [
             { name: 'courgette', quantity: 1, unit: Unit.PIECE },
             { name: 'oignon', quantity: 0.5, unit: Unit.PIECE },
             { name: 'crème fraîche', quantity: 50, unit: Unit.ML },
@@ -741,13 +663,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['soup', 'healthy', 'vegetarian'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],
-        calories: 125,
-        carbohydrates: 26,
-        fats: 3,
-        proteins: 4,
-        fibers: 5,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],        ingredients: [
             { name: 'carotte', quantity: 1, unit: Unit.PIECE },
             { name: 'courgette', quantity: 0.5, unit: Unit.PIECE },
             { name: 'pomme de terre', quantity: 1, unit: Unit.PIECE },
@@ -775,13 +691,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['quick', 'fish'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.PESCATARIAN],
-        calories: 457,
-        carbohydrates: 60,
-        fats: 11,
-        proteins: 27,
-        fibers: 3.5,
-        ingredients: [
+        dietTypes: [DietType.PESCATARIAN],        ingredients: [
             { name: 'pâtes', quantity: 100, unit: Unit.G },
             { name: 'thon', quantity: 80, unit: Unit.G },
             { name: 'tomate concassée', quantity: 100, unit: Unit.G },
@@ -807,13 +717,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['quick'],
         toolsRequired: ['casserole'],
-        dietTypes: [],
-        calories: 287,
-        carbohydrates: 1,
-        fats: 26,
-        proteins: 14,
-        fibers: 0,
-        ingredients: [
+        dietTypes: [],        ingredients: [
             { name: 'oeuf', quantity: 2, unit: Unit.PIECE },
             { name: 'beurre', quantity: 10, unit: Unit.G },
             { name: 'crème fraîche', quantity: 15, unit: Unit.ML },
@@ -838,13 +742,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['quick', 'vegetarian', 'healthy'],
         toolsRequired: [],
-        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],
-        calories: 152,
-        carbohydrates: 9,
-        fats: 11,
-        proteins: 2,
-        fibers: 3,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],        ingredients: [
             { name: 'tomate', quantity: 2, unit: Unit.PIECE },
             { name: 'oignon', quantity: 0.25, unit: Unit.PIECE },
             { name: 'basilic', quantity: 0.25, unit: Unit.BUNCH },
@@ -870,13 +768,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['quick', 'healthy'],
         toolsRequired: ['casserole'],
-        dietTypes: [],
-        calories: 339,
-        carbohydrates: 9,
-        fats: 15,
-        proteins: 42,
-        fibers: 2,
-        ingredients: [
+        dietTypes: [],        ingredients: [
             { name: 'poulet', quantity: 120, unit: Unit.G },
             { name: 'courgette', quantity: 0.5, unit: Unit.PIECE },
             { name: 'poivron', quantity: 0.5, unit: Unit.PIECE },
@@ -903,13 +795,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['quick'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.VEGETARIAN],
-        calories: 509,
-        carbohydrates: 76,
-        fats: 20,
-        proteins: 17,
-        fibers: 3,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN],        ingredients: [
             { name: 'pâtes', quantity: 100, unit: Unit.G },
             { name: 'beurre', quantity: 20, unit: Unit.G },
             { name: 'parmesan', quantity: 15, unit: Unit.G },
@@ -932,13 +818,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['quick'],
         toolsRequired: ['casserole'],
-        dietTypes: [],
-        calories: 398,
-        carbohydrates: 62,
-        fats: 11,
-        proteins: 17,
-        fibers: 2.5,
-        ingredients: [
+        dietTypes: [],        ingredients: [
             { name: 'riz', quantity: 80, unit: Unit.G },
             { name: 'oeuf', quantity: 1, unit: Unit.PIECE },
             { name: 'petits pois', quantity: 30, unit: Unit.G },
@@ -965,13 +845,7 @@ async function main() {
         difficulty: Difficulty.MEDIUM,
         tags: ['french', 'comfort_food'],
         toolsRequired: ['oven'],
-        dietTypes: [DietType.VEGETARIAN],
-        calories: 373,
-        carbohydrates: 34,
-        fats: 22,
-        proteins: 8,
-        fibers: 3.5,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN],        ingredients: [
             { name: 'pomme de terre', quantity: 2, unit: Unit.PIECE },
             { name: 'crème fraîche', quantity: 100, unit: Unit.ML },
             { name: 'lait', quantity: 50, unit: Unit.ML },
@@ -999,13 +873,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['quick', 'vegetarian'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.VEGETARIAN],
-        calories: 465,
-        carbohydrates: 60,
-        fats: 18,
-        proteins: 18,
-        fibers: 3,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN],        ingredients: [
             { name: 'pâtes', quantity: 100, unit: Unit.G },
             { name: 'tomate', quantity: 1, unit: Unit.PIECE },
             { name: 'mozzarella', quantity: 50, unit: Unit.G },
@@ -1031,13 +899,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['quick', 'vegetarian'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.VEGETARIAN],
-        calories: 273,
-        carbohydrates: 4,
-        fats: 22,
-        proteins: 15,
-        fibers: 1,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN],        ingredients: [
             { name: 'oeuf', quantity: 2, unit: Unit.PIECE },
             { name: 'champignon', quantity: 50, unit: Unit.G },
             { name: 'beurre', quantity: 10, unit: Unit.G },
@@ -1062,13 +924,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['quick', 'spicy', 'vegetarian'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],
-        calories: 475,
-        carbohydrates: 75,
-        fats: 19,
-        proteins: 11,
-        fibers: 3,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],        ingredients: [
             { name: 'pâtes', quantity: 100, unit: Unit.G },
             { name: 'ail', quantity: 2, unit: Unit.CLOVE },
             { name: 'huile d\'olive', quantity: 2, unit: Unit.TBSP },
@@ -1094,13 +950,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['vegetarian', 'healthy'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],
-        calories: 285,
-        carbohydrates: 58,
-        fats: 6,
-        proteins: 6,
-        fibers: 3,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],        ingredients: [
             { name: 'riz', quantity: 80, unit: Unit.G },
             { name: 'carotte', quantity: 0.5, unit: Unit.PIECE },
             { name: 'courgette', quantity: 0.5, unit: Unit.PIECE },
@@ -1127,13 +977,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['soup', 'french'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.VEGETARIAN],
-        calories: 261,
-        carbohydrates: 25,
-        fats: 16,
-        proteins: 10,
-        fibers: 2,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN],        ingredients: [
             { name: 'oignon', quantity: 2, unit: Unit.PIECE },
             { name: 'beurre', quantity: 20, unit: Unit.G },
             { name: 'bouillon de légumes', quantity: 300, unit: Unit.ML },
@@ -1160,13 +1004,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['vegetarian', 'healthy'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],
-        calories: 387,
-        carbohydrates: 54,
-        fats: 12,
-        proteins: 12,
-        fibers: 5,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],        ingredients: [
             { name: 'pâtes', quantity: 100, unit: Unit.G },
             { name: 'courgette', quantity: 0.5, unit: Unit.PIECE },
             { name: 'aubergine', quantity: 0.33, unit: Unit.PIECE },
@@ -1193,13 +1031,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['quick'],
         toolsRequired: ['casserole'],
-        dietTypes: [],
-        calories: 357,
-        carbohydrates: 32,
-        fats: 19,
-        proteins: 16,
-        fibers: 1.5,
-        ingredients: [
+        dietTypes: [],        ingredients: [
             { name: 'oeuf', quantity: 2, unit: Unit.PIECE },
             { name: 'pain', quantity: 2, unit: Unit.SLICE },
             { name: 'beurre', quantity: 10, unit: Unit.G },
@@ -1223,13 +1055,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['healthy', 'vegetarian'],
         toolsRequired: [],
-        dietTypes: [DietType.VEGETARIAN],
-        calories: 318,
-        carbohydrates: 12,
-        fats: 21,
-        proteins: 21,
-        fibers: 3,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN],        ingredients: [
             { name: 'salade', quantity: 0.5, unit: Unit.BUNCH },
             { name: 'tomate', quantity: 1, unit: Unit.PIECE },
             { name: 'oeuf', quantity: 1, unit: Unit.PIECE },
@@ -1257,13 +1083,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['dessert'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.VEGETARIAN],
-        calories: 234,
-        carbohydrates: 38,
-        fats: 5,
-        proteins: 6,
-        fibers: 0,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN],        ingredients: [
             { name: 'riz', quantity: 50, unit: Unit.G },
             { name: 'lait', quantity: 300, unit: Unit.ML },
             { name: 'sucre', quantity: 20, unit: Unit.G },
@@ -1287,13 +1107,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['vegetarian', 'healthy'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.VEGETARIAN],
-        calories: 449,
-        carbohydrates: 62,
-        fats: 16,
-        proteins: 18,
-        fibers: 6,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN],        ingredients: [
             { name: 'pâtes', quantity: 100, unit: Unit.G },
             { name: 'brocoli', quantity: 100, unit: Unit.G },
             { name: 'crème fraîche', quantity: 50, unit: Unit.ML },
@@ -1319,13 +1133,7 @@ async function main() {
         difficulty: Difficulty.MEDIUM,
         tags: ['vegetarian', 'spanish'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.VEGETARIAN],
-        calories: 460,
-        carbohydrates: 28,
-        fats: 25,
-        proteins: 19,
-        fibers: 2.5,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN],        ingredients: [
             { name: 'oeuf', quantity: 3, unit: Unit.PIECE },
             { name: 'pomme de terre', quantity: 1, unit: Unit.PIECE },
             { name: 'oignon', quantity: 0.5, unit: Unit.PIECE },
@@ -1350,13 +1158,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['vegetarian', 'italian'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.VEGETARIAN],
-        calories: 521,
-        carbohydrates: 76,
-        fats: 18,
-        proteins: 18,
-        fibers: 3,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN],        ingredients: [
             { name: 'pâtes', quantity: 100, unit: Unit.G },
             { name: 'oeuf', quantity: 1, unit: Unit.PIECE },
             { name: 'parmesan', quantity: 25, unit: Unit.G },
@@ -1383,13 +1185,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['quick'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],
-        calories: 302,
-        carbohydrates: 49,
-        fats: 11,
-        proteins: 6,
-        fibers: 1,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],        ingredients: [
             { name: 'riz', quantity: 80, unit: Unit.G },
             { name: 'oignon', quantity: 0.5, unit: Unit.PIECE },
             { name: 'bouillon de légumes', quantity: 200, unit: Unit.ML },
@@ -1415,13 +1211,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['vegetarian', 'healthy'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],
-        calories: 352,
-        carbohydrates: 60,
-        fats: 12,
-        proteins: 7,
-        fibers: 3.5,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],        ingredients: [
             { name: 'riz', quantity: 80, unit: Unit.G },
             { name: 'tomate', quantity: 1, unit: Unit.PIECE },
             { name: 'poivron', quantity: 0.5, unit: Unit.PIECE },
@@ -1448,13 +1238,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['quick', 'vegetarian'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.VEGETARIAN],
-        calories: 487,
-        carbohydrates: 66,
-        fats: 16,
-        proteins: 20,
-        fibers: 6,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN],        ingredients: [
             { name: 'pâtes', quantity: 100, unit: Unit.G },
             { name: 'petits pois', quantity: 80, unit: Unit.G },
             { name: 'crème fraîche', quantity: 50, unit: Unit.ML },
@@ -1479,13 +1263,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['quick'],
         toolsRequired: ['casserole'],
-        dietTypes: [],
-        calories: 232,
-        carbohydrates: 1,
-        fats: 19,
-        proteins: 13,
-        fibers: 0,
-        ingredients: [
+        dietTypes: [],        ingredients: [
             { name: 'oeuf', quantity: 2, unit: Unit.PIECE },
             { name: 'beurre', quantity: 10, unit: Unit.G },
             { name: 'sel', quantity: 1, unit: Unit.PINCH },
@@ -1509,13 +1287,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['quick', 'fish'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.PESCATARIAN],
-        calories: 561,
-        carbohydrates: 63,
-        fats: 22,
-        proteins: 34,
-        fibers: 3,
-        ingredients: [
+        dietTypes: [DietType.PESCATARIAN],        ingredients: [
             { name: 'pâtes', quantity: 100, unit: Unit.G },
             { name: 'saumon', quantity: 100, unit: Unit.G },
             { name: 'crème fraîche', quantity: 50, unit: Unit.ML },
@@ -1541,13 +1313,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['fish'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.PESCATARIAN],
-        calories: 378,
-        carbohydrates: 59,
-        fats: 9,
-        proteins: 26,
-        fibers: 1.5,
-        ingredients: [
+        dietTypes: [DietType.PESCATARIAN],        ingredients: [
             { name: 'riz', quantity: 80, unit: Unit.G },
             { name: 'crevettes', quantity: 80, unit: Unit.G },
             { name: 'oignon', quantity: 0.5, unit: Unit.PIECE },
@@ -1573,13 +1339,7 @@ async function main() {
         difficulty: Difficulty.EASY,
         tags: ['vegetarian', 'healthy'],
         toolsRequired: ['oven', 'casserole'],
-        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],
-        calories: 495,
-        carbohydrates: 75,
-        fats: 19,
-        proteins: 11,
-        fibers: 6,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],        ingredients: [
             { name: 'pâtes', quantity: 100, unit: Unit.G },
             { name: 'courgette', quantity: 0.5, unit: Unit.PIECE },
             { name: 'aubergine', quantity: 0.33, unit: Unit.PIECE },

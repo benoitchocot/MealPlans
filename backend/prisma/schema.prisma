@@ -133,12 +133,6 @@ model Recipe {
   tags          String[] // ["quick", "batch_cooking", "one_pot"]
   toolsRequired String[]   @map("tools_required") // ["oven", "blender"]
   dietTypes     DietType[] @map("diet_types")
-  // Nutritional values (per serving, nullable)
-  calories      Int? // Total calories per serving
-  carbohydrates Decimal?   @db.Decimal(10, 2) // Grams of carbohydrates per serving
-  fats          Decimal?   @db.Decimal(10, 2) // Grams of fats per serving
-  proteins      Decimal?   @db.Decimal(10, 2) // Grams of proteins per serving
-  fibers        Decimal?   @db.Decimal(10, 2) // Grams of fibers per serving
   createdAt     DateTime   @default(now()) @map("created_at")
   updatedAt     DateTime   @updatedAt @map("updated_at")
 
@@ -173,12 +167,6 @@ model RecipeSubmission {
   tags          String[]
   toolsRequired String[]   @map("tools_required")
   dietTypes     DietType[] @map("diet_types")
-  // Nutritional values (per serving, nullable)
-  calories      Int?
-  carbohydrates Decimal?   @db.Decimal(10, 2)
-  fats          Decimal?   @db.Decimal(10, 2)
-  proteins      Decimal?   @db.Decimal(10, 2)
-  fibers        Decimal?   @db.Decimal(10, 2)
 
   // Submission metadata
   submittedAt     DateTime  @default(now()) @map("submitted_at")

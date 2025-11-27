@@ -242,89 +242,6 @@
           </div>
         </div>
 
-        <!-- Nutritional Values -->
-        <div class="card">
-          <h3 class="text-xl font-semibold mb-2">{{ $t('recipes.submit.nutritionalValues') }}</h3>
-          <p class="text-sm text-gray-600 mb-6">{{ $t('recipes.submit.nutritionalValuesDescription') }}</p>
-          
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div>
-              <label for="calories" class="block text-sm font-medium text-gray-700 mb-1">
-                {{ $t('recipes.submit.calories') }} ({{ $t('recipes.submit.optional') }})
-              </label>
-              <input
-                id="calories"
-                v-model.number="formData.calories"
-                type="number"
-                min="0"
-                step="1"
-                class="input"
-                placeholder="0"
-              />
-            </div>
-
-            <div>
-              <label for="carbohydrates" class="block text-sm font-medium text-gray-700 mb-1">
-                {{ $t('recipes.submit.carbohydrates') }} ({{ $t('recipes.submit.optional') }})
-              </label>
-              <input
-                id="carbohydrates"
-                v-model.number="formData.carbohydrates"
-                type="number"
-                min="0"
-                step="0.01"
-                class="input"
-                placeholder="0.00"
-              />
-            </div>
-
-            <div>
-              <label for="fats" class="block text-sm font-medium text-gray-700 mb-1">
-                {{ $t('recipes.submit.fats') }} ({{ $t('recipes.submit.optional') }})
-              </label>
-              <input
-                id="fats"
-                v-model.number="formData.fats"
-                type="number"
-                min="0"
-                step="0.01"
-                class="input"
-                placeholder="0.00"
-              />
-            </div>
-
-            <div>
-              <label for="proteins" class="block text-sm font-medium text-gray-700 mb-1">
-                {{ $t('recipes.submit.proteins') }} ({{ $t('recipes.submit.optional') }})
-              </label>
-              <input
-                id="proteins"
-                v-model.number="formData.proteins"
-                type="number"
-                min="0"
-                step="0.01"
-                class="input"
-                placeholder="0.00"
-              />
-            </div>
-
-            <div>
-              <label for="fibers" class="block text-sm font-medium text-gray-700 mb-1">
-                {{ $t('recipes.submit.fibers') }} ({{ $t('recipes.submit.optional') }})
-              </label>
-              <input
-                id="fibers"
-                v-model.number="formData.fibers"
-                type="number"
-                min="0"
-                step="0.01"
-                class="input"
-                placeholder="0.00"
-              />
-            </div>
-          </div>
-        </div>
-
         <!-- Ingredients -->
         <div class="card">
           <div class="flex items-center justify-between mb-6">
@@ -529,11 +446,6 @@ const formData = ref({
   tags: [] as string[],
   toolsRequired: [] as string[],
   dietTypes: [] as string[],
-  calories: undefined as number | undefined,
-  carbohydrates: undefined as number | undefined,
-  fats: undefined as number | undefined,
-  proteins: undefined as number | undefined,
-  fibers: undefined as number | undefined,
   ingredients: [] as Array<{
     ingredientName: string
     quantity: number
@@ -825,21 +737,6 @@ const handleSubmit = async () => {
     }
 
     // Include nutritional values if they are set (including 0, but not undefined)
-    if (formData.value.calories !== undefined) {
-      payload.calories = formData.value.calories || null
-    }
-    if (formData.value.carbohydrates !== undefined) {
-      payload.carbohydrates = formData.value.carbohydrates || null
-    }
-    if (formData.value.fats !== undefined) {
-      payload.fats = formData.value.fats || null
-    }
-    if (formData.value.proteins !== undefined) {
-      payload.proteins = formData.value.proteins || null
-    }
-    if (formData.value.fibers !== undefined) {
-      payload.fibers = formData.value.fibers || null
-    }
 
     // Include recipeId if in edit mode
     if (recipeId.value) {
@@ -886,11 +783,6 @@ onMounted(async () => {
         formData.value.tags = recipe.tags || []
         formData.value.toolsRequired = recipe.toolsRequired || []
         formData.value.dietTypes = recipe.dietTypes || []
-        formData.value.calories = recipe.calories ?? undefined
-        formData.value.carbohydrates = recipe.carbohydrates ? Number(recipe.carbohydrates) : undefined
-        formData.value.fats = recipe.fats ? Number(recipe.fats) : undefined
-        formData.value.proteins = recipe.proteins ? Number(recipe.proteins) : undefined
-        formData.value.fibers = recipe.fibers ? Number(recipe.fibers) : undefined
         
         // Pre-fill ingredients
         formData.value.ingredients = recipe.ingredients.map((ing: any) => ({

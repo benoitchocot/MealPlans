@@ -42,13 +42,7 @@ export const extendedRecipes: RecipeInput[] = [
         servings: 4,
         tags: ['french', 'classic', 'comfort_food'],
         toolsRequired: ['casserole'],
-        dietTypes: [],
-        calories: 941,
-        carbohydrates: 88,
-        fats: 28.2,
-        proteins: 78.7,
-        fibers: 31.4,
-        ingredients: [
+        dietTypes: [],        ingredients: [
             { name: 'poulet', quantity: 800, unit: Unit.G },
             { name: 'vin rouge', quantity: 500, unit: Unit.ML },
             { name: 'champignon', quantity: 200, unit: Unit.G },
@@ -81,13 +75,7 @@ export const extendedRecipes: RecipeInput[] = [
         servings: 6,
         tags: ['french', 'classic', 'comfort_food', 'sunday_roast'],
         toolsRequired: ['casserole', 'oven'],
-        dietTypes: [],
-        calories: 1171,
-        carbohydrates: 107.4,
-        fats: 50.8,
-        proteins: 71.8,
-        fibers: 34.4,
-        ingredients: [
+        dietTypes: [],        ingredients: [
             { name: 'boeuf haché', quantity: 1200, unit: Unit.G },
             { name: 'vin rouge', quantity: 750, unit: Unit.ML },
             { name: 'champignon', quantity: 300, unit: Unit.G },
@@ -123,13 +111,7 @@ export const extendedRecipes: RecipeInput[] = [
         servings: 4,
         tags: ['french', 'vegetarian', 'healthy'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],
-        calories: 1255,
-        carbohydrates: 78.9,
-        fats: 105.8,
-        proteins: 16.7,
-        fibers: 25.3,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],        ingredients: [
             { name: 'aubergine', quantity: 2, unit: Unit.PIECE },
             { name: 'courgette', quantity: 2, unit: Unit.PIECE },
             { name: 'poivron', quantity: 2, unit: Unit.PIECE },
@@ -162,13 +144,7 @@ export const extendedRecipes: RecipeInput[] = [
         isAdaptable: false,
         tags: ['french', 'classic'],
         toolsRequired: ['oven'],
-        dietTypes: [DietType.VEGETARIAN],
-        calories: 260,
-        carbohydrates: 33.8,
-        fats: 11,
-        proteins: 1.3,
-        fibers: 2.6,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN],        ingredients: [
             { name: 'pomme', quantity: 8, unit: Unit.PIECE },
             { name: 'pâte feuilletée', quantity: 1, unit: Unit.PIECE },
             { name: 'sucre', quantity: 100, unit: Unit.G },
@@ -195,13 +171,7 @@ export const extendedRecipes: RecipeInput[] = [
         servings: 4,
         tags: ['italian', 'vegetarian', 'comfort_food'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.VEGETARIAN],
-        calories: 1086,
-        carbohydrates: 110.1,
-        fats: 64,
-        proteins: 20.1,
-        fibers: 9.8,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN],        ingredients: [
             { name: 'riz', quantity: 350, unit: Unit.G },
             { name: 'champignon', quantity: 300, unit: Unit.G },
             { name: 'oignon', quantity: 1, unit: Unit.PIECE },
@@ -233,13 +203,7 @@ export const extendedRecipes: RecipeInput[] = [
         servings: 6,
         tags: ['italian', 'classic', 'comfort_food', 'family'],
         toolsRequired: ['casserole', 'oven'],
-        dietTypes: [],
-        calories: 1280,
-        carbohydrates: 96.1,
-        fats: 74.4,
-        proteins: 60.5,
-        fibers: 9.4,
-        ingredients: [
+        dietTypes: [],        ingredients: [
             { name: 'pâtes', quantity: 400, unit: Unit.G },
             { name: 'boeuf haché', quantity: 600, unit: Unit.G },
             { name: 'tomate concassée', quantity: 500, unit: Unit.G },
@@ -273,13 +237,7 @@ export const extendedRecipes: RecipeInput[] = [
         servings: 4,
         tags: ['italian', 'quick', 'comfort_food'],
         toolsRequired: ['casserole'],
-        dietTypes: [],
-        calories: 932,
-        carbohydrates: 109.1,
-        fats: 36.4,
-        proteins: 49,
-        fibers: 15.5,
-        ingredients: [
+        dietTypes: [],        ingredients: [
             { name: 'pâtes', quantity: 400, unit: Unit.G },
             { name: 'lardons', quantity: 200, unit: Unit.G },
             { name: 'oeuf', quantity: 4, unit: Unit.PIECE },
@@ -305,13 +263,7 @@ export const extendedRecipes: RecipeInput[] = [
         servings: 4,
         tags: ['italian', 'quick', 'spicy', 'vegetarian'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],
-        calories: 416,
-        carbohydrates: 61,
-        fats: 11,
-        proteins: 12,
-        fibers: 4,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],        ingredients: [
             { name: 'pâtes', quantity: 400, unit: Unit.G },
             { name: 'tomate concassée', quantity: 500, unit: Unit.G },
             { name: 'ail', quantity: 4, unit: Unit.CLOVE },
@@ -339,13 +291,7 @@ export const extendedRecipes: RecipeInput[] = [
         servings: 4,
         tags: ['vegetarian', 'healthy', 'indian'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],
-        calories: 1321,
-        carbohydrates: 82.9,
-        fats: 112.4,
-        proteins: 21.3,
-        fibers: 26.7,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],        ingredients: [
             { name: 'courgette', quantity: 2, unit: Unit.PIECE },
             { name: 'aubergine', quantity: 1, unit: Unit.PIECE },
             { name: 'poivron', quantity: 2, unit: Unit.PIECE },
@@ -377,13 +323,7 @@ export const extendedRecipes: RecipeInput[] = [
         servings: 4,
         tags: ['vegetarian', 'healthy', 'quick'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],
-        calories: 947,
-        carbohydrates: 56.9,
-        fats: 79.2,
-        proteins: 11.2,
-        fibers: 12.3,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],        ingredients: [
             { name: 'quinoa', quantity: 200, unit: Unit.G },
             { name: 'tomate', quantity: 3, unit: Unit.PIECE },
             { name: 'concombre', quantity: 1, unit: Unit.PIECE },
@@ -414,13 +354,7 @@ export const extendedRecipes: RecipeInput[] = [
         servings: 4,
         tags: ['vegetarian', 'healthy'],
         toolsRequired: ['oven'],
-        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],
-        calories: 1612,
-        carbohydrates: 168.7,
-        fats: 93.5,
-        proteins: 41.4,
-        fibers: 34.5,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],        ingredients: [
             { name: 'pois chiches', quantity: 400, unit: Unit.G },
             { name: 'carotte', quantity: 2, unit: Unit.PIECE },
             { name: 'oignon', quantity: 1, unit: Unit.PIECE },
@@ -454,13 +388,7 @@ export const extendedRecipes: RecipeInput[] = [
         servings: 2,
         tags: ['quick', 'healthy'],
         toolsRequired: [],
-        dietTypes: [],
-        calories: 322,
-        carbohydrates: 37.6,
-        fats: 6.3,
-        proteins: 37.7,
-        fibers: 13.9,
-        ingredients: [
+        dietTypes: [],        ingredients: [
             { name: 'poulet', quantity: 200, unit: Unit.G },
             { name: 'tortilla', quantity: 2, unit: Unit.PIECE },
             { name: 'salade', quantity: 0.25, unit: Unit.BUNCH },
@@ -488,13 +416,7 @@ export const extendedRecipes: RecipeInput[] = [
         servings: 4,
         tags: ['quick', 'vegetarian'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.VEGETARIAN],
-        calories: 471,
-        carbohydrates: 35,
-        fats: 32,
-        proteins: 19,
-        fibers: 5,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN],        ingredients: [
             { name: 'oeuf', quantity: 6, unit: Unit.PIECE },
             { name: 'pomme de terre', quantity: 500, unit: Unit.G },
             { name: 'oignon', quantity: 1, unit: Unit.PIECE },
@@ -520,13 +442,7 @@ export const extendedRecipes: RecipeInput[] = [
         servings: 2,
         tags: ['quick'],
         toolsRequired: [],
-        dietTypes: [],
-        calories: 1820,
-        carbohydrates: 181.7,
-        fats: 96.6,
-        proteins: 61,
-        fibers: 21.3,
-        ingredients: [
+        dietTypes: [],        ingredients: [
             { name: 'pain', quantity: 6, unit: Unit.SLICE },
             { name: 'poulet', quantity: 150, unit: Unit.G },
             { name: 'lardons', quantity: 50, unit: Unit.G },
@@ -556,13 +472,7 @@ export const extendedRecipes: RecipeInput[] = [
         servings: 2,
         tags: ['healthy', 'fish', 'quick'],
         toolsRequired: ['oven'],
-        dietTypes: [DietType.PESCATARIAN],
-        calories: 1474,
-        carbohydrates: 43.7,
-        fats: 126.1,
-        proteins: 57,
-        fibers: 16.1,
-        ingredients: [
+        dietTypes: [DietType.PESCATARIAN],        ingredients: [
             { name: 'saumon', quantity: 400, unit: Unit.G },
             { name: 'courgette', quantity: 1, unit: Unit.PIECE },
             { name: 'carotte', quantity: 1, unit: Unit.PIECE },
@@ -590,13 +500,7 @@ export const extendedRecipes: RecipeInput[] = [
         servings: 2,
         tags: ['healthy', 'quick'],
         toolsRequired: ['oven'],
-        dietTypes: [],
-        calories: 1778,
-        carbohydrates: 147.6,
-        fats: 108.9,
-        proteins: 68.1,
-        fibers: 22.9,
-        ingredients: [
+        dietTypes: [],        ingredients: [
             { name: 'poulet', quantity: 300, unit: Unit.G },
             { name: 'riz', quantity: 150, unit: Unit.G },
             { name: 'brocoli', quantity: 200, unit: Unit.G },
@@ -626,13 +530,7 @@ export const extendedRecipes: RecipeInput[] = [
         servings: 4,
         tags: ['healthy', 'soup', 'vegetarian'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],
-        calories: 6344,
-        carbohydrates: 1303.7,
-        fats: 58.9,
-        proteins: 154.7,
-        fibers: 174.5,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],        ingredients: [
             { name: 'carotte', quantity: 3, unit: Unit.PIECE },
             { name: 'courgette', quantity: 2, unit: Unit.PIECE },
             { name: 'pomme de terre', quantity: 300, unit: Unit.G },
@@ -664,13 +562,7 @@ export const extendedRecipes: RecipeInput[] = [
         servings: 2,
         tags: ['fish', 'healthy', 'quick'],
         toolsRequired: ['oven'],
-        dietTypes: [DietType.PESCATARIAN],
-        calories: 1347,
-        carbohydrates: 71.1,
-        fats: 103.9,
-        proteins: 48.8,
-        fibers: 16.7,
-        ingredients: [
+        dietTypes: [DietType.PESCATARIAN],        ingredients: [
             { name: 'cabillaud', quantity: 400, unit: Unit.G },
             { name: 'citron', quantity: 1, unit: Unit.PIECE },
             { name: 'aneth', quantity: 0.25, unit: Unit.BUNCH },
@@ -698,13 +590,7 @@ export const extendedRecipes: RecipeInput[] = [
         servings: 2,
         tags: ['fish', 'quick'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.PESCATARIAN],
-        calories: 351,
-        carbohydrates: 3,
-        fats: 19,
-        proteins: 32,
-        fibers: 0,
-        ingredients: [
+        dietTypes: [DietType.PESCATARIAN],        ingredients: [
             { name: 'crevettes', quantity: 300, unit: Unit.G },
             { name: 'ail', quantity: 4, unit: Unit.CLOVE },
             { name: 'persil', quantity: 0.5, unit: Unit.BUNCH },
@@ -734,13 +620,7 @@ export const extendedRecipes: RecipeInput[] = [
         servings: 6,
         tags: ['comfort_food', 'spicy', 'one_pot'],
         toolsRequired: ['casserole'],
-        dietTypes: [],
-        calories: 1055,
-        carbohydrates: 90.5,
-        fats: 59,
-        proteins: 54.2,
-        fibers: 23.2,
-        ingredients: [
+        dietTypes: [],        ingredients: [
             { name: 'boeuf haché', quantity: 600, unit: Unit.G },
             { name: 'haricots rouges', quantity: 400, unit: Unit.G },
             { name: 'tomate concassée', quantity: 500, unit: Unit.G },
@@ -771,13 +651,7 @@ export const extendedRecipes: RecipeInput[] = [
         servings: 4,
         tags: ['comfort_food', 'one_pot'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.HALAL],
-        calories: 1339,
-        carbohydrates: 38.3,
-        fats: 96.6,
-        proteins: 88.4,
-        fibers: 14.3,
-        ingredients: [
+        dietTypes: [DietType.HALAL],        ingredients: [
             { name: 'poulet', quantity: 1000, unit: Unit.G },
             { name: 'oignon', quantity: 2, unit: Unit.PIECE },
             { name: 'citron confit', quantity: 2, unit: Unit.PIECE },
@@ -808,13 +682,7 @@ export const extendedRecipes: RecipeInput[] = [
         servings: 2,
         tags: ['quick', 'spicy', 'fish'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.PESCATARIAN],
-        calories: 2078,
-        carbohydrates: 101.9,
-        fats: 162.7,
-        proteins: 59.7,
-        fibers: 5.9,
-        ingredients: [
+        dietTypes: [DietType.PESCATARIAN],        ingredients: [
             { name: 'nouilles de riz', quantity: 200, unit: Unit.G },
             { name: 'crevettes', quantity: 200, unit: Unit.G },
             { name: 'oeuf', quantity: 2, unit: Unit.PIECE },
@@ -847,13 +715,7 @@ export const extendedRecipes: RecipeInput[] = [
         isAdaptable: false,
         tags: ['italian', 'classic'],
         toolsRequired: [],
-        dietTypes: [DietType.VEGETARIAN],
-        calories: 1659,
-        carbohydrates: 230.9,
-        fats: 66.3,
-        proteins: 35.4,
-        fibers: 7.1,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN],        ingredients: [
             { name: 'mascarpone', quantity: 500, unit: Unit.G },
             { name: 'oeuf', quantity: 4, unit: Unit.PIECE },
             { name: 'sucre', quantity: 80, unit: Unit.G },
@@ -880,13 +742,7 @@ export const extendedRecipes: RecipeInput[] = [
         isAdaptable: false,
         tags: ['classic'],
         toolsRequired: ['oven'],
-        dietTypes: [DietType.VEGETARIAN],
-        calories: 363,
-        carbohydrates: 30.9,
-        fats: 23.5,
-        proteins: 6.1,
-        fibers: 2.6,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN],        ingredients: [
             { name: 'chocolat noir', quantity: 200, unit: Unit.G },
             { name: 'beurre', quantity: 150, unit: Unit.G },
             { name: 'sucre', quantity: 200, unit: Unit.G },
@@ -914,13 +770,7 @@ export const extendedRecipes: RecipeInput[] = [
         servings: 4,
         tags: ['quick'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.VEGETARIAN],
-        calories: 332,
-        carbohydrates: 49.4,
-        fats: 10,
-        proteins: 10.7,
-        fibers: 1.6,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN],        ingredients: [
             { name: 'farine', quantity: 200, unit: Unit.G },
             { name: 'lait', quantity: 250, unit: Unit.ML },
             { name: 'oeuf', quantity: 1, unit: Unit.PIECE },
@@ -947,13 +797,7 @@ export const extendedRecipes: RecipeInput[] = [
         servings: 2,
         tags: ['healthy', 'quick', 'vegetarian'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],
-        calories: 421,
-        carbohydrates: 56.6,
-        fats: 15.4,
-        proteins: 18.1,
-        fibers: 7.8,
-        ingredients: [
+        dietTypes: [DietType.VEGETARIAN, DietType.VEGAN],        ingredients: [
             { name: 'flocons d\'avoine', quantity: 100, unit: Unit.G },
             { name: 'lait', quantity: 400, unit: Unit.ML },
             { name: 'banane', quantity: 1, unit: Unit.PIECE },
@@ -979,13 +823,7 @@ export const extendedRecipes: RecipeInput[] = [
         servings: 6,
         tags: ['italian', 'comfort_food'],
         toolsRequired: ['casserole'],
-        dietTypes: [],
-        calories: 789,
-        carbohydrates: 40.4,
-        fats: 53.3,
-        proteins: 39.8,
-        fibers: 8.7,
-        ingredients: [
+        dietTypes: [],        ingredients: [
             { name: 'boeuf haché', quantity: 750, unit: Unit.G },
             { name: 'tomate concassée', quantity: 750, unit: Unit.G },
             { name: 'oignon', quantity: 2, unit: Unit.PIECE },
@@ -1017,13 +855,7 @@ export const extendedRecipes: RecipeInput[] = [
         servings: 6,
         tags: ['indian', 'spicy', 'comfort_food'],
         toolsRequired: ['casserole'],
-        dietTypes: [DietType.HALAL],
-        calories: 1100,
-        carbohydrates: 61.6,
-        fats: 67,
-        proteins: 79,
-        fibers: 23.7,
-        ingredients: [
+        dietTypes: [DietType.HALAL],        ingredients: [
             { name: 'poulet', quantity: 1200, unit: Unit.G },
             { name: 'oignon', quantity: 2, unit: Unit.PIECE },
             { name: 'tomate', quantity: 3, unit: Unit.PIECE },

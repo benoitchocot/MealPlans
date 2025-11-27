@@ -88,35 +88,6 @@ export class CreateRecipeDto {
     @IsOptional()
     dietTypes?: DietType[];
 
-    @IsInt()
-    @Min(0)
-    @IsOptional()
-    calories?: number;
-
-    @IsNumber()
-    @Min(0)
-    @IsOptional()
-    @Transform(({ value }) => value ? parseFloat(value) : undefined)
-    carbohydrates?: number;
-
-    @IsNumber()
-    @Min(0)
-    @IsOptional()
-    @Transform(({ value }) => value ? parseFloat(value) : undefined)
-    fats?: number;
-
-    @IsNumber()
-    @Min(0)
-    @IsOptional()
-    @Transform(({ value }) => value ? parseFloat(value) : undefined)
-    proteins?: number;
-
-    @IsNumber()
-    @Min(0)
-    @IsOptional()
-    @Transform(({ value }) => value ? parseFloat(value) : undefined)
-    fibers?: number;
-
     @IsArray()
     @ValidateNested({ each: true })
     @Type(() => RecipeIngredientDto)
