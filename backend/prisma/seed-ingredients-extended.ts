@@ -507,5 +507,15 @@ export const extendedIngredients = [
     { name: 'biscuits à la cuillère', category: IngredientCategory.BAKERY, defaultUnit: Unit.PIECE },
     { name: 'cacao', category: IngredientCategory.PANTRY, defaultUnit: Unit.G },
     { name: 'olives', category: IngredientCategory.PANTRY, defaultUnit: Unit.G },
+    { name: 'algue nori', category: IngredientCategory.PANTRY, defaultUnit: Unit.PIECE },
+    { name: 'muffin anglais', category: IngredientCategory.BAKERY, defaultUnit: Unit.PIECE },
+    { name: 'merguez', category: IngredientCategory.MEAT, defaultUnit: Unit.PIECE },
+    { name: 'moules', category: IngredientCategory.FISH, defaultUnit: Unit.G },
+    { name: 'tomate cerise', category: IngredientCategory.FRESH, defaultUnit: Unit.G },
+    { name: 'macaroni', category: IngredientCategory.PANTRY, defaultUnit: Unit.G },
+    { name: 'raisin sec', category: IngredientCategory.PANTRY, defaultUnit: Unit.G },
+    { name: 'noix de coco', category: IngredientCategory.PANTRY, defaultUnit: Unit.G },
+    { name: 'granola', category: IngredientCategory.PANTRY, defaultUnit: Unit.G },
+    { name: 'fromage cheddar', category: IngredientCategory.DAIRY, defaultUnit: Unit.G },
 ];
 

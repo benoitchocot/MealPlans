@@ -79,7 +79,9 @@
 
           <!-- Nutritional Values -->
           <div v-if="hasNutritionalValues" class="mb-6 pt-6 border-t border-gray-200">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('recipes.submit.nutritionalValues') }} ({{ $t('recipes.servings') }}: {{ adjustedRecipe.servings }})</h3>
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">
+              {{ $t('recipes.submit.nutritionalValuesPerServing') }}
+            </h3>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
               <div v-if="adjustedRecipe.calories" class="text-center p-4 bg-green-50 rounded-lg">
                 <Icon name="mdi:fire" class="text-2xl text-green-600 mb-2 mx-auto" />
@@ -350,6 +352,17 @@ const adjustedRecipe = computed(() => {
   // Calculate ratio: household size / recipe servings
   const ratio = householdSize.value / (recipe.value.servings || 1)
   
+  // Nutritional values should always be displayed per serving
+  // We need to get the per-serving value from what's stored
+  // The schema says values are "per serving", but some recipes might have totals stored
+  // To be safe, we'll always calculate per serving: divide by original servings
+  const originalServings = recipe.value.servings || 1
+  const caloriesPerServing = recipe.value.calories ? recipe.value.calories / originalServings : null
+  const carbohydratesPerServing = recipe.value.carbohydrates ? Number(recipe.value.carbohydrates) / originalServings : null
+  const fatsPerServing = recipe.value.fats ? Number(recipe.value.fats) / originalServings : null
+  const proteinsPerServing = recipe.value.proteins ? Number(recipe.value.proteins) / originalServings : null
+  const fibersPerServing = recipe.value.fibers ? Number(recipe.value.fibers) / originalServings : null
+  
   return {
     ...recipe.value,
     servings: householdSize.value,
@@ -357,12 +370,12 @@ const adjustedRecipe = computed(() => {
       ...ing,
       quantity: Number(ing.quantity) * ratio,
     })),
-    // Nutritional values are already per serving, so we need to multiply by ratio
-    calories: recipe.value.calories ? Math.round(recipe.value.calories * ratio) : null,
-    carbohydrates: recipe.value.carbohydrates ? Number(recipe.value.carbohydrates) * ratio : null,
-    fats: recipe.value.fats ? Number(recipe.value.fats) * ratio : null,
-    proteins: recipe.value.proteins ? Number(recipe.value.proteins) * ratio : null,
-    fibers: recipe.value.fibers ? Number(recipe.value.fibers) * ratio : null,
+    // Always display nutritional values per serving
+    calories: caloriesPerServing ? Math.round(caloriesPerServing) : null,
+    carbohydrates: carbohydratesPerServing || null,
+    fats: fatsPerServing || null,
+    proteins: proteinsPerServing || null,
+    fibers: fibersPerServing || null,
   }
 })
 

@@ -122,6 +122,8 @@
         "uploadError": "Erreur lors du téléchargement de l'image",
       "nutritionalValues": "Valeurs nutritionnelles",
       "nutritionalValuesDescription": "Valeurs nutritionnelles par portion (optionnel)",
+      "nutritionalValuesPerServing": "Valeurs nutritionnelles par portion",
+      "nutritionalValuesForServings": "Valeurs nutritionnelles pour {count} portions",
       "calories": "Calories (kcal)",
       "carbohydrates": "Glucides (g)",
       "fats": "Lipides (g)",

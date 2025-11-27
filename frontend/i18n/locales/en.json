@@ -121,6 +121,8 @@
       "uploadError": "Error uploading image",
       "nutritionalValues": "Nutritional values",
       "nutritionalValuesDescription": "Nutritional values per serving (optional)",
+      "nutritionalValuesPerServing": "Nutritional values per serving",
+      "nutritionalValuesForServings": "Nutritional values for {count} servings",
       "calories": "Calories (kcal)",
       "carbohydrates": "Carbohydrates (g)",
       "fats": "Fats (g)",

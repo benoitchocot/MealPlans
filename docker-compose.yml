@@ -2,7 +2,7 @@ services:
   postgres:
     image: postgres:16-alpine
     container_name: mealplans-postgres
-    restart: unless-stopped
+    restart: no
     environment:
       POSTGRES_USER: mealplans_user
       POSTGRES_PASSWORD: mealplans_password
@@ -25,7 +25,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile.dev
     container_name: mealplans-backend
-    restart: unless-stopped
+    restart: no
     environment:
       NODE_ENV: development
       PORT: 3000
@@ -51,7 +51,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile.dev
     container_name: mealplans-frontend
-    restart: unless-stopped
+    restart: no
     environment:
       NODE_ENV: development
       NUXT_PUBLIC_API_BASE: http://localhost:3000

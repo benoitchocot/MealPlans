@@ -8,7 +8,7 @@
         <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
           <!-- Desktop: Language switcher and actions -->
           <div class="hidden sm:flex items-center gap-2 sm:gap-3">
-            <LanguageSwitcher />
+          <LanguageSwitcher />
             <slot name="actions">
               <button v-if="showLogout" @click="handleLogout" class="btn btn-secondary text-sm whitespace-nowrap">
                 {{ $t('auth.logout') }}
@@ -35,14 +35,14 @@
               <LanguageSwitcher />
             </div>
             <div class="flex flex-col gap-2 [&_.btn]:w-full [&_.btn]:text-left [&_.btn]:justify-start">
-              <slot name="actions">
-                <button v-if="showLogout" @click="handleLogout" class="btn btn-secondary text-sm">
+          <slot name="actions">
+            <button v-if="showLogout" @click="handleLogout" class="btn btn-secondary text-sm">
                   <Icon name="mdi:logout" class="mr-2" />
-                  {{ $t('auth.logout') }}
-                </button>
-              </slot>
-            </div>
-          </div>
+              {{ $t('auth.logout') }}
+            </button>
+          </slot>
+        </div>
+      </div>
         </div>
       </Transition>
     </div>

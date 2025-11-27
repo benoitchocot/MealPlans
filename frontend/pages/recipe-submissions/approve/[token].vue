@@ -114,7 +114,7 @@
 
           <!-- Nutritional Values -->
           <div v-if="hasNutritionalValues" class="mb-4 pt-4 border-t border-gray-200">
-            <h3 class="text-sm font-medium text-gray-700 mb-3">{{ $t('recipes.submit.nutritionalValues') }} ({{ $t('recipes.servings') }}: {{ submission.servings }})</h3>
+            <h3 class="text-sm font-medium text-gray-700 mb-3">{{ $t('recipes.submit.nutritionalValuesDescription') }}</h3>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
               <div v-if="submission.calories" class="text-center p-3 bg-green-50 rounded-lg">
                 <Icon name="mdi:fire" class="text-2xl text-green-600 mb-1 mx-auto" />
