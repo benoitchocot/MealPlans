@@ -24,9 +24,6 @@
       <div v-else-if="mealPlan" class="space-y-6">
         <div class="card">
           <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 break-words">{{ mealPlan.title }}</h1>
-          <p v-if="mealPlan.createdAt" class="text-sm sm:text-base text-gray-600 mb-4">
-            {{ $t('mealPlans.created') }} {{ formatDate(mealPlan.createdAt) }}
-          </p>
           <div class="flex gap-2">
             <button 
               @click="generateShoppingList" 
@@ -67,6 +64,7 @@
 
 <script setup lang="ts">
 import { format } from 'date-fns'
+import { fr } from 'date-fns/locale'
 import { useTranslations } from '~/composables/useTranslations'
 
 const route = useRoute()
@@ -91,8 +89,10 @@ const formatDate = (dateString: string | null | undefined) => {
   try {
     const date = new Date(dateString)
     if (isNaN(date.getTime())) return ''
-    return format(date, 'MMM d, yyyy')
-  } catch {
+    // Utiliser la locale française pour le formatage
+    return format(date, 'dd/MM/yyyy', { locale: fr })
+  } catch (e) {
+    console.error('Error formatting date:', e, dateString)
     return ''
   }
 }
@@ -100,7 +100,7 @@ const formatDate = (dateString: string | null | undefined) => {
 const generateShoppingList = async () => {
   generatingList.value = true
   try {
-    const list = await api.post('/shopping-lists/from-meal-plan', { mealPlanId: mealPlan.value.id })
+    const list = await api.post<{ id: string }>('/shopping-lists/from-meal-plan', { mealPlanId: mealPlan.value.id })
     
     // Mark shopping list creation step as completed
     const { completeStep } = useUserJourney()

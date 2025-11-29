@@ -34,9 +34,6 @@
               {{ plan.recipes?.length || 0 }} {{ $t('mealPlans.recipesCount') }}
             </span>
           </div>
-          <p v-if="plan.createdAt" class="text-gray-600 text-sm mb-4">
-            {{ $t('mealPlans.created') }} {{ formatDate(plan.createdAt) }}
-          </p>
           <div class="flex gap-2">
             <NuxtLink :to="`/meal-plans/${plan.id}`" class="btn btn-primary flex-1 text-center">
               {{ $t('mealPlans.viewPlan') }}
@@ -61,6 +58,7 @@
 
 <script setup lang="ts">
 import { format } from 'date-fns'
+import { fr } from 'date-fns/locale'
 
 const { logout } = useAuth()
 const api = useApi()
@@ -80,15 +78,17 @@ const formatDate = (dateString: string | null | undefined) => {
   try {
     const date = new Date(dateString)
     if (isNaN(date.getTime())) return ''
-    return format(date, 'dd/MM/yyyy')
-  } catch {
+    // Utiliser la locale française pour le formatage
+    return format(date, 'dd/MM/yyyy', { locale: fr })
+  } catch (e) {
+    console.error('Error formatting date:', e, dateString)
     return ''
   }
 }
 
 const generateShoppingList = async (mealPlanId: string) => {
   try {
-    const list = await api.post('/shopping-lists/from-meal-plan', { mealPlanId })
+    const list = await api.post<{ id: string }>('/shopping-lists/from-meal-plan', { mealPlanId })
     
     // Mark shopping list creation step as completed
     const { completeStep } = useUserJourney()

@@ -72,9 +72,6 @@
                   {{ plan.recipes?.length || 0 }} {{ $t('history.mealPlans.recipesCount') }}
                 </span>
               </div>
-              <p v-if="plan.createdAt" class="text-gray-500 text-xs mb-4">
-                {{ $t('common.created') }}: {{ formatDateTime(plan.createdAt) }}
-              </p>
               <NuxtLink :to="`/meal-plans/${plan.id}`" class="btn btn-primary w-full text-center">
                 {{ $t('history.mealPlans.viewPlan') }}
               </NuxtLink>

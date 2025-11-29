@@ -41,8 +41,17 @@
               </Transition>
             </div>
             <LanguageSwitcher />
+            <NuxtLink 
+              v-if="isAuthenticated" 
+              to="/settings" 
+              class="btn btn-secondary text-sm whitespace-nowrap"
+            >
+              <Icon name="mdi:cog" class="mr-2" />
+              {{ $t('settings.title') }}
+            </NuxtLink>
             <slot name="actions">
-              <button v-if="showLogout" @click="handleLogout" class="btn btn-secondary text-sm whitespace-nowrap">
+              <button v-if="showLogout && isAuthenticated" @click="handleLogout" class="btn btn-secondary text-sm whitespace-nowrap">
+                <Icon name="mdi:logout" class="mr-2" />
                 {{ $t('auth.logout') }}
               </button>
             </slot>
@@ -85,13 +94,22 @@
               </NuxtLink>
             </div>
             <div class="flex flex-col gap-2 [&_.btn]:w-full [&_.btn]:text-left [&_.btn]:justify-start">
-          <slot name="actions">
-            <button v-if="showLogout" @click="handleLogout" class="btn btn-secondary text-sm">
+              <NuxtLink 
+                v-if="isAuthenticated" 
+                to="/settings" 
+                class="btn btn-secondary text-sm"
+                @click="mobileMenuOpen = false"
+              >
+                <Icon name="mdi:cog" class="mr-2" />
+                {{ $t('settings.title') }}
+              </NuxtLink>
+              <slot name="actions">
+                <button v-if="showLogout && isAuthenticated" @click="handleLogout" class="btn btn-secondary text-sm">
                   <Icon name="mdi:logout" class="mr-2" />
-              {{ $t('auth.logout') }}
-            </button>
-          </slot>
-        </div>
+                  {{ $t('auth.logout') }}
+                </button>
+              </slot>
+            </div>
       </div>
         </div>
       </Transition>
@@ -108,7 +126,7 @@ const props = withDefaults(defineProps<Props>(), {
   showLogout: true,
 })
 
-const { logout } = useAuth()
+const { logout, isAuthenticated } = useAuth()
 const mobileMenuOpen = ref(false)
 const legalMenuOpen = ref(false)
 const headerRef = ref<HTMLElement | null>(null)

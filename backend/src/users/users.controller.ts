@@ -1,4 +1,4 @@
-import { Controller, Get, Patch, Body, UseGuards, Request, UnauthorizedException } from '@nestjs/common';
+import { Controller, Get, Patch, Post, Delete, Body, Param, UseGuards, Request, UnauthorizedException } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -57,5 +57,19 @@ export class UsersController {
     @Patch('me/settings')
     async updateSettings(@Request() req: any, @Body() updateSettingsDto: UpdateUserSettingsDto) {
         return this.usersService.updateSettings(req.user.id, updateSettingsDto);
+    }
+
+    @Post('me/request-deletion')
+    @ApiOperation({ summary: 'Request account deletion (sends email to admin)' })
+    @ApiResponse({ status: 200, description: 'Deletion request sent successfully' })
+    async requestAccountDeletion(@Request() req: any) {
+        return this.usersService.requestAccountDeletion(req.user.id);
+    }
+
+    @Delete('delete/:userId/:token')
+    @ApiOperation({ summary: 'Delete account by admin token (public endpoint)' })
+    @ApiResponse({ status: 200, description: 'Account deleted successfully' })
+    async deleteAccountByToken(@Param('userId') userId: string, @Param('token') token: string) {
+        return this.usersService.deleteAccountByToken(userId, token);
     }
 }

@@ -218,7 +218,20 @@
       "recipesSelected": "recettes sélectionnées",
       "recipesPreview": "Aperçu des recettes",
       "viewMealPlan": "Voir le plan de repas",
-      "failed": "Échec de la génération du plan de repas"
+      "failed": "Échec de la génération du plan de repas",
+      "abandonPlan": "Abandonner le plan",
+      "confirmAbandon": "Êtes-vous sûr de vouloir abandonner ce plan de repas ? Cette action est irréversible.",
+      "abandonFailed": "Échec de l'abandon du plan",
+      "removeRecipe": "Retirer la recette",
+      "confirmRemove": "Êtes-vous sûr de vouloir retirer cette recette du plan ?",
+      "removeFailed": "Échec de la suppression de la recette",
+      "addRandom": "Ajouter une recette aléatoire",
+      "adding": "Ajout en cours...",
+      "addFailed": "Échec de l'ajout de la recette",
+      "selectRecipe": "Sélectionner une recette",
+      "noRecipesFound": "Aucune recette trouvée selon vos critères",
+      "allRecipesAdded": "Toutes les recettes disponibles ont déjà été ajoutées au plan",
+      "generateShoppingList": "Générer la liste de courses"
     },
     "detail": {
       "generateShoppingList": "Générer une liste de courses",
@@ -482,7 +495,7 @@
     },
     "createShoppingList": {
       "title": "Créez votre liste de courses",
-      "description": "Générez automatiquement une liste de courses à partir de votre plan de repas pour faciliter vos achats."
+      "description": "Générez automatiquement une liste de courses à partir de votre plan de repas. Vous pouvez le faire directement depuis la page de génération du plan ou depuis la page de détails du plan."
     },
     "complete": {
       "title": "Félicitations ! 🎊",
@@ -588,6 +601,35 @@
       "section7": {
         "title": "7. Cookies et technologies similaires",
         "content": "Nous utilisons des cookies et des technologies similaires pour améliorer votre expérience, analyser l'utilisation du service et personnaliser le contenu. Vous pouvez gérer vos préférences de cookies via les paramètres de votre navigateur."
+      },
+      "section8": {
+        "title": "8. Suppression de compte",
+        "content": "Vous avez le droit de demander la suppression de votre compte et de toutes vos données personnelles à tout moment. La suppression de votre compte entraînera la suppression permanente de toutes vos données, y compris vos plans de repas, listes de courses, favoris et autres informations associées à votre compte.",
+        "requestDeletion": "Si vous souhaitez supprimer votre compte, vous pouvez le faire en cliquant sur le bouton ci-dessous. Cette action est irréversible.",
+        "deleteButton": "Demander la suppression de mon compte",
+        "deleting": "Suppression en cours...",
+        "confirmDeletion": "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible et toutes vos données seront définitivement supprimées.",
+        "deletionRequested": "Votre demande de suppression de compte a été envoyée à l'administrateur. Vous recevrez une confirmation une fois que votre compte aura été supprimé.",
+        "deletionError": "Erreur lors de la demande de suppression",
+        "loginRequired": "Vous devez être connecté pour demander la suppression de votre compte."
+      }
+    },
+    "admin": {
+      "deleteAccount": {
+        "title": "Suppression de compte",
+        "loading": "Chargement...",
+        "error": "Erreur",
+        "success": "Compte supprimé",
+        "successMessage": "Le compte et toutes les données associées ont été supprimés avec succès.",
+        "warning": "Vous êtes sur le point de supprimer définitivement un compte utilisateur.",
+        "confirmTitle": "⚠️ Attention",
+        "confirmMessage": "Cette action est irréversible. Toutes les données de l'utilisateur seront définitivement supprimées, y compris les plans de repas, listes de courses, favoris, avis et autres informations associées.",
+        "confirmButton": "Confirmer la suppression",
+        "deleting": "Suppression en cours...",
+        "cancel": "Annuler",
+        "backToHome": "Retour à l'accueil",
+        "finalConfirm": "Êtes-vous absolument sûr de vouloir supprimer ce compte ? Cette action est irréversible.",
+        "deleteError": "Erreur lors de la suppression du compte"
       }
     }
   }

@@ -24,9 +24,6 @@
       <div v-else-if="shoppingList" class="space-y-6">
         <div class="card">
           <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 break-words">{{ shoppingList.title }}</h1>
-          <p v-if="shoppingList.createdAt" class="text-sm sm:text-base text-gray-600 mb-4">
-            {{ $t('common.created') }} {{ formatDate(shoppingList.createdAt) }}
-          </p>
           <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
             <div class="flex items-center text-xs sm:text-sm text-gray-500">
               <Icon name="mdi:check-circle" class="mr-1 text-green-600 flex-shrink-0" />

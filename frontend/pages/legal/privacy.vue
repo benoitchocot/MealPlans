@@ -88,6 +88,31 @@
               {{ $t('legal.privacy.section7.content') }}
             </p>
           </section>
+
+          <section>
+            <h2 class="text-2xl font-semibold text-gray-900 mt-8 mb-4">
+              {{ $t('legal.privacy.section8.title') }}
+            </h2>
+            <p class="text-gray-700 leading-relaxed mb-4">
+              {{ $t('legal.privacy.section8.content') }}
+            </p>
+            <div v-if="isAuthenticated" class="mt-6 p-6 bg-gray-50 rounded-lg">
+              <p class="text-gray-700 mb-4">
+                {{ $t('legal.privacy.section8.requestDeletion') }}
+              </p>
+              <button
+                @click="requestAccountDeletion"
+                :disabled="deleting"
+                class="btn btn-danger"
+              >
+                <Icon name="mdi:delete" class="mr-2" />
+                {{ deleting ? $t('legal.privacy.section8.deleting') : $t('legal.privacy.section8.deleteButton') }}
+              </button>
+            </div>
+            <p v-else class="text-gray-600 italic">
+              {{ $t('legal.privacy.section8.loginRequired') }}
+            </p>
+          </section>
         </div>
 
         <div class="mt-12 pt-8 border-t border-gray-200">
@@ -101,7 +126,30 @@
 </template>
 
 <script setup lang="ts">
+const { isAuthenticated } = useAuth()
+const api = useApi()
+const { t } = useI18n()
+const router = useRouter()
+
+const deleting = ref(false)
 const lastUpdated = '27 novembre 2025'
+
+const requestAccountDeletion = async () => {
+  if (!confirm(t('legal.privacy.section8.confirmDeletion'))) {
+    return
+  }
+
+  deleting.value = true
+  try {
+    await api.post('/users/me/request-deletion')
+    alert(t('legal.privacy.section8.deletionRequested'))
+    // Ne pas déconnecter l'utilisateur, juste confirmer que la demande a été envoyée
+  } catch (e: any) {
+    alert(t('legal.privacy.section8.deletionError') + ': ' + (e.message || t('common.error')))
+  } finally {
+    deleting.value = false
+  }
+}
 
 definePageMeta({
   layout: false,

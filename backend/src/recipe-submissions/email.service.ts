@@ -279,5 +279,80 @@ export class EmailService {
             throw error;
         }
     }
+
+    async sendAccountDeletionEmail(
+        to: string,
+        userEmail: string,
+        userName: string,
+        deletionUrl: string,
+    ) {
+        if (!this.transporter) {
+            console.warn('Email not configured. Account deletion email not sent.');
+            console.log(`Account deletion request for user ${userEmail}. Deletion URL: ${deletionUrl}`);
+            return;
+        }
+
+        const mailOptions = {
+            from: this.configService.get('SMTP_FROM') || this.configService.get('SMTP_USER'),
+            to,
+            subject: `[MealPlans] Demande de suppression de compte: ${userEmail}`,
+            html: `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="utf-8">
+                    <style>
+                        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                        .header { background-color: #ef4444; color: white; padding: 20px; border-radius: 5px 5px 0 0; }
+                        .content { background-color: #f9fafb; padding: 20px; border: 1px solid #e5e7eb; }
+                        .button { display: inline-block; padding: 12px 24px; background-color: #ef4444; color: white; text-decoration: none; border-radius: 5px; margin: 10px 0; }
+                        .footer { margin-top: 20px; padding-top: 20px; border-top: 1px solid #e5e7eb; font-size: 12px; color: #6b7280; }
+                        .warning { background-color: #fef2f2; padding: 15px; border-radius: 5px; margin: 10px 0; border-left: 4px solid #ef4444; }
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <div class="header">
+                            <h1>🗑️ Demande de suppression de compte</h1>
+                        </div>
+                        <div class="content">
+                            <p>Bonjour,</p>
+                            <p>Un utilisateur a demandé la suppression de son compte sur MealPlans.</p>
+                            
+                            <div class="warning">
+                                <strong>⚠️ Attention:</strong> Cette action est irréversible et supprimera toutes les données associées au compte.
+                            </div>
+                            
+                            <h2>Informations de l'utilisateur</h2>
+                            <ul>
+                                <li><strong>Email:</strong> ${userEmail}</li>
+                                <li><strong>Nom:</strong> ${userName || 'Non renseigné'}</li>
+                            </ul>
+                            
+                            <p>
+                                <a href="${deletionUrl}" class="button">Supprimer le compte</a>
+                            </p>
+                            
+                            <p>Ou copiez ce lien dans votre navigateur:</p>
+                            <p style="word-break: break-all; color: #6b7280;">${deletionUrl}</p>
+                        </div>
+                        <div class="footer">
+                            <p>Cet email a été envoyé automatiquement par MealPlans.</p>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `,
+        };
+
+        try {
+            await this.transporter.sendMail(mailOptions);
+            console.log(`Account deletion email sent to ${to} for user ${userEmail}`);
+        } catch (error) {
+            console.error('Failed to send account deletion email:', error);
+            throw error;
+        }
+    }
 }
 

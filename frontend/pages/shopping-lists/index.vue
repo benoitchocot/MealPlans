@@ -29,9 +29,6 @@
               {{ list.items?.length || 0 }} {{ $t('shoppingLists.items') }}
             </span>
           </div>
-          <p v-if="list.createdAt" class="text-gray-600 text-sm mb-4">
-            {{ $t('common.created') }} {{ formatDate(list.createdAt) }}
-          </p>
           <div class="flex items-center text-sm text-gray-500">
             <Icon name="mdi:check-circle" class="mr-1 text-green-600" />
             {{ getCheckedCount(list) }} / {{ list.items?.length || 0 }} {{ $t('shoppingLists.checked') }}
@@ -70,7 +67,7 @@ const formatDate = (dateString: string | null | undefined) => {
   try {
     const date = new Date(dateString)
     if (isNaN(date.getTime())) return ''
-    return format(date, 'MMM d, yyyy')
+    return format(date, 'dd/MM/yyyy')
   } catch {
     return ''
   }

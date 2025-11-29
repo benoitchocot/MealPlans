@@ -98,3 +98,6 @@ adb logcat | grep -i "http"
 adb logcat > logs.txt
 ```
 
+
+
+
