@@ -45,8 +45,10 @@ async function bootstrap() {
     app.enableCors({
         origin: (origin, callback) => {
             // Allow requests with no origin (like mobile apps, Postman, or curl)
+            // IMPORTANT: Les applications Capacitor peuvent envoyer des requêtes sans origine
             if (!origin) {
-                console.log('✅ CORS: Request with no origin - allowing');
+                console.log('✅ CORS: Request with no origin - allowing (mobile app)');
+                // En production, autoriser les requêtes sans origine pour les apps mobiles
                 return callback(null, true);
             }
             
@@ -67,6 +69,15 @@ async function bootstrap() {
             
             // Log for debugging in production
             console.log(`❌ CORS: Origin "${origin}" NOT allowed. Allowed origins:`, allOrigins);
+            console.log(`   Request headers might be missing Origin header (mobile app)`);
+            
+            // En production, être plus permissif pour les apps mobiles
+            // Si l'origine n'est pas dans la liste mais que c'est probablement une app mobile,
+            // autoriser quand même (les apps mobiles peuvent avoir des origines variables)
+            if (origin.includes('localhost') || origin.includes('capacitor') || origin.includes('ionic')) {
+                console.log(`⚠️  CORS: Allowing mobile app origin "${origin}"`);
+                return callback(null, origin);
+            }
             
             // In production, reject unknown origins
             callback(new Error(`Origin ${origin} not allowed by CORS`));

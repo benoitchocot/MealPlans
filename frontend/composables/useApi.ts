@@ -59,6 +59,32 @@ export const useApi = () => {
                     return cached
                 }
             }
+            
+            // Améliorer les messages d'erreur pour le débogage
+            if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
+                const errorDetails = {
+                    url: fullUrl,
+                    apiBase,
+                    origin: window.location?.origin,
+                    userAgent: navigator.userAgent,
+                    isCapacitor: !!(window as any).Capacitor,
+                    error: error.message,
+                    timestamp: new Date().toISOString()
+                }
+                console.error('❌ Erreur réseau détaillée:', errorDetails)
+                
+                // Essayer de faire une requête de test pour voir l'erreur exacte
+                fetch(fullUrl, { method: 'OPTIONS' })
+                    .then(res => {
+                        console.log('✅ OPTIONS request réussie:', res.status, res.headers)
+                    })
+                    .catch(err => {
+                        console.error('❌ OPTIONS request échouée:', err)
+                    })
+                
+                throw new Error(`Impossible de se connecter à l'API (${apiBase}). Vérifiez votre connexion réseau et la configuration CORS. Détails dans la console.`)
+            }
+            
             throw error
         }
     }
