@@ -1,12 +1,71 @@
 #!/bin/bash
-# Script pour corriger tous les problèmes
+# Script pour démarrer les services en production
+# Fusionne les fonctionnalités de fix-all.sh et clear-db.sh
 
 set -e
 
-cd ~/foodtrack
-git pull --rebase || true
-cd ~/pi
+# Fonction pour vider la base de données
+clear_database() {
+    echo "🗑️  Vidage de la base de données..."
+    
+    # Récupérer le mot de passe depuis .env.production si disponible
+    if [ -f ~/foodtrack/.env.production ]; then
+        export $(cat ~/foodtrack/.env.production | grep -v '^#' | grep -v '^$' | xargs)
+    fi
+    
+    DB_PASSWORD="${MEALPLANS_DB_PASSWORD:-mealplans_password}"
+    
+    # Vérifier que PostgreSQL est accessible
+    if ! docker exec mealplans-postgres pg_isready -U mealplans_user -d mealplans_db >/dev/null 2>&1; then
+        echo "❌ PostgreSQL n'est pas accessible. Démarrez d'abord le conteneur."
+        return 1
+    fi
+    
+    # Supprimer toutes les tables
+    echo "📦 Suppression de toutes les tables..."
+    docker exec -e PGPASSWORD="$DB_PASSWORD" mealplans-postgres psql -U mealplans_user -d mealplans_db <<EOF
+DO \$\$ 
+DECLARE 
+    r RECORD;
+BEGIN
+    FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = 'public') 
+    LOOP
+        EXECUTE 'DROP TABLE IF EXISTS ' || quote_ident(r.tablename) || ' CASCADE';
+    END LOOP;
+    
+    FOR r IN (SELECT sequence_name FROM information_schema.sequences WHERE sequence_schema = 'public')
+    LOOP
+        EXECUTE 'DROP SEQUENCE IF EXISTS ' || quote_ident(r.sequence_name) || ' CASCADE';
+    END LOOP;
+END \$\$;
+EOF
+    
+    echo "✅ Base de données vidée !"
+}
 
+# Vérifier les arguments
+CLEAR_DB=false
+REBUILD=false
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --clear-db)
+            CLEAR_DB=true
+            shift
+            ;;
+        --rebuild)
+            REBUILD=true
+            shift
+            ;;
+        *)
+            echo "❌ Option inconnue: $1"
+            echo "Usage: $0 [--clear-db] [--rebuild]"
+            exit 1
+            ;;
+    esac
+done
+
+# Charger les variables d'environnement de production
 echo "📝 Chargement des variables depuis ~/foodtrack/.env.production..."
 if [ ! -f ~/foodtrack/.env.production ]; then
     echo "❌ ERREUR: ~/foodtrack/.env.production n'existe pas"
@@ -31,7 +90,21 @@ fi
 
 echo "✅ docker-compose.yml utilise bien \${MEALPLANS_DB_PASSWORD}"
 
-# Arrêter
+# Option: Vider la base de données
+if [ "$CLEAR_DB" = true ]; then
+    echo ""
+    echo "⚠️  ATTENTION : Vous allez supprimer TOUTES les données de la base de données !"
+    read -p "Êtes-vous sûr de vouloir continuer ? (tapez 'OUI' pour confirmer): " confirmation
+    
+    if [ "$confirmation" != "OUI" ]; then
+        echo "❌ Opération annulée"
+        exit 0
+    fi
+    
+    clear_database
+fi
+
+# Arrêter les services
 echo "⏹️  Arrêt des services..."
 docker compose stop mealplans-postgres mealplans-backend mealplans-frontend 2>/dev/null || true
 
@@ -42,31 +115,35 @@ docker compose rm -f mealplans-postgres mealplans-backend mealplans-frontend 2>/
 # Attendre un peu
 sleep 2
 
-# Supprimer le volume
-if docker volume ls | grep -q mealplans-postgres-data; then
-    echo "🗑️  Suppression du volume PostgreSQL..."
-    docker volume rm mealplans-postgres-data 2>/dev/null || {
-        echo "⚠️  Le volume est encore utilisé, forçons la suppression..."
-        docker volume rm mealplans-postgres-data --force 2>/dev/null || true
-    }
+# Supprimer le volume si --clear-db est spécifié
+if [ "$CLEAR_DB" = true ]; then
+    if docker volume ls | grep -q mealplans-postgres-data; then
+        echo "🗑️  Suppression du volume PostgreSQL..."
+        docker volume rm mealplans-postgres-data 2>/dev/null || {
+            echo "⚠️  Le volume est encore utilisé, forçons la suppression..."
+            docker volume rm mealplans-postgres-data --force 2>/dev/null || true
+        }
+    fi
 fi
 
-# Rebuild backend et frontend (pour ts-node et nouvelles modifications)
-echo "🔨 Rebuild du backend..."
-docker compose build --no-cache mealplans-backend
-
-echo "🔨 Rebuild du frontend..."
-docker compose build --no-cache mealplans-frontend
+# Rebuild si demandé
+if [ "$REBUILD" = true ]; then
+    echo "🔨 Rebuild du backend..."
+    docker compose build --no-cache mealplans-backend
+    
+    echo "🔨 Rebuild du frontend..."
+    docker compose build --no-cache mealplans-frontend
+fi
 
 # Démarrer PostgreSQL
 echo "🔄 Démarrage de PostgreSQL..."
 docker compose up -d mealplans-postgres
 
-# Attendre
-echo "⏳ Attente (30 secondes)..."
+# Attendre que PostgreSQL soit prêt
+echo "⏳ Attente que PostgreSQL soit prêt (30 secondes)..."
 sleep 30
 
-# Vérifier
+# Vérifier PostgreSQL
 if docker exec mealplans-postgres pg_isready -U mealplans_user -d mealplans_db >/dev/null 2>&1; then
     echo "✅ PostgreSQL est prêt"
     
@@ -125,7 +202,7 @@ if docker exec mealplans-postgres pg_isready -U mealplans_user -d mealplans_db >
     sleep 5
     
     # Frontend
-    echo "🎨 Frontend..."
+    echo "🎨 Démarrage du frontend..."
     docker compose up -d mealplans-frontend
     
     echo ""

@@ -106,9 +106,11 @@
           <!-- Nutritional Values -->
           <div class="mb-6 pt-6 border-t border-gray-200">
             <h3 class="text-lg font-semibold text-gray-900 mb-4">
-              {{ $t('recipes.submit.nutritionalValuesPerServing') }}
-              <span v-if="recipe.isAdaptable !== false && localServings !== recipe.servings" class="text-sm font-normal text-gray-500">
-                (pour {{ localServings }} {{ localServings > 1 ? 'portions' : 'portion' }})
+              <span v-if="recipe.isAdaptable !== false && localServings !== recipe.servings">
+                Valeurs nutritionnelles (pour {{ localServings }} {{ localServings > 1 ? 'portions' : 'portion' }})
+              </span>
+              <span v-else>
+                {{ $t('recipes.submit.nutritionalValuesPerServing') }}
               </span>
             </h3>
             <div v-if="loadingNutrition" class="text-center py-4">
@@ -395,6 +397,32 @@ watch([recipe, userSettings], () => {
   }
 }, { immediate: true })
 
+// Debounce timer for nutritional values recalculation
+let nutritionDebounceTimer: NodeJS.Timeout | null = null
+let isInitialLoad = true
+
+// Watch localServings to recalculate nutritional values when it changes
+watch(localServings, async (newServings, oldServings) => {
+  // Skip on initial load (loadNutritionalValues is called in onMounted)
+  if (isInitialLoad) {
+    isInitialLoad = false
+    return
+  }
+  
+  // Only recalculate if the value actually changed and recipe is loaded
+  if (recipe.value && newServings !== oldServings && recipe.value.isAdaptable !== false) {
+    // Clear previous timer
+    if (nutritionDebounceTimer) {
+      clearTimeout(nutritionDebounceTimer)
+    }
+    
+    // Debounce the API call to avoid too many requests when typing
+    nutritionDebounceTimer = setTimeout(async () => {
+      await loadNutritionalValues()
+    }, 300) // Wait 300ms after the user stops changing the value
+  }
+})
+
 // Adjust quantities based on local servings (only if recipe is adaptable)
 const adjustedRecipe = computed(() => {
   if (!recipe.value) return null
@@ -428,7 +456,7 @@ const adjustedRecipe = computed(() => {
 })
 
 // Handle servings change
-const handleServingsChange = async () => {
+const handleServingsChange = () => {
   if (!recipe.value) return
   
   // Ensure valid range
@@ -437,23 +465,21 @@ const handleServingsChange = async () => {
   } else if (localServings.value > 100) {
     localServings.value = 100
   }
-  
-  // Recalculate nutritional values for the new servings count
-  await loadNutritionalValues()
+  // The watch on localServings will handle the recalculation
 }
 
 // Increase/decrease servings
-const increaseServings = async () => {
+const increaseServings = () => {
   if (localServings.value < 100) {
     localServings.value++
-    await loadNutritionalValues()
+    // The watch on localServings will handle the recalculation
   }
 }
 
-const decreaseServings = async () => {
+const decreaseServings = () => {
   if (localServings.value > 1) {
     localServings.value--
-    await loadNutritionalValues()
+    // The watch on localServings will handle the recalculation
   }
 }
 

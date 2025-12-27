@@ -461,7 +461,23 @@ export class RecipesService {
 
     console.log(`[recipes.service] Calcul nutritionnel pour recette ${recipeId}: ${ingredients.length} ingrédients, ${servings} portions (ratio: ${ratio.toFixed(2)})`);
     
-    // Les valeurs nutritionnelles sont calculées pour le nombre de portions demandé
-    return calculateNutritionalValues(ingredients, servings);
+    // Calculer les valeurs nutritionnelles pour les quantités ajustées
+    // Si on demande un nombre de portions différent, on retourne les valeurs totales
+    // Sinon, on retourne les valeurs par portion
+    const valuesPerServing = calculateNutritionalValues(ingredients, servings);
+    
+    // Si on a demandé un nombre de portions différent, multiplier par le nombre de portions pour avoir les valeurs totales
+    if (requestedServings && requestedServings > 0 && requestedServings !== recipe.servings) {
+      return {
+        calories: Math.round(valuesPerServing.calories * servings),
+        carbohydrates: Math.round(valuesPerServing.carbohydrates * servings * 10) / 10,
+        fats: Math.round(valuesPerServing.fats * servings * 10) / 10,
+        proteins: Math.round(valuesPerServing.proteins * servings * 10) / 10,
+        fibers: Math.round(valuesPerServing.fibers * servings * 10) / 10,
+      };
+    }
+    
+    // Sinon, retourner les valeurs par portion
+    return valuesPerServing;
   }
 }
