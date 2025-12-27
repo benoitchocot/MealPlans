@@ -436,27 +436,32 @@ export class RecipesService {
   /**
    * Calculate nutritional values for a recipe based on its ingredients
    */
-  async calculateNutritionalValues(recipeId: string) {
+  async calculateNutritionalValues(recipeId: string, requestedServings?: number) {
     const recipe = await this.findOne(recipeId);
+    
+    // Utiliser les portions demandées ou les portions de la recette
+    const servings = requestedServings && requestedServings > 0 
+      ? requestedServings 
+      : recipe.servings;
+    
+    if (!servings || servings <= 0 || isNaN(Number(servings))) {
+      throw new Error(`Invalid servings count: ${servings}`);
+    }
+
+    // Calculer le ratio pour ajuster les quantités d'ingrédients
+    const ratio = requestedServings && requestedServings > 0
+      ? requestedServings / recipe.servings
+      : 1;
     
     const ingredients = recipe.ingredients.map((ri) => ({
       name: ri.ingredient.name,
-      quantity: Number(ri.quantity),
+      quantity: Number(ri.quantity) * ratio,
       unit: ri.unit as Unit,
     }));
 
-    // IMPORTANT: Les quantités d'ingrédients sont stockées pour recipe.servings portions
-    // On divise donc par recipe.servings pour obtenir les valeurs par portion
-    // Les valeurs nutritionnelles sont TOUJOURS "par portion" de la recette originale,
-    // peu importe les ajustements d'affichage dans l'UI
+    console.log(`[recipes.service] Calcul nutritionnel pour recette ${recipeId}: ${ingredients.length} ingrédients, ${servings} portions (ratio: ${ratio.toFixed(2)})`);
     
-    if (!recipe.servings || recipe.servings <= 0 || isNaN(Number(recipe.servings))) {
-      throw new Error(`Invalid servings count: ${recipe.servings}`);
-    }
-
-    const servings = Number(recipe.servings);
-    console.log(`[recipes.service] Calcul nutritionnel pour recette ${recipeId}: ${ingredients.length} ingrédients, ${servings} portions`);
-    
+    // Les valeurs nutritionnelles sont calculées pour le nombre de portions demandé
     return calculateNutritionalValues(ingredients, servings);
   }
 }

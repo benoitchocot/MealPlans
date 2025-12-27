@@ -41,6 +41,7 @@ async function bootstrap() {
     const allOrigins = [...new Set([...allowedOrigins, ...capacitorOrigins])];
     
     console.log('🌐 CORS configured. Allowed origins:', allOrigins);
+    console.log('🌐 CORS_ORIGIN env var:', process.env.CORS_ORIGIN || 'not set');
     
     app.enableCors({
         origin: (origin, callback) => {
@@ -68,8 +69,10 @@ async function bootstrap() {
             }
             
             // Log for debugging in production
-            console.log(`❌ CORS: Origin "${origin}" NOT allowed. Allowed origins:`, allOrigins);
-            console.log(`   Request headers might be missing Origin header (mobile app)`);
+            console.log(`❌ CORS: Origin "${origin}" NOT allowed.`);
+            console.log(`   Allowed origins:`, allOrigins);
+            console.log(`   Set CORS_ORIGIN environment variable to include: ${origin}`);
+            console.log(`   Example: CORS_ORIGIN="https://food.chocot.be" or CORS_ORIGIN="https://food.chocot.be,https://other-domain.com"`);
             
             // En production, être plus permissif pour les apps mobiles
             // Si l'origine n'est pas dans la liste mais que c'est probablement une app mobile,
@@ -79,13 +82,14 @@ async function bootstrap() {
                 return callback(null, origin);
             }
             
-            // In production, reject unknown origins
-            callback(new Error(`Origin ${origin} not allowed by CORS`));
+            // In production, reject unknown origins with a clear error message
+            callback(new Error(`Origin ${origin} not allowed by CORS. Please set CORS_ORIGIN environment variable.`));
         },
         credentials: true,
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
         allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
         exposedHeaders: ['Content-Length', 'X-Request-Id'],
+        maxAge: 86400, // Cache preflight requests for 24 hours
     });
 
     // Serve static files (uploaded images)

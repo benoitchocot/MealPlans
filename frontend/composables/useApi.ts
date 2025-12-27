@@ -73,16 +73,37 @@ export const useApi = () => {
                 }
                 console.error('❌ Erreur réseau détaillée:', errorDetails)
                 
+                // Vérifier si c'est probablement un problème CORS
+                const isLikelyCors = fullUrl.startsWith('http') && window.location?.origin
+                if (isLikelyCors) {
+                    console.error('🔴 PROBLÈME CORS DÉTECTÉ')
+                    console.error('   Frontend:', window.location.origin)
+                    console.error('   Backend:', apiBase)
+                    console.error('   Solution: Configurez CORS_ORIGIN sur le backend pour autoriser:', window.location.origin)
+                    console.error('   Voir QUICK_FIX_CORS.md pour la solution rapide')
+                }
+                
                 // Essayer de faire une requête de test pour voir l'erreur exacte
                 fetch(fullUrl, { method: 'OPTIONS' })
                     .then(res => {
-                        console.log('✅ OPTIONS request réussie:', res.status, res.headers)
+                        console.log('✅ OPTIONS request réussie:', res.status)
+                        const corsHeader = res.headers.get('Access-Control-Allow-Origin')
+                        if (corsHeader) {
+                            console.log('   Access-Control-Allow-Origin:', corsHeader)
+                        } else {
+                            console.warn('   ⚠️ Pas de header Access-Control-Allow-Origin dans la réponse')
+                        }
                     })
                     .catch(err => {
                         console.error('❌ OPTIONS request échouée:', err)
+                        console.error('   Cela confirme un problème CORS. Vérifiez la configuration du backend.')
                     })
                 
-                throw new Error(`Impossible de se connecter à l'API (${apiBase}). Vérifiez votre connexion réseau et la configuration CORS. Détails dans la console.`)
+                const errorMessage = isLikelyCors 
+                    ? `Erreur CORS : Le backend ne permet pas l'origine "${window.location.origin}". Configurez CORS_ORIGIN sur le backend. Voir QUICK_FIX_CORS.md`
+                    : `Impossible de se connecter à l'API (${apiBase}). Vérifiez votre connexion réseau et la configuration CORS. Détails dans la console.`
+                
+                throw new Error(errorMessage)
             }
             
             throw error

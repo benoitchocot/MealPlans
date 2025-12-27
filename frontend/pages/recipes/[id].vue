@@ -107,6 +107,9 @@
           <div class="mb-6 pt-6 border-t border-gray-200">
             <h3 class="text-lg font-semibold text-gray-900 mb-4">
               {{ $t('recipes.submit.nutritionalValuesPerServing') }}
+              <span v-if="recipe.isAdaptable !== false && localServings !== recipe.servings" class="text-sm font-normal text-gray-500">
+                (pour {{ localServings }} {{ localServings > 1 ? 'portions' : 'portion' }})
+              </span>
             </h3>
             <div v-if="loadingNutrition" class="text-center py-4">
               <p class="text-gray-500">Chargement des valeurs nutritionnelles...</p>
@@ -425,7 +428,7 @@ const adjustedRecipe = computed(() => {
 })
 
 // Handle servings change
-const handleServingsChange = () => {
+const handleServingsChange = async () => {
   if (!recipe.value) return
   
   // Ensure valid range
@@ -434,18 +437,23 @@ const handleServingsChange = () => {
   } else if (localServings.value > 100) {
     localServings.value = 100
   }
+  
+  // Recalculate nutritional values for the new servings count
+  await loadNutritionalValues()
 }
 
 // Increase/decrease servings
-const increaseServings = () => {
+const increaseServings = async () => {
   if (localServings.value < 100) {
     localServings.value++
+    await loadNutritionalValues()
   }
 }
 
-const decreaseServings = () => {
+const decreaseServings = async () => {
   if (localServings.value > 1) {
     localServings.value--
+    await loadNutritionalValues()
   }
 }
 
@@ -526,6 +534,30 @@ const getUserInitial = (user: any) => {
   }
   // Fallback to email first letter
   return user.email[0].toUpperCase()
+}
+
+// Load nutritional values
+const loadNutritionalValues = async () => {
+  if (!recipe.value) return
+  
+  // Only recalculate if recipe is adaptable
+  if (recipe.value.isAdaptable === false) {
+    // For non-adaptable recipes, use original servings
+    return
+  }
+  
+  try {
+    loadingNutrition.value = true
+    const servings = localServings.value || recipe.value.servings || 1
+    const nutritionData = await api.get(`/recipes/${route.params.id}/nutrition?servings=${servings}`)
+    nutritionalValues.value = nutritionData
+  } catch (e: any) {
+    // Log error for debugging but don't break the page
+    console.error('Failed to calculate nutritional values:', e)
+    nutritionalValues.value = null
+  } finally {
+    loadingNutrition.value = false
+  }
 }
 
 // Load reviews
@@ -636,17 +668,7 @@ onMounted(async () => {
     await loadReviews()
     
     // Load nutritional values (calculated on-the-fly)
-    try {
-      loadingNutrition.value = true
-      const nutritionData = await api.get(`/recipes/${route.params.id}/nutrition`)
-      nutritionalValues.value = nutritionData
-    } catch (e: any) {
-      // Log error for debugging but don't break the page
-      console.error('Failed to calculate nutritional values:', e)
-      nutritionalValues.value = null
-    } finally {
-      loadingNutrition.value = false
-    }
+    await loadNutritionalValues()
   } catch (e: any) {
     error.value = e.message || $t('common.error')
   } finally {
