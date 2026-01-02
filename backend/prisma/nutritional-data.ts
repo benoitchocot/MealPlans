@@ -84,29 +84,31 @@ export const nutritionalData: Record<string, {
     'parmesan': { calories: 431, carbohydrates: 4.1, fats: 29, proteins: 38, fibers: 0, unit: '100g' },
     'mozzarella': { calories: 300, carbohydrates: 2.2, fats: 22, proteins: 22, fibers: 0, unit: '100g' },
     'fromage de chèvre sec': { calories: 364, carbohydrates: 2.5, fats: 30, proteins: 19, fibers: 0, unit: '100g' },
-    'fromage blanc': { calories: 64, carbohydrates: 3.6, fats: 0.2, proteins: 7.6, fibers: 0, unit: '100g' },
+    'fromage blanc': { calories: 47, carbohydrates: 3.6, fats: 0.2, proteins: 7.6, fibers: 0, unit: '100g' }, // Corrigé: 4*3.6 + 9*0.2 + 4*7.6 = 46.6
     'mascarpone': { calories: 429, carbohydrates: 4.6, fats: 44, proteins: 4.6, fibers: 0, unit: '100g' },
     'yaourt': { calories: 59, carbohydrates: 4.7, fats: 3.3, proteins: 3.5, fibers: 0, unit: '100g' },
     'oeuf': { calories: 155, carbohydrates: 1.1, fats: 11, proteins: 13, fibers: 0, unit: 'piece' },
     
     // === HUILES & MATIÈRES GRASSES ===
     'huile d\'olive': { calories: 884, carbohydrates: 0, fats: 100, proteins: 0, fibers: 0, unit: '100g' }, // 884 kcal pour 100g, 1 TBSP = 15g = 133 kcal
-    'huile végétale': { calories: 884, carbohydrates: 0, fats: 100, proteins: 0, fibers: 0, unit: 'tbsp' },
+    'huile végétale': { calories: 884, carbohydrates: 0, fats: 100, proteins: 0, fibers: 0, unit: '100g' },
     'huile de coco': { calories: 862, carbohydrates: 0, fats: 100, proteins: 0, fibers: 0, unit: '100ml' },
     
     // === ÉPICES & AROMATES ===
+    // Note: Les épices sont utilisées en très petites quantités, les valeurs sont pour 100g mais l'unité est tsp
+    // Les fibres des épices sont souvent non digestibles, donc comptées à 0 kcal dans certains systèmes
     'cumin': { calories: 375, carbohydrates: 44, fats: 22, proteins: 18, fibers: 10, unit: 'tsp' }, // ~2g = 7.5 kcal
-    'paprika': { calories: 282, carbohydrates: 54, fats: 13, proteins: 14, fibers: 35, unit: 'tsp' }, // ~2g = 5.6 kcal
-    'curry': { calories: 325, carbohydrates: 56, fats: 14, proteins: 14, fibers: 33, unit: 'tsp' },
-    'thym': { calories: 276, carbohydrates: 63, fats: 7, proteins: 9, fibers: 37, unit: 'tsp' },
+    'paprika': { calories: 282, carbohydrates: 54, fats: 13, proteins: 14, fibers: 0, unit: 'tsp' }, // Fibres non digestibles
+    'curry': { calories: 325, carbohydrates: 56, fats: 14, proteins: 14, fibers: 0, unit: 'tsp' }, // Fibres non digestibles
+    'thym': { calories: 276, carbohydrates: 63, fats: 7, proteins: 9, fibers: 0, unit: 'tsp' }, // Fibres non digestibles
     'persil': { calories: 36, carbohydrates: 6, fats: 0.8, proteins: 3, fibers: 3.3, unit: 'bunch' },
     'basilic': { calories: 22, carbohydrates: 2.6, fats: 0.6, proteins: 3.2, fibers: 1.6, unit: 'bunch' },
     'coriandre': { calories: 23, carbohydrates: 3.7, fats: 0.5, proteins: 2.1, fibers: 2.8, unit: 'bunch' },
     'gingembre': { calories: 80, carbohydrates: 18, fats: 0.8, proteins: 1.8, fibers: 2, unit: '100g' },
     'piment': { calories: 40, carbohydrates: 9, fats: 0.4, proteins: 1.9, fibers: 1.5, unit: 'piece' },
-    'cannelle': { calories: 247, carbohydrates: 81, fats: 1.2, proteins: 4, fibers: 54, unit: 'tsp' },
+    'cannelle': { calories: 247, carbohydrates: 81, fats: 1.2, proteins: 4, fibers: 0, unit: 'tsp' }, // Fibres non digestibles
     'sel': { calories: 0, carbohydrates: 0, fats: 0, proteins: 0, fibers: 0, unit: 'pinch' },
-    'poivre': { calories: 251, carbohydrates: 64, fats: 3.3, proteins: 10, fibers: 25, unit: 'pinch' },
+    'poivre': { calories: 251, carbohydrates: 64, fats: 3.3, proteins: 10, fibers: 0, unit: 'pinch' }, // Fibres non digestibles
     
     // === AUTRES ===
     'sucre': { calories: 387, carbohydrates: 100, fats: 0, proteins: 0, fibers: 0, unit: '100g' },
@@ -114,8 +116,10 @@ export const nutritionalData: Record<string, {
     'bouillon de légumes': { calories: 5, carbohydrates: 0.5, fats: 0.1, proteins: 0.2, fibers: 0, unit: '100ml' },
     'bouillon de poulet': { calories: 15, carbohydrates: 1, fats: 0.5, proteins: 1, fibers: 0, unit: '100ml' },
     'bouillon de poisson': { calories: 10, carbohydrates: 0.3, fats: 0.2, proteins: 1.5, fibers: 0, unit: '100ml' },
-    'vin rouge': { calories: 83, carbohydrates: 2.6, fats: 0, proteins: 0.1, fibers: 0, unit: '100ml' },
-    'vin blanc': { calories: 82, carbohydrates: 2.6, fats: 0, proteins: 0.1, fibers: 0, unit: '100ml' },
+    // Note: L'alcool contient 7 kcal/g mais n'est pas compté dans les macros (carbs/fats/proteins)
+    // Le vin contient ~10-13% d'alcool, donc ~70-90 kcal viennent de l'alcool
+    'vin rouge': { calories: 83, carbohydrates: 2.6, fats: 0, proteins: 0.1, fibers: 0, unit: '100ml' }, // Alcool: ~70 kcal non compté dans macros
+    'vin blanc': { calories: 82, carbohydrates: 2.6, fats: 0, proteins: 0.1, fibers: 0, unit: '100ml' }, // Alcool: ~70 kcal non compté dans macros
     'lait de coco': { calories: 230, carbohydrates: 6, fats: 24, proteins: 2.3, fibers: 2.2, unit: '100ml' },
     'sauce soja': { calories: 53, carbohydrates: 4.9, fats: 0.1, proteins: 8.1, fibers: 0.8, unit: 'tbsp' },
     'moutarde': { calories: 66, carbohydrates: 5.8, fats: 3.7, proteins: 3.7, fibers: 3.2, unit: 'tsp' },
@@ -127,9 +131,9 @@ export const nutritionalData: Record<string, {
     'pâte brisée': { calories: 380, carbohydrates: 46, fats: 20, proteins: 5, fibers: 1.5, unit: 'piece' },
     'biscuits à la cuillère': { calories: 423, carbohydrates: 72, fats: 11, proteins: 8.5, fibers: 2.1, unit: 'piece' },
     'chocolat noir': { calories: 546, carbohydrates: 46, fats: 31, proteins: 4.9, fibers: 11, unit: '100g' },
-    'cacao': { calories: 228, carbohydrates: 58, fats: 13.7, proteins: 19.6, fibers: 33, unit: '100g' },
+    'cacao': { calories: 228, carbohydrates: 58, fats: 13.7, proteins: 19.6, fibers: 0, unit: '100g' }, // Fibres non digestibles (cacao en poudre)
     'miel': { calories: 304, carbohydrates: 82, fats: 0, proteins: 0.3, fibers: 0.2, unit: '100ml' },
-    'vanille': { calories: 288, carbohydrates: 13, fats: 0.1, proteins: 0.1, fibers: 0, unit: 'piece' },
+    'vanille': { calories: 13, carbohydrates: 13, fats: 0.1, proteins: 0.1, fibers: 0, unit: 'piece' }, // 1 gousse ≈ 5g, corrigé
     'fraise': { calories: 32, carbohydrates: 7.7, fats: 0.3, proteins: 0.7, fibers: 2, unit: '100g' },
     'framboise': { calories: 52, carbohydrates: 12, fats: 0.7, proteins: 1.2, fibers: 6.5, unit: '100g' },
     'myrtille': { calories: 57, carbohydrates: 14.5, fats: 0.3, proteins: 0.7, fibers: 2.4, unit: '100g' },
@@ -161,12 +165,12 @@ export const nutritionalData: Record<string, {
     'sucre glace': { calories: 389, carbohydrates: 100, fats: 0, proteins: 0, fibers: 0, unit: '100g' },
     'noix de muscade': { calories: 525, carbohydrates: 49, fats: 36, proteins: 6, fibers: 21, unit: 'tsp' },
     'ciboulette': { calories: 30, carbohydrates: 4.4, fats: 0.7, proteins: 3.3, fibers: 2.5, unit: 'bunch' },
-    'coriandre en poudre': { calories: 298, carbohydrates: 55, fats: 10, proteins: 21, fibers: 42, unit: 'tsp' },
+    'coriandre en poudre': { calories: 298, carbohydrates: 55, fats: 10, proteins: 21, fibers: 0, unit: 'tsp' }, // Fibres non digestibles
     'bouillon': { calories: 10, carbohydrates: 0.3, fats: 0.2, proteins: 1.5, fibers: 0, unit: '100ml' },
     'huile de sésame': { calories: 884, carbohydrates: 0, fats: 100, proteins: 0, fibers: 0, unit: 'tsp' },
     'aneth': { calories: 43, carbohydrates: 7, fats: 1.1, proteins: 3.5, fibers: 2.1, unit: 'bunch' },
-    'herbes de provence': { calories: 250, carbohydrates: 45, fats: 8, proteins: 12, fibers: 25, unit: 'tsp' },
-    'laurier': { calories: 313, carbohydrates: 75, fats: 8.4, proteins: 7.6, fibers: 26, unit: 'piece' },
+    'herbes de provence': { calories: 250, carbohydrates: 45, fats: 8, proteins: 12, fibers: 0, unit: 'tsp' }, // Fibres non digestibles
+    'laurier': { calories: 313, carbohydrates: 75, fats: 8.4, proteins: 7.6, fibers: 0, unit: 'piece' }, // Fibres non digestibles
     'amandes': { calories: 579, carbohydrates: 22, fats: 50, proteins: 21, fibers: 12, unit: '100g' },
     'jaune d\'oeuf': { calories: 322, carbohydrates: 3.6, fats: 27, proteins: 16, fibers: 0, unit: 'piece' },
     'sucre pour caraméliser': { calories: 387, carbohydrates: 100, fats: 0, proteins: 0, fibers: 0, unit: '100g' },

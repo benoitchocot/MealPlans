@@ -77,7 +77,7 @@ export class RecipesService {
   }
 
   async findAll(query: RecipeQueryDto) {
-    const { search, dietTypes, difficulty, maxPrepTime, toolsRequired, tags, page = 1, limit = 20, sortBy = 'createdAt' } = query;
+    const { search, dietTypes, difficulty, maxPrepTime, toolsRequired, tags, page = 1, limit = 20, sortBy = 'createdAt', sortOrder = 'desc' } = query;
 
     const where: any = {};
 
@@ -135,7 +135,7 @@ export class RecipesService {
     const skip = (page - 1) * limit;
 
     // Handle sorting
-    let orderBy: any = { createdAt: 'desc' }; // Default
+    let orderBy: any = { createdAt: sortOrder }; // Default
     
     if (sortBy === 'rating') {
       // For rating sort, we need to calculate average rating
@@ -164,8 +164,14 @@ export class RecipesService {
         };
       });
 
-      // Sort by average rating (descending)
-      recipesWithRating.sort((a, b) => b.averageRating - a.averageRating);
+      // Sort by average rating (ascending or descending)
+      recipesWithRating.sort((a, b) => {
+        if (sortOrder === 'asc') {
+          return a.averageRating - b.averageRating;
+        } else {
+          return b.averageRating - a.averageRating;
+        }
+      });
 
       // Paginate
       const total = recipesWithRating.length;
@@ -224,9 +230,9 @@ export class RecipesService {
     } else {
       // Standard sorting
       if (sortBy === 'title') {
-        orderBy = { title: 'asc' };
+        orderBy = { title: sortOrder };
       } else {
-        orderBy = { createdAt: 'desc' };
+        orderBy = { createdAt: sortOrder };
       }
 
       const [recipes, total] = await Promise.all([
@@ -436,27 +442,48 @@ export class RecipesService {
   /**
    * Calculate nutritional values for a recipe based on its ingredients
    */
-  async calculateNutritionalValues(recipeId: string) {
+  async calculateNutritionalValues(recipeId: string, requestedServings?: number) {
     const recipe = await this.findOne(recipeId);
+    
+    // Utiliser les portions demandées ou les portions de la recette
+    const servings = requestedServings && requestedServings > 0 
+      ? requestedServings 
+      : recipe.servings;
+    
+    if (!servings || servings <= 0 || isNaN(Number(servings))) {
+      throw new Error(`Invalid servings count: ${servings}`);
+    }
+
+    // Calculer le ratio pour ajuster les quantités d'ingrédients
+    const ratio = requestedServings && requestedServings > 0
+      ? requestedServings / recipe.servings
+      : 1;
     
     const ingredients = recipe.ingredients.map((ri) => ({
       name: ri.ingredient.name,
-      quantity: Number(ri.quantity),
+      quantity: Number(ri.quantity) * ratio,
       unit: ri.unit as Unit,
     }));
 
-    // IMPORTANT: Les quantités d'ingrédients sont stockées pour recipe.servings portions
-    // On divise donc par recipe.servings pour obtenir les valeurs par portion
-    // Les valeurs nutritionnelles sont TOUJOURS "par portion" de la recette originale,
-    // peu importe les ajustements d'affichage dans l'UI
+    console.log(`[recipes.service] Calcul nutritionnel pour recette ${recipeId}: ${ingredients.length} ingrédients, ${servings} portions (ratio: ${ratio.toFixed(2)})`);
     
-    if (!recipe.servings || recipe.servings <= 0 || isNaN(Number(recipe.servings))) {
-      throw new Error(`Invalid servings count: ${recipe.servings}`);
+    // Calculer les valeurs nutritionnelles pour les quantités ajustées
+    // Si on demande un nombre de portions différent, on retourne les valeurs totales
+    // Sinon, on retourne les valeurs par portion
+    const valuesPerServing = calculateNutritionalValues(ingredients, servings);
+    
+    // Si on a demandé un nombre de portions différent, multiplier par le nombre de portions pour avoir les valeurs totales
+    if (requestedServings && requestedServings > 0 && requestedServings !== recipe.servings) {
+      return {
+        calories: Math.round(valuesPerServing.calories * servings),
+        carbohydrates: Math.round(valuesPerServing.carbohydrates * servings * 10) / 10,
+        fats: Math.round(valuesPerServing.fats * servings * 10) / 10,
+        proteins: Math.round(valuesPerServing.proteins * servings * 10) / 10,
+        fibers: Math.round(valuesPerServing.fibers * servings * 10) / 10,
+      };
     }
-
-    const servings = Number(recipe.servings);
-    console.log(`[recipes.service] Calcul nutritionnel pour recette ${recipeId}: ${ingredients.length} ingrédients, ${servings} portions`);
     
-    return calculateNutritionalValues(ingredients, servings);
+    // Sinon, retourner les valeurs par portion
+    return valuesPerServing;
   }
 }

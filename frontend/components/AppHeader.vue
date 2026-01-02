@@ -6,49 +6,49 @@
           {{ $t('common.appName') }}
         </NuxtLink>
         <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-          <!-- Desktop: Legal links, Language switcher and actions -->
-          <div class="hidden sm:flex items-center gap-2 sm:gap-3">
-            <!-- Legal links dropdown -->
-            <div ref="legalMenuRef" class="relative group">
-              <button
-                class="text-gray-600 hover:text-gray-900 text-sm font-medium transition-colors flex items-center gap-1"
-                @click.stop="legalMenuOpen = !legalMenuOpen"
+          <!-- Desktop/Tablet: Navigation links, Language switcher and actions -->
+          <div class="hidden md:flex items-center gap-4">
+            <!-- Navigation links -->
+            <nav class="flex items-center gap-3 lg:gap-4">
+              <NuxtLink 
+                to="/recipes" 
+                class="text-sm font-medium text-gray-700 hover:text-primary-600 transition-colors whitespace-nowrap"
+                :class="{ 'text-primary-600': $route.path.startsWith('/recipes') }"
               >
-                {{ $t('legal.menuTitle') }}
-                <Icon name="mdi:chevron-down" class="text-lg transition-transform" :class="{ 'rotate-180': legalMenuOpen }" />
-              </button>
-              <Transition name="fade">
-                <div
-                  v-if="legalMenuOpen"
-                  class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-20"
-                  @click.stop
-                >
-                  <NuxtLink
-                    to="/legal/terms"
-                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
-                    @click="legalMenuOpen = false"
-                  >
-                    {{ $t('legal.terms.title') }}
-                  </NuxtLink>
-                  <NuxtLink
-                    to="/legal/privacy"
-                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
-                    @click="legalMenuOpen = false"
-                  >
-                    {{ $t('legal.privacy.title') }}
-                  </NuxtLink>
-                </div>
-              </Transition>
-            </div>
+                {{ $t('dashboard.recipes') }}
+              </NuxtLink>
+              <NuxtLink 
+                to="/meal-plans" 
+                class="text-sm font-medium text-gray-700 hover:text-primary-600 transition-colors whitespace-nowrap"
+                :class="{ 'text-primary-600': $route.path.startsWith('/meal-plans') }"
+              >
+                {{ $t('dashboard.mealPlans') }}
+              </NuxtLink>
+              <NuxtLink 
+                to="/shopping-lists" 
+                class="text-sm font-medium text-gray-700 hover:text-primary-600 transition-colors whitespace-nowrap"
+                :class="{ 'text-primary-600': $route.path.startsWith('/shopping-lists') }"
+              >
+                {{ $t('dashboard.shoppingLists') }}
+              </NuxtLink>
+              <NuxtLink 
+                to="/history" 
+                class="text-sm font-medium text-gray-700 hover:text-primary-600 transition-colors whitespace-nowrap"
+                :class="{ 'text-primary-600': $route.path.startsWith('/history') }"
+              >
+                {{ $t('history.title') }}
+              </NuxtLink>
+              <NuxtLink 
+                to="/favorites" 
+                class="text-sm font-medium text-gray-700 hover:text-primary-600 transition-colors whitespace-nowrap"
+                :class="{ 'text-primary-600': $route.path.startsWith('/favorites') }"
+              >
+                {{ $t('favorites.title') }}
+              </NuxtLink>
+            </nav>
+          </div>
+          <div class="hidden sm:flex items-center gap-2 sm:gap-3">
             <LanguageSwitcher />
-            <NuxtLink 
-              v-if="isAuthenticated" 
-              to="/settings" 
-              class="btn btn-secondary text-sm whitespace-nowrap"
-            >
-              <Icon name="mdi:cog" class="mr-2" />
-              {{ $t('settings.title') }}
-            </NuxtLink>
             <slot name="actions">
               <button v-if="showLogout && isAuthenticated" @click="handleLogout" class="btn btn-secondary text-sm whitespace-nowrap">
                 <Icon name="mdi:logout" class="mr-2" />
@@ -60,7 +60,7 @@
           <!-- Mobile: Burger menu button -->
           <button
             @click="mobileMenuOpen = !mobileMenuOpen"
-            class="sm:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
             :aria-label="$t('common.menu')"
           >
             <Icon :name="mobileMenuOpen ? 'mdi:close' : 'mdi:menu'" class="text-2xl text-gray-700" />
@@ -70,39 +70,55 @@
       
       <!-- Mobile menu dropdown -->
       <Transition name="slide-down">
-        <div v-if="mobileMenuOpen" class="sm:hidden mt-4 pt-4 border-t border-gray-200">
+        <div v-if="mobileMenuOpen" class="md:hidden mt-4 pt-4 border-t border-gray-200">
           <div class="flex flex-col gap-2">
+            <!-- Navigation links mobile -->
+            <nav class="flex flex-col gap-1 pb-2 border-b border-gray-200">
+              <NuxtLink
+                to="/recipes"
+                class="block px-2 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded transition-colors"
+                :class="{ 'bg-primary-50 text-primary-700': $route.path.startsWith('/recipes') }"
+                @click="mobileMenuOpen = false"
+              >
+                {{ $t('dashboard.recipes') }}
+              </NuxtLink>
+              <NuxtLink
+                to="/meal-plans"
+                class="block px-2 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded transition-colors"
+                :class="{ 'bg-primary-50 text-primary-700': $route.path.startsWith('/meal-plans') }"
+                @click="mobileMenuOpen = false"
+              >
+                {{ $t('dashboard.mealPlans') }}
+              </NuxtLink>
+              <NuxtLink
+                to="/shopping-lists"
+                class="block px-2 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded transition-colors"
+                :class="{ 'bg-primary-50 text-primary-700': $route.path.startsWith('/shopping-lists') }"
+                @click="mobileMenuOpen = false"
+              >
+                {{ $t('dashboard.shoppingLists') }}
+              </NuxtLink>
+              <NuxtLink
+                to="/history"
+                class="block px-2 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded transition-colors"
+                :class="{ 'bg-primary-50 text-primary-700': $route.path.startsWith('/history') }"
+                @click="mobileMenuOpen = false"
+              >
+                {{ $t('history.title') }}
+              </NuxtLink>
+              <NuxtLink
+                to="/favorites"
+                class="block px-2 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded transition-colors"
+                :class="{ 'bg-primary-50 text-primary-700': $route.path.startsWith('/favorites') }"
+                @click="mobileMenuOpen = false"
+              >
+                {{ $t('favorites.title') }}
+              </NuxtLink>
+            </nav>
             <div class="pb-2 border-b border-gray-200">
               <LanguageSwitcher />
             </div>
-            <!-- Legal links mobile -->
-            <div class="pb-2 border-b border-gray-200">
-              <p class="text-xs font-semibold text-gray-500 uppercase mb-2 px-2">{{ $t('legal.menuTitle') }}</p>
-              <NuxtLink
-                to="/legal/terms"
-                class="block px-2 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition-colors"
-                @click="mobileMenuOpen = false"
-              >
-                {{ $t('legal.terms.title') }}
-              </NuxtLink>
-              <NuxtLink
-                to="/legal/privacy"
-                class="block px-2 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition-colors"
-                @click="mobileMenuOpen = false"
-              >
-                {{ $t('legal.privacy.title') }}
-              </NuxtLink>
-            </div>
             <div class="flex flex-col gap-2 [&_.btn]:w-full [&_.btn]:text-left [&_.btn]:justify-start">
-              <NuxtLink 
-                v-if="isAuthenticated" 
-                to="/settings" 
-                class="btn btn-secondary text-sm"
-                @click="mobileMenuOpen = false"
-              >
-                <Icon name="mdi:cog" class="mr-2" />
-                {{ $t('settings.title') }}
-              </NuxtLink>
               <slot name="actions">
                 <button v-if="showLogout && isAuthenticated" @click="handleLogout" class="btn btn-secondary text-sm">
                   <Icon name="mdi:logout" class="mr-2" />
@@ -110,7 +126,7 @@
                 </button>
               </slot>
             </div>
-      </div>
+          </div>
         </div>
       </Transition>
     </div>
@@ -128,9 +144,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const { logout, isAuthenticated } = useAuth()
 const mobileMenuOpen = ref(false)
-const legalMenuOpen = ref(false)
 const headerRef = ref<HTMLElement | null>(null)
-const legalMenuRef = ref<HTMLElement | null>(null)
 
 const handleLogout = () => {
   logout()
@@ -142,16 +156,10 @@ useClickOutside(headerRef, () => {
   mobileMenuOpen.value = false
 })
 
-// Close legal menu when clicking outside
-useClickOutside(legalMenuRef, () => {
-  legalMenuOpen.value = false
-})
-
 // Close menu on route change
 const route = useRoute()
 watch(() => route.path, () => {
   mobileMenuOpen.value = false
-  legalMenuOpen.value = false
 })
 </script>
 

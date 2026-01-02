@@ -64,19 +64,42 @@
           </div>
 
           <!-- Sort -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">
-              {{ $t('recipes.sortBy') }}
-            </label>
-            <select
-              v-model="sortBy"
-              @change="handleSortChange"
-              class="input max-w-xs"
-            >
-              <option value="createdAt">{{ $t('recipes.sortByCreatedAt') }}</option>
-              <option value="rating">{{ $t('recipes.sortByRating') }}</option>
-              <option value="title">{{ $t('recipes.sortByTitle') }}</option>
-            </select>
+          <div class="flex items-end gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                {{ $t('recipes.sortBy') }}
+              </label>
+              <select
+                v-model="sortBy"
+                @change="handleSortChange"
+                class="input max-w-xs"
+              >
+                <option value="createdAt">{{ $t('recipes.sortByCreatedAt') }}</option>
+                <option value="rating">{{ $t('recipes.sortByRating') }}</option>
+                <option value="title">{{ $t('recipes.sortByTitle') }}</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                {{ $t('recipes.sortOrder') }}
+              </label>
+              <button
+                @click="toggleSortOrder"
+                :class="[
+                  'px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2',
+                  sortOrder === 'asc'
+                    ? 'bg-primary-600 text-white hover:bg-primary-700'
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                ]"
+                :title="sortOrder === 'asc' ? $t('recipes.sortOrderAsc') : $t('recipes.sortOrderDesc')"
+              >
+                <Icon 
+                  :name="sortOrder === 'asc' ? 'mdi:arrow-up' : 'mdi:arrow-down'" 
+                  class="text-lg"
+                />
+                <span>{{ sortOrder === 'asc' ? $t('recipes.sortOrderAsc') : $t('recipes.sortOrderDesc') }}</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -143,6 +166,7 @@ const searchQuery = ref('')
 const searchDebounceTimer = ref<NodeJS.Timeout | null>(null)
 const selectedTags = ref<string[]>([])
 const sortBy = ref<'createdAt' | 'rating' | 'title'>('createdAt')
+const sortOrder = ref<'asc' | 'desc'>('desc')
 
 // Available tags (same as in submit.vue)
 const availableTags = computed(() => [
@@ -182,6 +206,13 @@ const handleSortChange = () => {
   loadRecipes(1, false)
 }
 
+const toggleSortOrder = () => {
+  sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc'
+  currentPage.value = 1
+  totalPages.value = 1
+  loadRecipes(1, false)
+}
+
 // Load recipes with pagination
 const loadRecipes = async (page: number = 1, append: boolean = false) => {
   try {
@@ -212,6 +243,11 @@ const loadRecipes = async (page: number = 1, append: boolean = false) => {
     // Add sort parameter
     if (sortBy.value) {
       params.append('sortBy', sortBy.value)
+    }
+
+    // Add sort order parameter
+    if (sortOrder.value) {
+      params.append('sortOrder', sortOrder.value)
     }
     
     const endpoint = `/recipes?${params.toString()}`

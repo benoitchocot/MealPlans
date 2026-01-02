@@ -131,11 +131,22 @@
         </NuxtLink>
       </div>
 
-      <div class="mt-6 flex justify-end">
-        <NuxtLink to="/settings" class="btn btn-secondary">
-          <Icon name="mdi:cog" class="mr-2" />
-          {{ $t('settings.title') }}
-        </NuxtLink>
+      <div class="mt-12 pt-8 border-t border-gray-200">
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div class="flex flex-wrap gap-4 text-sm text-gray-600">
+            <NuxtLink to="/legal/terms" class="hover:text-primary-600 transition-colors">
+              {{ $t('legal.terms.title') }}
+            </NuxtLink>
+            <span class="text-gray-400">•</span>
+            <NuxtLink to="/legal/privacy" class="hover:text-primary-600 transition-colors">
+              {{ $t('legal.privacy.title') }}
+            </NuxtLink>
+          </div>
+          <NuxtLink to="/settings" class="btn btn-secondary">
+            <Icon name="mdi:cog" class="mr-2" />
+            {{ $t('settings.title') }}
+          </NuxtLink>
+        </div>
       </div>
     </main>
 

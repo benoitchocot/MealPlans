@@ -47,8 +47,10 @@ export class RecipesController {
     @Get(':id/nutrition')
     @ApiOperation({ summary: 'Calculate nutritional values for a recipe' })
     @ApiResponse({ status: 200, description: 'Nutritional values calculated successfully' })
-    getNutritionalValues(@Param('id') id: string) {
-        return this.recipesService.calculateNutritionalValues(id);
+    @ApiQuery({ name: 'servings', required: false, type: Number, description: 'Number of servings to calculate for (defaults to recipe servings)' })
+    getNutritionalValues(@Param('id') id: string, @Query('servings') servings?: string) {
+        const servingsNum = servings ? parseInt(servings, 10) : undefined;
+        return this.recipesService.calculateNutritionalValues(id, servingsNum);
     }
 
     @Get(':id/servings/:servings')

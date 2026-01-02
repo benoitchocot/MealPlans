@@ -48,4 +48,8 @@ export class RecipeQueryDto {
     @IsOptional()
     @IsString()
     sortBy?: 'createdAt' | 'rating' | 'title';
+
+    @IsOptional()
+    @IsEnum(['asc', 'desc'])
+    sortOrder?: 'asc' | 'desc' = 'desc';
 }
