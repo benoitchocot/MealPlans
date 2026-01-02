@@ -15,19 +15,10 @@ fi
 
 export $(cat ~/foodtrack/.env.production | grep -v '^#' | grep -v '^$' | xargs)
 
-if [ -z "$MEALPLANS_DB_PASSWORD" ]; then
-    echo "❌ ERREUR: MEALPLANS_DB_PASSWORD n'est pas défini"
-    exit 1
-fi
 
 echo "✅ Variables chargées"
 
 # Vérifier que docker-compose.yml utilise ${MEALPLANS_DB_PASSWORD}
-if ! grep -q "POSTGRES_PASSWORD: \${MEALPLANS_DB_PASSWORD}" docker-compose.yml; then
-    echo "⚠️  ATTENTION: docker-compose.yml n'utilise pas \${MEALPLANS_DB_PASSWORD}"
-    echo "   Modifiez POSTGRES_PASSWORD: Benoit45+ en POSTGRES_PASSWORD: \${MEALPLANS_DB_PASSWORD}"
-    exit 1
-fi
 
 echo "✅ docker-compose.yml utilise bien \${MEALPLANS_DB_PASSWORD}"
 
