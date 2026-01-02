@@ -4,7 +4,7 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiConsumes, ApiBody
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { ConfigService } from '@nestjs/config';
 import { diskStorage } from 'multer';
-import { extname } from 'path';
+import { extname, resolve } from 'path';
 import * as crypto from 'crypto';
 
 @ApiTags('upload')
@@ -33,7 +33,7 @@ export class UploadController {
     @UseInterceptors(
         FileInterceptor('file', {
             storage: diskStorage({
-                destination: './uploads/images',
+                destination: resolve(process.cwd(), 'uploads', 'images'),
                 filename: (req, file, cb) => {
                     const uniqueName = `${crypto.randomUUID()}${extname(file.originalname)}`;
                     cb(null, uniqueName);

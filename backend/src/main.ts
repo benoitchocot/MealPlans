@@ -3,7 +3,8 @@ import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { join } from 'path';
+import { join, resolve } from 'path';
+import { existsSync, mkdirSync } from 'fs';
 import { DecimalInterceptor } from './common/interceptors/decimal.interceptor';
 
 async function bootstrap() {
@@ -92,8 +93,22 @@ async function bootstrap() {
         maxAge: 86400, // Cache preflight requests for 24 hours
     });
 
+    // Ensure uploads directory exists
+    const uploadsPath = resolve(process.cwd(), 'uploads');
+    const uploadsImagesPath = resolve(process.cwd(), 'uploads', 'images');
+    if (!existsSync(uploadsPath)) {
+        mkdirSync(uploadsPath, { recursive: true });
+        console.log(`📁 Created uploads directory: ${uploadsPath}`);
+    }
+    if (!existsSync(uploadsImagesPath)) {
+        mkdirSync(uploadsImagesPath, { recursive: true });
+        console.log(`📁 Created uploads/images directory: ${uploadsImagesPath}`);
+    }
+
     // Serve static files (uploaded images)
-    app.useStaticAssets(join(__dirname, '..', 'uploads'), {
+    // Use absolute path to ensure it works in both dev and production
+    console.log(`📁 Serving static files from: ${uploadsPath}`);
+    app.useStaticAssets(uploadsPath, {
         prefix: '/uploads',
     });
 

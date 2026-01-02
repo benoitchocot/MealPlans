@@ -22,6 +22,11 @@
           {{ translateDifficulty(recipe.difficulty) }}
         </span>
       </div>
+      <!-- Creation date -->
+      <div v-if="recipe.createdAt" class="flex items-center text-xs text-gray-400 mb-2">
+        <Icon name="mdi:calendar-outline" class="mr-1" />
+        {{ $t('common.created') }}: {{ formatDate(recipe.createdAt) }}
+      </div>
       <!-- Rating display -->
       <div v-if="recipe.averageRating !== null && recipe.averageRating !== undefined" class="flex items-center gap-1 text-sm">
         <div class="flex items-center">
@@ -51,6 +56,9 @@
 </template>
 
 <script setup lang="ts">
+import { format } from 'date-fns'
+import { fr, enUS } from 'date-fns/locale'
+
 interface Props {
   recipe: {
     id: string
@@ -62,6 +70,7 @@ interface Props {
     difficulty: string
     averageRating?: number | null
     reviewCount?: number
+    createdAt?: string | null
   }
   size?: 'default' | 'small'
 }
@@ -73,6 +82,7 @@ const props = withDefaults(defineProps<Props>(), {
 const { translateDifficulty } = useTranslations()
 const { isFavorite, toggleFavorite } = useFavorites()
 const { normalizeImageUrl } = useImageUrl()
+const { locale } = useI18n()
 
 const isFav = computed(() => isFavorite(props.recipe.id))
 const imageError = ref(false)
@@ -103,6 +113,19 @@ const handleToggleFavorite = async () => {
     await toggleFavorite(props.recipe.id, props.recipe)
   } catch (error) {
     console.error('Failed to toggle favorite:', error)
+  }
+}
+
+// Format date
+const formatDate = (date: string | null | undefined) => {
+  if (!date) return ''
+  try {
+    const dateLocale = locale.value === 'en' ? enUS : fr
+    const dateObj = new Date(date)
+    if (isNaN(dateObj.getTime())) return ''
+    return format(dateObj, 'd MMM yyyy', { locale: dateLocale })
+  } catch {
+    return ''
   }
 }
 </script>

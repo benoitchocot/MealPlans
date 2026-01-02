@@ -77,7 +77,7 @@ export class RecipesService {
   }
 
   async findAll(query: RecipeQueryDto) {
-    const { search, dietTypes, difficulty, maxPrepTime, toolsRequired, tags, page = 1, limit = 20, sortBy = 'createdAt' } = query;
+    const { search, dietTypes, difficulty, maxPrepTime, toolsRequired, tags, page = 1, limit = 20, sortBy = 'createdAt', sortOrder = 'desc' } = query;
 
     const where: any = {};
 
@@ -135,7 +135,7 @@ export class RecipesService {
     const skip = (page - 1) * limit;
 
     // Handle sorting
-    let orderBy: any = { createdAt: 'desc' }; // Default
+    let orderBy: any = { createdAt: sortOrder }; // Default
     
     if (sortBy === 'rating') {
       // For rating sort, we need to calculate average rating
@@ -164,8 +164,14 @@ export class RecipesService {
         };
       });
 
-      // Sort by average rating (descending)
-      recipesWithRating.sort((a, b) => b.averageRating - a.averageRating);
+      // Sort by average rating (ascending or descending)
+      recipesWithRating.sort((a, b) => {
+        if (sortOrder === 'asc') {
+          return a.averageRating - b.averageRating;
+        } else {
+          return b.averageRating - a.averageRating;
+        }
+      });
 
       // Paginate
       const total = recipesWithRating.length;
@@ -224,9 +230,9 @@ export class RecipesService {
     } else {
       // Standard sorting
       if (sortBy === 'title') {
-        orderBy = { title: 'asc' };
+        orderBy = { title: sortOrder };
       } else {
-        orderBy = { createdAt: 'desc' };
+        orderBy = { createdAt: sortOrder };
       }
 
       const [recipes, total] = await Promise.all([
